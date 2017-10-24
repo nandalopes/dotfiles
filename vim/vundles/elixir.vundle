@@ -1,0 +1,2 @@
+Bundle "elixir-editors/vim-elixir"
+Bundle "slashmili/alchemist.vim"

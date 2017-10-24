@@ -1,3 +1,6 @@
+" Disable Solarized Enhancements so Gruvbox or other theme load correctly
+let g:yadr_disable_solarized_enhancements=1
+
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible

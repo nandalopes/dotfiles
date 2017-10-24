@@ -7,4 +7,4 @@ Bundle "xsunsmile/showmarks.git"
 Bundle "chriskempson/base16-vim"
 
 " Required for Gblame in terminal vim
-Bundle "godlygeek/csapprox.git" 
+Bundle "godlygeek/csapprox.git"

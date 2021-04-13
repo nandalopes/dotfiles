@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# setxkbmap -option caps:escape_shifted_capslock
+setxkbmap -option caps:escape_shifted_capslock,terminate:ctrl_alt_bksp,nbsp:level3n,lv5:rwin_switch_lock

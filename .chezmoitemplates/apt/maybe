@@ -1,0 +1,29 @@
+audacity
+convertall
+deborphan
+diceware
+doublecmd-{{ .what_gui }}
+exuberant-ctags
+feathernotes
+finch
+fonts-comfortaa
+fonts-emojione
+hardinfo
+ipv6calc
+luckybackup
+mediainfo-gui
+meld
+mtr-tiny
+nmap
+openjdk-11-jre
+pandoc
+pdfmod
+pidgin
+pidgin-plugin-pack
+purple-discord
+purple-matrix
+speedcrunch
+speedtest-cli
+subnetcalc
+traceroute
+transmission-{{ .what_gui }}

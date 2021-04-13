@@ -1,0 +1,15 @@
+ruby-build
+pkg-config
+autoconf
+bison
+build-essential
+libssl-dev
+libyaml-dev
+libffi-dev
+libgdbm-dev
+libdb-dev
+libreadline-dev
+zlib1g-dev
+libncurses-dev
+libgdbm-dev
+automake

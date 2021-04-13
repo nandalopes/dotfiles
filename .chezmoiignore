@@ -4,6 +4,8 @@ install.sh
 zfiles
 
 {{ if ne .chezmoi.username "nanda" -}}
+.local/share/icons/**/CmapTools.png
+.local/share/applications/CmapTools.desktop
 #.local/share/applications/Freeplane.desktop
 {{- end }}
 

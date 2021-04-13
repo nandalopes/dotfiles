@@ -34,6 +34,14 @@ sh -c "$(wget -qO- https://git.io/JOLn2)"
 You will have to clone the repo and from its root directory, execute the
 `install.sh` SH script
 
+### Manually with `chezmoi`
+
+Leveraging Chezmoi capabilities
+
+```bash
+chezmoi init --apply --verbose https://github.com/nandalopes/dotfiles.git
+```
+
 
 ## License
 

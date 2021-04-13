@@ -1,0 +1,63 @@
+[/]
+backspace-binding='ascii-delete'
+enable-wide-handle=true
+encodings=['UTF-8']
+exit-action='close'
+quake-active-monitor=false
+quake-height-percent=70
+quake-hide-headerbar=false
+quake-keep-on-top=false
+quake-show-on-all-workspaces=true
+quake-specific-monitor=0
+quake-width-percent=75
+quake-window-position='
+{{- or (eq .chezmoi.hostname "netha-A14CR") (eq .chezmoi.hostname "HP-v5-PC" ) |
+  ternary "top" "bottom" -}}
+'
+terminal-title-show-when-single=false
+terminal-title-style='small'
+
+[profiles]
+default='74373312-aee2-4244-af0d-e05a5cfa2cda'
+list=['2b7c4080-0ddd-46c5-8f23-563fd3ba789d', '74373312-aee2-4244-af0d-e05a5cfa2cda']
+
+# Solarized Dark
+[profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
+background-color='#002B36'
+background-transparency-percent=0
+badge-color-set=false
+bold-color-set=false
+cursor-colors-set=false
+default-size-columns=104
+default-size-rows=36
+dim-transparency-percent=10
+font='Hack 12'
+foreground-color='#839496'
+highlight-colors-set=false
+login-shell=true
+palette=['#073642', '#DC322F', '#859900', '#B58900', '#268BD2', '#D33682', '#2AA198', '#EEE8D5', '#002B36', '#CB4B16', '#586E75', '#657B83', '#839496', '#6C71C4', '#93A1A1', '#FDF6E3']
+use-system-font=false
+use-theme-colors=false
+visible-name='Default'
+
+# Gruvbox Dark Hard
+[profiles/74373312-aee2-4244-af0d-e05a5cfa2cda]
+allow-bold=true
+background-color='#1D2021'
+background-transparency-percent=10
+badge-color-set=false
+bold-color-set=false
+cursor-colors-set=false
+default-size-columns=104
+default-size-rows=36
+dim-transparency-percent=10
+font='FiraCode Nerd Font Mono Medium 8'
+foreground-color='#EBDBB2'
+highlight-colors-set=false
+login-shell=true
+notify-silence-enabled=true
+notify-silence-threshold=600
+palette=['#1D2021', '#CC241D', '#98971A', '#D79921', '#458588', '#B16286', '#689D6A', '#BDAE93', '#7C6F64', '#FB4934', '#B8BB26', '#FABD2F', '#83A598', '#D3869B', '#8EC07C', '#EBDBB2']
+use-system-font=false
+use-theme-colors=false
+visible-name='Nanda'

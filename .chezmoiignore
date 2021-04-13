@@ -3,6 +3,10 @@ README.md
 install.sh
 zfiles
 
+{{ if ne .chezmoi.username "nanda" -}}
+#.local/share/applications/Freeplane.desktop
+{{- end }}
+
 {{ if ne .chezmoi.hostname "home-PC-N" -}}
 .config/user-dirs.locale
 Desktop/Home.desktop

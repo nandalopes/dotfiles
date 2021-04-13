@@ -1,0 +1,12 @@
+#!/bin/sh
+
+{{ if ne .chezmoi.hostname "home-PC-N" -}}
+  install -m0644 -T {{ .chezmoi.sourceDir -}}
+    /zfiles/profile_pic/face_meiga.png $HOME/.face
+{{- else if eq .chezmoi.username "nanda" -}}
+  install -m0644 -T {{ .chezmoi.sourceDir -}}
+    /zfiles/profile_pic/face_fofa.png $HOME/.face
+{{- end }}
+
+exit 0
+

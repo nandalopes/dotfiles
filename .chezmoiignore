@@ -5,6 +5,8 @@ zfiles
 
 {{ if ne .chezmoi.hostname "home-PC-N" -}}
 .config/user-dirs.locale
+Desktop/Home.desktop
+Desktop/trash.desktop
 {{- end }}
 
 {{ if not .has_keybase -}}

@@ -125,6 +125,19 @@ make =
   chmod a+rX -R ./
 install = make install || sudo make install
 
+{{ if eq .chezmoi.hostname "home-PC-N" -}}
+[drawio-desktop]
+checkout =
+  git clone --recurse-submodules -j8 -- \
+      'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
+skip = lazy
+update = git pull --rebase
+make =
+  yarn install
+  yarn run sync
+  yarn run release-linux --linux AppImage --x64
+{{- end }}
+
 
 ##### Old Ruby Devel #####
 [OpenSSL_1_0]
@@ -137,19 +150,4 @@ checkout =
       OpenSSL_1_0_0-stable OpenSSL_1_0_1-stable OpenSSL_1_0_2-stable
   git remote update
 skip = lazy
-
-
-{{ if eq .chezmoi.hostname "home-PC-N" -}}
-##### home-PC-N #####
-[drawio-desktop]
-checkout =
-  git clone --recurse-submodules -j8 -- \
-      'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
-skip = lazy
-update = git pull --rebase
-make =
-  yarn install
-  yarn run sync
-  yarn run release-linux --linux AppImage --x64
-{{- end -}}
 

@@ -1,0 +1,7 @@
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+{{ if ne .chezmoi.username "nanda" -}}
+  umask 007
+{{- else -}}
+  umask 027
+{{- end }}

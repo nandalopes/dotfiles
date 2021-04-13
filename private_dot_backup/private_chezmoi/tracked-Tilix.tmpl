@@ -11,8 +11,7 @@ quake-show-on-all-workspaces=true
 quake-specific-monitor=0
 quake-width-percent=75
 quake-window-position='
-{{- or (eq .chezmoi.hostname "netha-A14CR") (eq .chezmoi.hostname "HP-v5-PC" ) |
-  ternary "top" "bottom" -}}
+{{- eq .chezmoi.hostname "home-PC-N" "home-PC-H81" | ternary "bottom" "top" -}}
 '
 terminal-title-show-when-single=false
 terminal-title-style='small'

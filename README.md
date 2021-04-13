@@ -42,6 +42,19 @@ Leveraging Chezmoi capabilities
 chezmoi init --apply --verbose https://github.com/nandalopes/dotfiles.git
 ```
 
+## Security considerations
+
+Having a local `.git` (A.K.A. submodule) folder inside your dotfiles could
+become dangerous as you're naturally exposing (or unconsciously prompted to)
+your git history and very specific local configuration. Not even to mention the
+burden it sometimes signifies.
+
+As I just feed myself from the great works other `peers` conduct in the wild
+Internet, I'm a mere consumer of their work who clones their source code and
+thereby uses it.
+
+My `mrconfig.tmpl` takes care of cloning/pulling(`--rebase`) their public GitHub
+repos.
 
 ## License
 

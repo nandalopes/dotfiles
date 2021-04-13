@@ -13,8 +13,6 @@
 
 ## [Chezmoi](chezmoi.md)
 
-Necessário ter o GPG já instalado e configurado.
-
 ```sh
 cd ~/.local
 
@@ -22,7 +20,7 @@ wget https://git.io/chezmoi -O - | sh
 # OR...
 curl -sfL https://git.io/chezmoi | sh
 
-~/.local/bin/chezmoi init git@gitlab.com:nandalopes/dotfiles.git
+~/.local/bin/chezmoi init https://github.com/nandalopes/dotfiles.git
 # Defaults:
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
@@ -261,7 +259,7 @@ PPA: `sudo add-apt-repository ppa:obsproject/obs-studio`
 
 - Figma (AppImage):
   - <https://github.com/Figma-Linux/figma-linux/releases>
-- Inkscape: 
+- Inkscape:
   - `sudo add-apt-repository ppa:inkscape.dev/stable`
   - `sudo apt install inkscape`
 - Gimp (Flatpak):

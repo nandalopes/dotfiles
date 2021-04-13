@@ -1,7 +1,5 @@
 # Chezmoi
 
-Necessário ter o GPG já instalado e configurado.
-
 ```sh
 cd ~/.local
 
@@ -9,7 +7,7 @@ wget https://git.io/chezmoi -O - | sh
 # OR...
 curl -sfL https://git.io/chezmoi | sh
 
-~/.local/bin/chezmoi init git@gitlab.com:nandalopes/dotfiles.git
+~/.local/bin/chezmoi init https://github.com/nandalopes/dotfiles.git
 # Defaults:
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
@@ -23,12 +21,12 @@ curl -sfL https://git.io/chezmoi | sh
 
 ## Install
 
-With wget:  
+With wget:
 `
 wget 'https://git.io/chezmoi' -O - | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
 `
 
-With curl:  
+With curl:
 `
 curl -sfL 'https://git.io/chezmoi' | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
 `

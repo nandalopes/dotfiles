@@ -1,0 +1,57 @@
+#!/bin/bash
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "Install DEFAULT apts..."
+readarray my_apps -t <<<" {{- template "apt/default" . -}} "
+sudo apt install --autoremove ${my_apps[@]}
+sudo apt install --no-install-recommends -y mpv
+
+separaTitulo 1 "requer interação"
+sudo apt install ddclient
+
+separaTitulo 1 "Install gpgmejson app..."
+{{ if ge .chezmoi.osRelease.versionID "20.10" -}}
+  sudo apt install gpgme-json
+{{- else -}}
+  sudo apt install {{ .chezmoi.sourceDir -}}
+    /zfiles/gpg-agent/gpgme-json_*.deb
+{{- end }}
+
+separaTitulo 1 "Desktop manager..."
+readarray my_apps -t <<<" {{- template "apt/desktop" . -}} "
+sudo apt install --autoremove ${my_apps[@]}
+
+separaTitulo 1 "podem ser compilados..."
+echo sudo apt install direnv fzf tmux
+
+
+separaTitulo 3 "BUILD DEPS..."
+
+separaTitulo 1 "BUILD tmux"
+sudo apt install autoconf automake pkg-config libevent-dev libncurses-dev
+
+separaTitulo 1 "BUILD ASDF nodejs"
+sudo apt install dirmngr gpg
+
+separaTitulo 1 "BUILD ASDF ruby"
+readarray my_apps -t <<<" {{- template "build_deps/asdf_ruby" . -}} "
+sudo apt install --autoremove ${my_apps[@]}
+
+
+separaTitulo 1 "BUILD dupeguru (without venv)"
+sudo apt install \
+  python3-pyqt5 pyqt5-dev-tools python3-wheel python3-dev build-essential \
+  python3-setuptools debhelper
+
+{{ if ge .chezmoi.osRelease.versionID "21.04" -}}
+separaTitulo 1 "BUILD gammastep"
+sudo apt install \
+  autopoint intltool libwayland-dev \
+  libxcb1-dev libxcb-randr0-dev \
+  libdrm-dev
+{{- end }}
+
+exit 0
+

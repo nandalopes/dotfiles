@@ -1,0 +1,14 @@
+#!/bin/bash
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "MAYBE"
+readarray my_apps -t <<<" {{- template "apt/maybe" . -}} "
+sudo apt install --autoremove ${my_apps[@]}
+
+separaTitulo 1 "Minimize manual"
+sudo apt-mark minimize-manual
+
+exit 0
+

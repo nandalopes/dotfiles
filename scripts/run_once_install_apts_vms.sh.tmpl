@@ -1,0 +1,50 @@
+#!/bin/sh
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "Docker # groovy..."
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+  sudo apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -
+sudo apt-key fingerprint 0EBFCD88
+sudo tee /etc/apt/sources.list.d/docker.list << EOP
+deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) \
+stable
+EOP
+
+{{ if eq .chezmoi.hostname "home-PC-N" -}}
+separaTitulo 1 "VirtualBox # focal..."
+curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | \
+  sudo apt-key --keyring /etc/apt/trusted.gpg.d/oracle_vbox_2016.gpg add -
+sudo tee /etc/apt/sources.list.d/vbox.list << EOP
+deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian \
+$(lsb_release -cs) \
+contrib
+EOP
+{{- end }}
+
+sudo chmod 0644 /etc/apt/sources.list.d/* /etc/apt/trusted.gpg.d/*
+
+{{ if gt .chezmoi.osRelease.versionID "20.04" -}}
+  separaTitulo 1 "editing ppas to focal..."
+  sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
+    /etc/apt/sources.list.d/vbox.list
+{{- end }}
+{{ if gt .chezmoi.osRelease.versionID "20.10" -}}
+  separaTitulo 1 "editing ppas to groovy..."
+  sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' \
+    /etc/apt/sources.list.d/docker.list
+{{- end }}
+
+sudo apt update
+
+separaTitulo 1 "Install apts for virtualization after lists..."
+sudo apt install \
+  containerd.io docker-ce docker-ce-cli
+  {{- if eq .chezmoi.hostname "home-PC-N" }} \
+    virtualbox-6.1
+  {{- end }}
+
+exit 0
+

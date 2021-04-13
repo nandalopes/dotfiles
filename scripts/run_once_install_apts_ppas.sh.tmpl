@@ -1,0 +1,100 @@
+#!/bin/bash
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "Adding ppas..."
+
+my_ppas=(
+  ppa:alexlarsson/flatpak
+  ppa:appimagelauncher-team/stable
+  ppa:phoerious/keepassxc
+  ppa:git-core/ppa
+  ppa:inkscape.dev/stable
+  ppa:obsproject/obs-studio
+  ppa:papirus/papirus
+  ppa:sunderme/texstudio
+)
+
+for PPA in ${my_ppas[@]}; do
+  sudo add-apt-repository --yes --no-update $PPA
+done
+
+separaTitulo 1 "VSCodium..."
+wget -qO - \
+  https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+  | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/codium.gpg
+sudo tee /etc/apt/sources.list.d/codium.list << EOP
+deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main
+EOP
+
+separaTitulo 1 "Signal-Desktop..."
+
+curl -fsSL https://updates.signal.org/desktop/apt/keys.asc | \
+  sudo apt-key --keyring /etc/apt/trusted.gpg.d/signal-desktop.gpg add -
+sudo tee /etc/apt/sources.list.d/signal-xenial.list << EOP
+deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main
+# deb-src [arch=amd64] https://updates.signal.org/desktop/apt xenial main
+EOP
+
+separaTitulo 1 "Element-Desktop..."
+
+sudo curl -s -o /etc/apt/trusted.gpg.d/element-archive-keyring.gpg -C - \
+  https://packages.riot.im/debian/riot-im-archive-keyring.gpg
+echo "deb https://packages.riot.im/debian default main" | \
+  sudo tee /etc/apt/sources.list.d/element.list
+
+separaTitulo 1 "Github cli # groovy..."
+
+sudo apt-key --keyring /etc/apt/trusted.gpg.d/github.gpg \
+  adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+sudo tee /etc/apt/sources.list.d/github.list << EOP
+deb https://cli.github.com/packages $(lsb_release -cs) main
+# deb-src https://cli.github.com/packages $(lsb_release -cs) main
+EOP
+
+separaTitulo 1 "Syncthing <https://apt.syncthing.net/>..."
+
+sudo curl -s -o /etc/apt/trusted.gpg.d/syncthing.gpg -C - \
+  https://syncthing.net/release-key.gpg
+sudo tee /etc/apt/sources.list.d/syncthing.list << EOP
+deb https://apt.syncthing.net syncthing stable
+# deb-src https://apt.syncthing.net syncthing stable
+EOP
+
+sudo chmod 0644 /etc/apt/sources.list.d/* /etc/apt/trusted.gpg.d/*
+
+{{ if gt .chezmoi.osRelease.versionID "20.04" -}}
+  separaTitulo 1 "editing ppas to focal..."
+  for list in /etc/apt/sources.list.d/alexlarsson*.list;
+  do
+    sed 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' $list | \
+    sort -u | sudo tee $list
+  done
+{{- end }}
+{{ if gt .chezmoi.osRelease.versionID "20.10" -}}
+  separaTitulo 1 "editing ppas to groovy..."
+  for list in
+    /etc/apt/sources.list.d/{appimagelauncher,phoerious,papirus,obsproject,sunderme,github}*.list;
+  do
+    sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
+    sort -u | sudo tee $list
+  done
+{{- end }}
+
+sudo apt update
+
+separaTitulo 1 "Install apts from ppas after lists..."
+
+sudo apt install \
+  appimagelauncher codium element-desktop flatpak gh inkscape keepassxc \
+  obs-studio papirus-icon-theme signal-desktop syncthing texstudio
+
+sudo apt install
+  {{- if ne .chezmoi.hostname "home-PC-N" }} \
+    --no-install-recommends
+  {{- end }} \
+  -y qt5-style-kvantum
+
+exit 0
+

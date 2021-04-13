@@ -1,0 +1,25 @@
+[user]
+  email =
+  name =
+  signingkey =
+[github]
+  user =
+[alias]
+  assume-unchanged = !git update-index --assume-unchanged
+  no-assume-unchanged = !git update-index --no-assume-unchanged
+  ignored = !git ls-files -v | grep '^[[:lower:]]' | cut -f2 -d' '
+[core]
+  # excludesfile = ~/Projects/.gitignore
+[credential]
+  helper = cache --timeout=36000
+[init]
+  defaultBranch = main
+[gui]
+  tabsize = 2
+  editor = gvim -f -p
+[merge]
+  tool = gvimdiff
+{{ if .has_keybase -}}
+[protocol "keybase"]
+  allow = always
+{{- end }}

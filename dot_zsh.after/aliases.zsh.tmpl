@@ -1,0 +1,167 @@
+# Aliases in this file are bash and zsh compatible
+
+
+############################
+## Add and reload aliases ##
+############################
+
+# Function which adds an alias to the current shell and to
+# the ~/.aliases file.
+add-alias ()
+{
+  local name=$1 value="$2"
+  echo alias $name=\'$value\' | tee -a ~/.aliases
+  eval alias $name=\'$value\'
+  alias $name
+}
+
+# new_alias = na <http://blog.welrbraga.eti.br/?p=3103>
+# <https://unix.stackexchange.com/a/370772/8949>
+alias na="md5sum ~/.aliases >| ${TMPDIR:-/tmp}/md5.aliases ; \
+  editor ~/.aliases ; \
+  md5sum -c ${TMPDIR:-/tmp}/md5.aliases >/dev/null 2>&1 || source ~/.aliases"
+
+# Global alias reload
+reload-user-alias ()
+{
+  killall -HUP -u $USER ${SHELL#*/bin/}
+  source ~/.aliases
+}
+
+
+########################
+## Edit shell history ##
+########################
+
+# Remove lines matching term from history
+rmhist ()
+{
+  # Deleta as linhas
+  eval LC_ALL=C sed -ri "'/$1/d' $HISTFILE"
+  # Lê novamente historico
+  fc -R
+}
+
+rmlast ()
+{
+  # Deleta a ultima linha
+  LC_ALL=C sed -i '/rmlast/d' "$HISTFILE"
+  eval LC_ALL=C sed -i "'\$d' $HISTFILE"
+  # Lê novamente historico
+  fc -R
+}
+
+###################
+## RSync folders ##
+###################
+
+# Sync local folders
+sync-f ()
+{
+  rsync -zrvh --progress "$1/" "$2"
+}
+
+# Sync over ssh
+sync-ssh ()
+{
+  rsync -aHAXxv --numeric-ids --progress \
+        -e "ssh -T -o Compression=no -x" "$1/" "$2"
+}
+
+
+#############
+## ALIASES ##
+#############
+
+# Some useful aliases.
+alias la='ls -A'
+alias lga='ll -b --group-directories-first'
+
+# Ruby
+alias rbcfg='bundle config set local path "vendor/bundle"'
+alias rbins='bundle install'
+
+# Youtube-DL aliases
+alias upg_ytdl='sudo -H pip3 install --upgrade youtube-dl'
+alias cfg_ytdl='2>/dev/null gvim -p ~/.config/youtube-dl/{config,*.cfg}'
+alias ytdl_audio='youtube-dl --config-location ~/.config/youtube-dl/audio.cfg '
+alias ytdl_video='youtube-dl --config-location ~/.config/youtube-dl/video.cfg '
+
+# Listas de videos para o MPV
+# use cd %:h para mudar pra pasta do arquivo atual no VIM
+alias  view_ytdl='2>/dev/null gvim -p ~/.config/youtube-dl/*.cfg'
+
+# Editar configurações
+alias   cfg_vim='2>/dev/null gvim -p ~/.vimrc.*'
+alias cfg_alias='2>/dev/null gvim ~/.aliases'
+alias cfg_light='2>/dev/null gvim ${XDG_CONFIG_HOME:-$HOME/.config}/
+  {{- if ge .chezmoi.osRelease.versionID "21.04" -}}
+    gammastep/config.ini
+  {{- else -}}
+    redshift.conf
+  {{- end -}}
+'
+alias   cfg_mpv='2>/dev/null gvim ~/.config/mpv/mpv.{conf,profile.conf}'
+
+{{ if eq .chezmoi.hostname "home-PC-N" -}}
+## KDE only
+## https://askubuntu.com/a/481738
+alias piti_do_plasma='kquitapp5 plasmashell || \
+  killall plasmashell && kstart5 plasmashell'
+{{- end }}
+
+## Package management
+alias  upg_apt='sudo apt update && sudo apt upgrade -y'
+alias upg_flat='flatpak -y update'
+alias  upg_pip='
+  {{- .my_bin_dir }}/venv/bin/pip3 install --upgrade docker-compose \
+  && sudo -H pip3 install --upgrade youtube-dl wakatime tmuxp pynvim && \
+  pip3 install --user --upgrade buku poku thefuck'
+
+alias  upg_all='upg_apt && sudo snap refresh && upg_pip && upg_flat'
+
+alias   flat_user='flatpak --user'
+alias flat_system='flatpak --installation=default'
+alias flat_nuvola='flatpak --installation=nuvola'
+
+alias  clear_pkgs='sudo apt-mark minimize-manual && sudo apt autoremove -y && \
+  flat_system remove --unused && flat_user remove --unused && \
+  flat_nuvola remove --unused'
+
+# Novos aliases
+#alias volta_wifi='sudo dkms install rtl8812au/4.3.8.12175.20140902+dfsg'
+
+#alias source_asdf='source ~/.asdf/asdf.sh'
+
+alias escrever_here='2> /dev/null texstudio **/*.tex &'
+
+alias vou_dormir='sleep 55m && systemctl
+  {{- if eq .chezmoi.hostname "home-PC-N" }} \
+    poweroff
+  {{- else }} \
+    suspend
+  {{- end -}}
+'
+
+alias freeplane.sh='~/bin/freeplane/freeplane.sh'
+
+alias buku_server='docker-compose --file ~/bin/buku/docker-compose.yml'
+
+docker-stop-all() {
+  docker ps --all | awk 'NR > 1 {print $1}' | \
+    xargs -r docker rm
+}
+
+docker-clean() {
+  docker ps --all | awk 'NR > 1 {print $1}' | \
+    xargs --no-run-if-empty docker rm
+  docker images | awk 'NR > 1 {print $3}' | \
+    xargs --no-run-if-empty docker rmi
+}
+
+alias tmux-mvert='tmux select-layout main-vertical'
+alias tmux-mhori='tmux select-layout main-horizontal'
+
+alias irpf2021='/usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar \
+  {{ .chezmoi.homeDir -}}/bin/IRPF2021/irpf.jar'
+

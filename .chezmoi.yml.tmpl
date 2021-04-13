@@ -1,0 +1,20 @@
+{{- $bin := promptString "my_bin_dir" -}}
+{{- $fuck := promptString "thefuck" -}}
+{{- $basic_ipv4 := promptString "Base_do_IPv4" -}}
+{{- $gpgkey := promptString "GPGKEY" -}}
+data:
+  ipv4:
+    base: "{{ default "10.0.10" $basic_ipv4 }}"
+    mask: "{{ default "10.0.10" $basic_ipv4 }}.0/24"
+  lang_mozilla: "
+    {{- eq .chezmoi.hostname "home-PC-N" | ternary "en-US" "pt-BR" -}}
+  "
+  my_bin_dir: "{{ default "$HOME/bin" $bin | expandenv }}"
+  thefuck: "{{ default "please" $fuck }}"
+  what_gui: "{{ eq .chezmoi.hostname "home-PC-N" | ternary "qt" "gtk" }}"
+diff:
+  format: git
+encryption: gpg
+gpg:
+  recipient: {{ default $gpgkey "B24CB540944A918E" }}
+sourceDir: "{{ .chezmoi.sourceDir }}"

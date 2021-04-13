@@ -1,0 +1,15 @@
+session_name: monitor
+start_directory: $HOME/Projects
+options:
+  automatic-rename: false
+windows:
+- window_name: "Hello $USER!"
+  layout: main-vertical
+  options:
+    main-pane-width: 50%
+  panes:
+  - shell_command:
+    - htop
+  - shell_command:
+    - cls
+    focus: true

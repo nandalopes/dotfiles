@@ -1,0 +1,22 @@
+session_name: webdev
+environment:
+  DIRENV_LOG_FORMAT: ''
+options:
+  automatic-rename: false
+windows:
+- window_name: webdev $USER
+  start_directory: $HOME/Projects/webdev
+  focus: true
+  options:
+    main-pane-width: 50%
+  shell_before_command:
+    - umask 007
+  panes:
+  - shell_command:
+    - for p in */; do
+    -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules'; ${SHELL}"
+    - done
+    - tmux selectp -t 2.2
+    - tmux selectl -t 2 main-vertical
+    - htop --user=$USER
+    focus: true

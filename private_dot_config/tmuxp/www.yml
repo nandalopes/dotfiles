@@ -1,0 +1,30 @@
+session_name: www
+environment:
+  DIRENV_LOG_FORMAT: ''
+start_directory: $HOME/Projects/www/data
+options:
+  automatic-rename: false
+windows:
+- window_name: devilbox $USER
+  layout: main-vertical
+  options:
+    main-pane-width: 50%
+  panes:
+  - shell_command:
+    - htop --user=$USER
+  - shell_command:
+    - cd ../devilbox
+    - if [[ -f "../ask_devilbox.sh" ]]; then
+    -  "../ask_devilbox.sh"
+    - fi
+    focus: true
+- window_name: public_html
+  focus: true
+  panes:
+  - shell_command:
+    - for p in */public_html; do
+    -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n';
+      echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
+    - done
+    - tmux selectl -t 2.2 tiled
+    - tmux killp -t 2.1

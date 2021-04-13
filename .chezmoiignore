@@ -3,6 +3,7 @@ README.md
 install.sh
 docs
 zfiles
+scripts/install_dotfiles.sh
 
 {{ if ne .chezmoi.username "nanda" -}}
 .local/share/icons/**/CmapTools.png

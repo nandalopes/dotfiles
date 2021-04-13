@@ -1,3 +1,8 @@
 LICENSE
 README.md
 install.sh
+
+{{ if not .has_keybase -}}
+**/keybase*
+**/keybase/*
+{{- end }}

@@ -9,6 +9,8 @@ steal anything that would improve your own productivity.
 
 I'd not care of using GitHub for backing up my `dotfiles` if my perspectives of
 using them remained in a single machine.
+You can install this repo via a Convenient script or manually in its defect.
+
 
 ## License
 

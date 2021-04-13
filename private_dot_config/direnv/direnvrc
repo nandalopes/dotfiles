@@ -1,0 +1,10 @@
+# <https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration>
+# <https://github.com/asdf-community/asdf-direnv/discussions/58#discussioncomment-205115>
+# `mkdir -p ~/.asdf/installs/direnv/system/env`
+
+# File: ~/.config/direnv/direnvrc
+# source "$(env ASDF_DIRENV_VERSION=$DIRENV_MY_VERSION asdf direnv hook asdf)"
+source "$(asdf direnv hook asdf)"
+
+# Uncomment the following line to make direnv silent by default.
+# export DIRENV_LOG_FORMAT=""

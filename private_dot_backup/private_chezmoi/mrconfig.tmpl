@@ -62,7 +62,7 @@ update = git pull --rebase
 clean = cargo clean
 make = cargo build --release
 install =
-  cp -l target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
+  cp -v target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
   ${1:- {{- .my_bin_dir -}} }/bukubrow \
     --install-firefox --install-chrome
 

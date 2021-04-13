@@ -1,0 +1,3 @@
+{{- with dict "hostname" .chezmoi.hostname | merge .screen.gammastep -}}
+  {{- template "screen.ini" . -}}
+{{- end -}}

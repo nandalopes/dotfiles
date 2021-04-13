@@ -1,0 +1,21 @@
+#!/bin/sh
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "Install default snaps..."
+snaps_default="chromium-ffmpeg spotify vlc"
+printf 'sudo snap install %s\n' $snaps_default | eval
+# sudo snap connect nmap:network-control
+
+
+separaTitulo 1 "Install classic snaps..."
+snaps_classic="code nvim"
+printf 'sudo snap install --classic %s\n' $snaps_classic | eval
+
+
+separaTitulo 1 "Install optional snaps..."
+echo "sudo snap install cyph desktop-habitica"
+
+exit 0
+

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" -}}
+
+{{ template "exit_user.sh" }}
+
+echo "Downloading latest firefox..."
+wget --show-progress -c -a/tmp/mozilla-log -O/tmp/mozilla-browser.tar.bz2 \
+  'https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=
+  {{- .lang_mozilla -}} '
+# chmod 0644 /tmp/mozilla-browser.tar.bz2
+
+
+echo "Install Mozilla Firefox..."
+sudo tar --owner=root --group=root -xpjvf \
+  /tmp/mozilla-browser.tar.bz2 -C/usr/local/lib
+
+
+echo "Installing desktop files..."
+sudo tar --owner=root --group=root -xpjvf {{ .chezmoi.sourceDir -}}
+  /zfiles/system/usr/local/xdg-mozilla-browser.tar.bz2 -C/usr/local
+
+sudo ln -nfs ../lib/firefox/firefox /usr/local/bin/firefox
+# sudo ln -nfs ../lib/firefox/firefox-bin /usr/local/bin/firefox-bin
+
+{{- end }}
+
+exit 0
+

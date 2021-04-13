@@ -1,0 +1,30 @@
+#!/bin/sh
+
+{{ template "exit_user.sh" }}
+{{ template "utils.sh" }}
+
+separaTitulo 3 "Carregando arquivos do /etc/profile.d no zprofile..."
+sudo install -m 0644 -o root -g root -v \
+  --target-directory=/etc/zsh/ \
+  "{{ .chezmoi.sourceDir }}/zfiles/system/etc/zsh/zprofile"
+
+separaTitulo 1 "Install network conf..."
+sudo install -m 0644 -o root -g root -v \
+  {{ .chezmoi.homeDir -}}
+  /.backup/chezmoi/network/hosts \
+  /etc/hosts
+sudo install -m 0644 -o root -g root -v \
+  {{ .chezmoi.homeDir -}}
+  /.backup/chezmoi/network/hosts.allow \
+  /etc/hosts.allow
+sudo install -m 0644 -o root -g root -v \
+  {{ .chezmoi.homeDir -}}
+  /.backup/chezmoi/network/resolved.conf \
+  /etc/systemd/resolved.conf
+
+separaTitulo 1 "Install mrconfig bin..."
+ln -nfs {{ .chezmoi.homeDir }}/.backup/chezmoi/mrconfig \
+  {{ .my_bin_dir }}/.mrconfig
+
+exit 0
+

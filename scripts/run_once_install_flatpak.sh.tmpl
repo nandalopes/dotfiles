@@ -1,0 +1,40 @@
+#!/bin/sh
+
+{{ template "exit_user.sh" }}
+
+{{ $flatpakRemoteAdd := "flatpak remote-add --if-not-exists" }}
+{{ $flatpakRemoteAdd }} --system flathub \
+  https://flathub.org/repo/flathub.flatpakrepo
+{{ $flatpakRemoteAdd }} --user   flathub \
+  https://flathub.org/repo/flathub.flatpakrepo
+
+{{ $nuvolaConf := "/etc/flatpak/installations.d/nuvola.conf" }}
+sudo mkdir -p -m0755 /opt/flatpak/nuvola/ext4 /etc/flatpak/installations.d
+sudo install -T -m0644 -v \
+  {{ .chezmoi.sourceDir }}/zfiles/system{{ $nuvolaConf }} {{ $nuvolaConf }}
+
+{{ $flatpakRemoteAdd }} --installation=nuvola  nuvola \
+  https://dl.tiliado.eu/flatpak/nuvola.flatpakrepo
+{{ $flatpakRemoteAdd }} --installation=nuvola flathub \
+  https://flathub.org/repo/flathub.flatpakrepo
+
+echo "Flatpaks Gimp..."
+flatpak --installation=default install flathub \
+  org.gimp.GIMP org.gimp.GIMP.Plugin.FocusBlur \
+  org.gimp.GIMP.Plugin.Resynthesizer org.gimp.GIMP.Plugin.GMic
+
+echo "Flatpaks systemwide..."
+flatpak --installation=default install flathub \
+  net.scribus.Scribus org.filezillaproject.Filezilla org.shotcut.Shotcut
+
+echo "Flatpaks user only..."
+flatpak --user install flathub \
+  org.telegram.desktop # com.discordapp.Discord
+
+echo "Flatpaks Nuvola Media..."
+sudo flatpak --installation=nuvola install nuvola \
+  eu.tiliado.Nuvola eu.tiliado.NuvolaAppDeezer eu.tiliado.NuvolaAppMixcloud \
+  eu.tiliado.NuvolaAppSoundcloud eu.tiliado.NuvolaAppYoutubeMusic
+
+exit 0
+

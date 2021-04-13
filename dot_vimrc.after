@@ -1,0 +1,7 @@
+set guifont=FiraCode\ Nerd\ Font\ Mono\ 11
+set guifontwide=FiraCode\ Nerd\ Font\ 11
+
+if has("gui_running")
+  set lines=40
+  set columns=96
+endif

@@ -1,6 +1,9 @@
 LICENSE
 README.md
 install.sh
+{{ if ne .chezmoi.hostname "home-PC-N" -}}
+.config/user-dirs.locale
+{{- end }}
 
 {{ if not .has_keybase -}}
 **/keybase*

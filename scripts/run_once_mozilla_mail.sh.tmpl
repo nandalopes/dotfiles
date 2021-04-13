@@ -1,0 +1,28 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" -}}
+
+{{ template "exit_user.sh" }}
+
+echo "Downloading latest thunderbird..."
+wget --show-progress -c -a/tmp/mozilla-log -O/tmp/mozilla-mail.tar.bz2 \
+  'https://download.mozilla.org/?product=thunderbird-latest-ssl&os=linux64&lang=
+  {{- .lang_mozilla -}} '
+# chmod 0644 /tmp/mozilla-mail.tar.bz2
+
+
+echo "Install Mozilla Thunderbird..."
+sudo tar --owner=root --group=root -xpjvf \
+  /tmp/mozilla-mail.tar.bz2 -C/usr/local/lib
+
+
+echo "Installing desktop files..."
+sudo tar --owner=root --group=root -xpjvf {{ .chezmoi.sourceDir -}}
+  /zfiles/system/usr/local/xdg-mozilla-mail.tar.bz2 -C/usr/local
+
+sudo ln -nfs ../lib/thunderbird/thunderbird.sh /usr/local/bin/thunderbird
+
+{{- end }}
+
+exit 0
+

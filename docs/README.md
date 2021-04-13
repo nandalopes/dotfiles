@@ -11,10 +11,13 @@
 - **Da instalação**: `sudo usermod -aG "cdrom,audio,dip,video,plugdev,lxd,sambashare" <username>`
 - **Admin**: `sudo usermod -aG "adm,sudo" <username>`
 
-## [Chezmoi](chezmoi.m)
+## [Chezmoi](chezmoi.md)
+
+Necessário ter o GPG já instalado e configurado.
 
 ```sh
 cd ~/.local
+
 wget https://git.io/chezmoi -O - | sh
 # OR...
 curl -sfL https://git.io/chezmoi | sh

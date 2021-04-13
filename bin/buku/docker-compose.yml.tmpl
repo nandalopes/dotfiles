@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  bukuserver:
+    image: bukuserver/bukuserver
+    restart: unless-stopped
+    environment:
+      - BUKUSERVER_PER_PAGE=100
+      - BUKUSERVER_OPEN_IN_NEW_TAB=true
+      # - BUKUSERVER_SECRET_KEY=123456789012345678901234
+      # - BUKUSERVER_URL_RENDER_MODE=full
+      # - BUKUSERVER_DISABLE_FAVICON=false
+    ports:
+      - "5001:5001"
+    volumes:
+      - ~/.local/share/buku:/root/.local/share/buku
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"

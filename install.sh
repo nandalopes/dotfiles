@@ -5,6 +5,7 @@ set -e # -e: exit on error
 if [ ! "$(command -v chezmoi)" ]; then
   bin_dir="$HOME/.local/bin"
   chezmoi="$bin_dir/chezmoi"
+  echo_task "Installing chezmoi to $chezmoi"
   if [ "$(command -v curl)" ]; then
     sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "$bin_dir"
   elif [ "$(command -v wget)" ]; then
@@ -20,5 +21,6 @@ fi
 
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+echo_task "Running chezmoi init"
 # exec: replace current process with chezmoi init
 exec "$chezmoi" init --apply "--source=$script_dir"

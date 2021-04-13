@@ -1,0 +1,6 @@
+[DLNA]
+title=DLNA
+description=Upnp port
+#ports=1900:1901/udp
+ports=7676,8200/tcp|1900:1901/udp
+

@@ -1,0 +1,5 @@
+[Transmission]
+title=Transmission torrent client
+description=BitTorrent client
+ports=6969/udp|51413
+

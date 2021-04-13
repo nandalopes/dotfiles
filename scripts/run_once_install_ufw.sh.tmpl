@@ -1,0 +1,125 @@
+#!/bin/bash
+
+{{ template "exit_user.sh" }}
+
+sudo install -m 0644 -o root -g root -v \
+  --target-directory=/etc/ufw/applications.d/ \
+  {{ .chezmoi.sourceDir }}/zfiles/system/etc/ufw/applications.d/*
+
+basic_ipv4="{{ .ipv4.mask }}"
+basic_ipv6="fe80::/64"
+multi_ipv6="ff02::/80"
+# multicast
+# ff12::8384 is a MULTICAST address
+# ff02::/80
+basic_rfc4=(
+  "10.0.0.0/8"
+  "172.16.0.0/12"
+  "192.168.0.0/16"
+)
+
+ufw_allow="sudo ufw allow log"
+ufw_limit="sudo ufw limit log"
+
+
+sudo ufw logging high --limit 5/min
+sudo ufw app list
+
+echo "LAN config..."
+## DHCP
+$ufw_limit to 0.0.0.0/32 port bootpc from 0.0.0.0/32 port bootps \
+  comment 'DHCP v4'
+$ufw_limit to ::/128 port dhcpv6-client from ::/128 port dhcpv6-server \
+  comment 'DHCP v6'
+
+## Avahi/Bonjour
+$ufw_allow to any app avahi from $basic_ipv4 comment 'Bonjour discover'
+$ufw_allow to $multi_ipv6 app avahi from $basic_ipv6 comment 'Bonjour discover'
+# $ufw_allow to ff02::fb app avahi from any   comment 'Bonjour discover'
+
+## UPnP
+$ufw_allow from $basic_ipv4 app DLNA comment 'UPnP discover'
+$ufw_allow to $multi_ipv6 from any app DLNA comment 'UPnP discover ipv6'
+$ufw_allow proto udp to $basic_ipv4 from $basic_ipv4 comment 'UPnP Play'
+# $ufw_allow to ff02::f from any app DLNA comment 'UPnP discover ipv6'
+
+
+echo "Liberando apps da LAN..."
+lan_apps=(
+  OpenSSH
+  syncthing
+  syncthing-gui
+  {{ if eq .chezmoi.hostname "home-PC-N" -}}
+    KDE_Connect
+  {{- end }}
+)
+for ap in ${lan_apps[@]}; do
+  $ufw_allow to any app $ap from $basic_ipv4
+  $ufw_allow to any app $ap from $basic_ipv6
+done
+
+
+echo "Regras para certas aplicações..."
+  {{- if eq .chezmoi.hostname "home-PC-N" }}
+# KDE Connect
+$ufw_allow to any app KDE_Connect from $multi_ipv6
+$ufw_allow to $basic_ipv4 from $basic_ipv4 app KDE_Connect
+$ufw_allow to $basic_ipv6 from $basic_ipv6 app KDE_Connect
+  {{- end }}
+
+## HTTP
+$ufw_allow to $basic_ipv4 from $basic_ipv4 port http \
+  comment 'Site navigation from repeater'
+$ufw_allow to $basic_ipv4 from $basic_ipv4 port https \
+  comment 'Site navigation from repeater'
+$ufw_limit to $basic_ipv4 from any port http  comment 'Site navigation'
+$ufw_limit to $basic_ipv4 from any port https comment 'Site navigation'
+
+## RSync
+# $ufw_allow from $basic_ipv4 port rsync comment 'RSync'
+# $ufw_allow from $basic_ipv6 port rsync comment 'RSync'
+
+
+echo "Liberando protocolos específicos..."
+for d in igmp udp ; do
+  $ufw_allow proto $d from "${basic_ipv4/0\/24/1}" to 224.0.0.1 \
+    comment 'udp f=43092 t=21027'
+done
+for d in "224.0.0.251" "239.255.255.250" ; do
+  for s in "${basic_rfc4[@]}" ; do
+    $ufw_allow proto igmp to $d from $s comment 'DHCP error?'
+  done
+done
+
+
+echo "Liberando apps da internet..."
+net_apps=(
+  Transmission
+  {{ if eq .chezmoi.hostname "home-PC-N" -}}
+    KTorrent
+  {{- end }}
+)
+for ap in ${net_apps[@]}; do
+  $ufw_allow $ap
+done
+
+
+echo "Regras mais permissivas..."
+## p2p file sync
+$ufw_allow proto tcp to $basic_ipv4 from $basic_ipv4 comment 'syncthing'
+$ufw_allow proto tcp to $basic_ipv6 from $basic_ipv6 comment 'syncthing'
+
+$ufw_limit to $basic_ipv4 from any port route
+$ufw_limit to $basic_ipv6 from any port route
+
+
+echo "Finalizando..."
+sudo ufw enable
+sudo ufw show added
+#sudo ufw show listening
+
+#sudo ufw status numbered
+#sudo ufw status verbose
+
+exit 0
+

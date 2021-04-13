@@ -1,0 +1,5 @@
+[avahi]
+title=avahi-daemon
+description=Zeroconf implementation Linux
+ports=5353/udp
+

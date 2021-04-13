@@ -1,0 +1,5 @@
+[KTorrent]
+title=KDE torrent client
+description=BitTorrent client
+ports=7881,8881/udp|6881
+

@@ -1,0 +1,5 @@
+[KDE_Connect]
+title=KDE Connect
+description=Sync phone and pc
+ports=1714:1764/tcp|1714:1764,22000/udp
+

@@ -1,0 +1,37 @@
+##### Lines starting with # are comments
+
+# -f best/bestvideo+bestaudio
+# -f "bestvideo[height<=?720][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]"
+--autonumber-start 0
+
+-o "%(autonumber)02d-%(title)s-%(id)s.%(ext)s"
+
+##### Codigos basicos:
+# %(title)s
+# %(id)s
+# .%(ext)s
+##### Outros codigos:
+# %(upload_date)s
+# %(uploader_id)s
+# %(autonumber)02d
+# %(format_id).5s
+# %(vcodec).5s
+##### Playlist:
+# %(playlist).8s
+# %(playlist_index)s
+
+##### Extrair audio:
+# -x
+##### Mantem arquivo(s) original:
+# -k
+
+##### Filesystem Options:
+--restrict-filenames
+--no-continue
+# --write-description
+
+##### Authentication Options:
+# --netrc
+
+##### Post-processing Options:
+--add-metadata

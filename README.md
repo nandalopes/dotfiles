@@ -29,6 +29,11 @@ sh -c "$(wget -qO- https://git.io/JOLn2)"
 # DOTFILES_DIR      e.g. $HOME/.local/share/chezmoi or "${HOME}/.dotfiles"
 ```
 
+### Manually with `git`
+
+You will have to clone the repo and from its root directory, execute the
+`install.sh` SH script
+
 
 ## License
 

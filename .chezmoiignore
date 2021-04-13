@@ -1,6 +1,7 @@
 LICENSE
 README.md
 install.sh
+docs
 zfiles
 
 {{ if ne .chezmoi.username "nanda" -}}

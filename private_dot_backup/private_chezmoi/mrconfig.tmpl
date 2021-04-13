@@ -1,0 +1,155 @@
+
+##### DRIVERS #####
+[8812au]
+checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
+update = git pull --rebase
+uninstall = sudo ./remove-driver.sh
+install = sudo ./install-driver.sh
+upgrade = sudo ./remove-driver.sh; sudo ./install-driver.sh
+
+[88x2bu]
+checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
+update = git pull --rebase
+uninstall = sudo ./remove-driver.sh
+install = sudo ./install-driver.sh
+upgrade = sudo ./remove-driver.sh; sudo ./install-driver.sh
+
+
+##### Programas #####
+[chezmoi]
+checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
+skip = lazy
+update = git pull --rebase
+make = make build-linux
+install =
+  GOOS=linux GOARCH=amd64 go build -o ${1:-$HOME/.local/bin}/chezmoi .
+forceInstall =
+  GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
+
+[git-cola]
+checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
+skip = lazy
+
+[direnv]
+checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
+skip = lazy
+update = git pull --rebase
+make = make; chmod a+rX -R ./
+install = sudo make install PREFIX=/usr/local
+
+[pass]
+checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
+skip = lazy
+install = sudo make install PREFIX=/usr/local
+
+[tmux]
+checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
+skip = lazy
+make =
+  sh autogen.sh
+  ./configure --prefix=/usr/local
+  make
+install = sudo make install
+
+[bukubrow-host]
+checkout =
+  git clone 'https://github.com/samhh/bukubrow-host.git' 'bukubrow-host'
+skip = lazy
+update = git pull --rebase
+make = cargo build --release
+install =
+  cp -l target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
+  ${1:- {{- .my_bin_dir -}} }/bukubrow \
+    --install-firefox --install-chrome
+
+[fzf]
+checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
+update = git pull --rebase; git pull --tags --rebase origin master
+make = make
+install = make install
+
+[funcoeszz]
+order = 79
+checkout = git clone 'https://github.com/funcoeszz/funcoeszz.git' 'funcoeszz'
+# skip = lazy
+install =
+  ln -nfs $PWD/funcoeszz $HOME/.local/bin/funcoeszz
+  LC_ALL=C ./funcoeszz zzzz --zshrc --bashrc
+  git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
+
+[dupeguru]
+order = 89
+checkout =
+  git clone --depth=50 -j8 -- \
+      'https://github.com/arsenetar/dupeguru.git' 'dupeguru'
+skip = lazy
+make =
+  python3 -m venv --system-site-packages --clear ./env
+  ./env/bin/pip install -r requirements.txt -r requirements-extra.txt
+  ./env/bin/python build.py --clean
+  ./env/bin/python package.py
+install =
+  if [ "$1" ]; then
+    sudo apt install $PWD/$1
+  else
+    echo "Must indicate a deb file"
+    return 1
+  fi
+
+[gammastep]
+checkout = git clone 'https://gitlab.com/chinstrap/gammastep.git' 'gammastep'
+skip = lazy || (test `whoami` != nanda)
+update = git pull --rebase
+make =
+  ./bootstrap
+  if [ -z $1 ]; then
+    ./configure --prefix=$HOME/.local \
+                --with-systemduserunitdir=$HOME/.config/systemd/user
+  else
+    ./configure --prefix=$1
+  fi
+  make
+install = make install || sudo make install
+
+[iperf3]
+checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
+skip = lazy || (test `whoami` != nanda)
+update = git pull --rebase
+make =
+  if [ -z $1 ]; then
+    ./configure --prefix=$HOME/.local
+  else
+    ./configure --prefix=$1
+  fi
+  make
+  chmod a+rX -R ./
+install = make install || sudo make install
+
+
+##### Old Ruby Devel #####
+[OpenSSL_1_0]
+order = 99
+checkout =
+  git clone --branch=OpenSSL_1_0_2-stable -j8 -- \
+      'https://github.com/openssl/openssl.git' 'OpenSSL_1_0'
+  cd OpenSSL_1_0
+  git remote set-branches origin \
+      OpenSSL_1_0_0-stable OpenSSL_1_0_1-stable OpenSSL_1_0_2-stable
+  git remote update
+skip = lazy
+
+
+{{ if eq .chezmoi.hostname "home-PC-N" -}}
+##### home-PC-N #####
+[drawio-desktop]
+checkout =
+  git clone --recurse-submodules -j8 -- \
+      'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
+skip = lazy
+update = git pull --rebase
+make =
+  yarn install
+  yarn run sync
+  yarn run release-linux --linux AppImage --x64
+{{- end -}}
+

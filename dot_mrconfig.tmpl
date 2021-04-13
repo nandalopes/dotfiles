@@ -1,0 +1,30 @@
+
+[DEFAULT]
+bundleall =
+  git bundle create ${1:-$HOME/Downloads/BKP}/$(basename \
+      $(git rev-parse --show-toplevel) \
+  ).gitrepo.$(date +%+4Y%m%d-%H%M) --all
+
+[.yadr]
+checkout =
+  git clone --branch=mine --no-single-branch -j8 -- \
+      'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
+  cd '.yadr'
+  # remotes
+  git remote add upstream 'https://github.com/skwp/dotfiles.git'
+  git remote add local    'ssh://nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
+  git remote add lfilho   'https://github.com/lfilho/dotfiles.git'
+  git remote add akita    'https://github.com/akitaonrails/dotfiles.git'
+  git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
+
+[.asdf]
+checkout =
+  git clone --shallow-since=2020-03-01 -j8 -- \
+      'https://github.com/asdf-vm/asdf.git' '.asdf'
+
+[Projects/www/devilbox]
+checkout =
+  git clone --shallow-since=2015 --config core.sharedRepository=group -j8 -- \
+      'https://github.com/cytopia/devilbox' 'devilbox'
+skip = lazy
+

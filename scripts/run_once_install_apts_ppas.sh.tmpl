@@ -96,10 +96,11 @@ Components: stable
 Signed-By: $(keyringName syncthing)
 EOP
 
+
 sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 
-
-{{ if gt .chezmoi.osRelease.versionID "20.04" -}}
+{{ if gt .chezmoi.osRelease.versionID "20.04" }}
+  # Downgrade to focal
   separaTitulo 1 "editing ppas to focal..."
   for list in /etc/apt/sources.list.d/alexlarsson*.list;
   do
@@ -107,7 +108,8 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
     sort -u | sudo tee $list
   done
 {{- end }}
-{{ if gt .chezmoi.osRelease.versionID "20.10" -}}
+{{ if gt .chezmoi.osRelease.versionID "20.10" }}
+  # Downgrade to groovy
   separaTitulo 1 "editing ppas to groovy..."
   for list in
 /etc/apt/sources.list.d/{appimagelauncher,phoerious,papirus,obsproject,\

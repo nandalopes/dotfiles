@@ -3,38 +3,47 @@
 {{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
 
+
 separaTitulo 3 "Docker # groovy..."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-  sudo apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -
-sudo apt-key fingerprint 0EBFCD88
-sudo tee /etc/apt/sources.list.d/docker.list << EOP
-deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) \
-stable
+  sudo apt-key --keyring $(keyringName docker) add -
+
+sudo tee /etc/apt/sources.list.d/docker.sources << EOP
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(lsb_release -cs)
+Architectures: amd64
+Components: stable
+Signed-By: $(keyringName docker)
 EOP
 
 {{ if eq .chezmoi.hostname "home-PC-N" -}}
 separaTitulo 1 "VirtualBox # focal..."
 curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | \
-  sudo apt-key --keyring /etc/apt/trusted.gpg.d/oracle_vbox_2016.gpg add -
-sudo tee /etc/apt/sources.list.d/vbox.list << EOP
-deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian \
-$(lsb_release -cs) \
-contrib
+  sudo apt-key --keyring $(keyringName vbox_2016) add -
+
+sudo tee /etc/apt/sources.list.d/vbox.sources << EOP
+Types: deb
+URIs: https://download.virtualbox.org/virtualbox/debian
+Suites: $(lsb_release -cs)
+Architectures: amd64
+Components: contrib
+Signed-By: $(keyringName vbox_2016)
 EOP
 {{- end }}
 
-sudo chmod 0644 /etc/apt/sources.list.d/* /etc/apt/trusted.gpg.d/*
+
+sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 
 {{ if gt .chezmoi.osRelease.versionID "20.04" -}}
   separaTitulo 1 "editing ppas to focal..."
   sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
-    /etc/apt/sources.list.d/vbox.list
+    /etc/apt/sources.list.d/vbox.sources
 {{- end }}
 {{ if gt .chezmoi.osRelease.versionID "20.10" -}}
   separaTitulo 1 "editing ppas to groovy..."
   sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' \
-    /etc/apt/sources.list.d/docker.list
+    /etc/apt/sources.list.d/docker.sources
 {{- end }}
 
 sudo apt update

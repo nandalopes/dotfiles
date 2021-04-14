@@ -3,6 +3,8 @@
 {{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
 
+sudo mkdir -m0755 --parents /usr/local/share/keyrings
+
 separaTitulo 3 "Install DEFAULT apts..."
 readarray my_apps -t <<<" {{- template "apt/default" . -}} "
 sudo apt install --autoremove ${my_apps[@]}

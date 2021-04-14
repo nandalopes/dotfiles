@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Version=1.0
+Name=alsarestore
+Comment=Restore lineout sound
+# Exec=sh -c "sleep 5 && alsactl --file /var/lib/alsa/asound.state restore"
+Exec=sh -c "sleep 5 && alsactl --file ~/.config/asound.state restore"
+OnlyShowIn=XFCE;
+StartupNotify=false
+Terminal=true
+Hidden=false
+Icon=preferences-desktop-sound
+Path=

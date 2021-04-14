@@ -20,49 +20,84 @@ for PPA in ${my_ppas[@]}; do
   sudo add-apt-repository --yes --no-update $PPA
 done
 
+
 separaTitulo 1 "VSCodium..."
+
 wget -qO - \
   https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
-  | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/codium.gpg
-sudo tee /etc/apt/sources.list.d/codium.list << EOP
-deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main
+  | gpg --dearmor | sudo dd of=$(keyringName codium)
+
+sudo tee /etc/apt/sources.list.d/codium.sources << EOP
+Types: deb
+URIs: https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/
+Suites: vscodium
+Architectures: i386 amd64
+Components: main
+Signed-By: $(keyringName codium)
 EOP
+
 
 separaTitulo 1 "Signal-Desktop..."
 
-curl -fsSL https://updates.signal.org/desktop/apt/keys.asc | \
-  sudo apt-key --keyring /etc/apt/trusted.gpg.d/signal-desktop.gpg add -
-sudo tee /etc/apt/sources.list.d/signal-xenial.list << EOP
-deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main
-# deb-src [arch=amd64] https://updates.signal.org/desktop/apt xenial main
+curl -fsSL https://updates.signal.org/desktop/apt/keys.asc \
+  | gpg --dearmor | sudo dd of=$(keyringName signal)
+
+sudo tee /etc/apt/sources.list.d/signal.sources << EOP
+Types: deb
+URIs: https://updates.signal.org/desktop/apt
+Suites: xenial
+Architectures: amd64
+Components: main
+Signed-By: $(keyringName signal)
 EOP
+
 
 separaTitulo 1 "Element-Desktop..."
 
-sudo curl -s -o /etc/apt/trusted.gpg.d/element-archive-keyring.gpg -C - \
+sudo curl -s -o $(keyringName element) -C - \
   https://packages.riot.im/debian/riot-im-archive-keyring.gpg
-echo "deb https://packages.riot.im/debian default main" | \
-  sudo tee /etc/apt/sources.list.d/element.list
+
+sudo tee /etc/apt/sources.list.d/element.sources << EOP
+Types: deb
+URIs: https://packages.riot.im/debian
+Suites: default
+Architectures: i386 amd64
+Components: main
+Signed-By: $(keyringName element)
+EOP
+
 
 separaTitulo 1 "Github cli # groovy..."
 
-sudo apt-key --keyring /etc/apt/trusted.gpg.d/github.gpg \
+sudo apt-key --keyring $(keyringName github) \
   adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-sudo tee /etc/apt/sources.list.d/github.list << EOP
-deb https://cli.github.com/packages $(lsb_release -cs) main
-# deb-src https://cli.github.com/packages $(lsb_release -cs) main
+
+sudo tee /etc/apt/sources.list.d/github.sources << EOP
+Types: deb
+URIs: https://cli.github.com/packages
+Suites: $(lsb_release -cs)
+Architectures: i386 amd64
+Components: main
+Signed-By: $(keyringName github)
 EOP
+
 
 separaTitulo 1 "Syncthing <https://apt.syncthing.net/>..."
 
-sudo curl -s -o /etc/apt/trusted.gpg.d/syncthing.gpg -C - \
+sudo curl -s -o $(keyringName syncthing) -C - \
   https://syncthing.net/release-key.gpg
-sudo tee /etc/apt/sources.list.d/syncthing.list << EOP
-deb https://apt.syncthing.net syncthing stable
-# deb-src https://apt.syncthing.net syncthing stable
+
+sudo tee /etc/apt/sources.list.d/syncthing.sources << EOP
+Types: deb
+URIs: https://apt.syncthing.net
+Suites: syncthing
+Architectures: i386 amd64
+Components: stable
+Signed-By: $(keyringName syncthing)
 EOP
 
-sudo chmod 0644 /etc/apt/sources.list.d/* /etc/apt/trusted.gpg.d/*
+sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
+
 
 {{ if gt .chezmoi.osRelease.versionID "20.04" -}}
   separaTitulo 1 "editing ppas to focal..."
@@ -75,10 +110,17 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /etc/apt/trusted.gpg.d/*
 {{ if gt .chezmoi.osRelease.versionID "20.10" -}}
   separaTitulo 1 "editing ppas to groovy..."
   for list in
-    /etc/apt/sources.list.d/{appimagelauncher,phoerious,papirus,obsproject,sunderme,github}*.list;
+/etc/apt/sources.list.d/{appimagelauncher,phoerious,papirus,obsproject,\
+sunderme}*.list;
   do
     sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
     sort -u | sudo tee $list
+  done
+  for list in
+    /etc/apt/sources.list.d/github.sources ;
+  do
+    sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
+    sudo tee $list
   done
 {{- end }}
 

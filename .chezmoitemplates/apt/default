@@ -1,9 +1,9 @@
 vlc-
 gimp*-
-{{ if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" -}}
+  {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
 firefox-
 thunderbird-
-{{- end }}
+  {{- end }}
 apt-file
 ca-certificates
 curl

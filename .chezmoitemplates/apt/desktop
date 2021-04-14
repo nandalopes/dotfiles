@@ -1,5 +1,5 @@
 sirikali
-{{ if eq "home-PC-N" .chezmoi.hostname -}}
+  {{- if eq .chezmoi.hostname "home-PC-N" }}
 dolphin-plugins
 kdeutils
 kbackup
@@ -8,12 +8,12 @@ kshutdown
 kteatime
 libreoffice-kf5
 kubuntu-restricted-extras
-{{- else -}}
+  {{- else }}
 copyq
 ubuntu-restricted-extras
-{{- end }}
-{{ if ge .chezmoi.osRelease.versionID "21.04" -}}
+  {{- end }}
+  {{- if ge .chezmoi.osRelease.versionID "21.04" }}
 gammastep
-{{- else -}}
+  {{- else }}
 redshift-gtk
-{{- end }}
+  {{- end }}

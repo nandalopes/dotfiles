@@ -6,8 +6,7 @@ zfiles
 scripts/install_dotfiles.sh
 
 {{ if ne .chezmoi.username "nanda" -}}
-.local/share/icons/**/CmapTools.png
-.local/share/applications/CmapTools.desktop
+.local/share/**/CmapTools.*
 #.local/share/applications/Freeplane.desktop
 {{- end }}
 

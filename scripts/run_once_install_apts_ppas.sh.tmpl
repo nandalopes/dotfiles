@@ -131,7 +131,7 @@ sudo apt update
 separaTitulo 1 "Install apts from ppas after lists..."
 
 readarray my_apps -t <<<" {{- template "apt/ppas" . -}} "
-sudo apt install ${my_apps[@]}
+sudo apt install --ignore-missing ${my_apps[@]}
 
 sudo apt install
   {{- if ne .chezmoi.hostname "home-PC-N" }} \

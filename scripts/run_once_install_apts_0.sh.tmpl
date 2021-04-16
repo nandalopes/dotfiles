@@ -7,7 +7,7 @@ sudo mkdir -m0755 --parents /usr/local/share/keyrings
 
 separaTitulo 3 "Install DEFAULT apts..."
 readarray my_apps -t <<<" {{- template "apt/default" . -}} "
-sudo apt install --autoremove ${my_apps[@]}
+sudo apt install --ignore-missing --autoremove ${my_apps[@]}
 sudo apt install --no-install-recommends -y mpv
 
 separaTitulo 1 "requer interação"
@@ -23,7 +23,7 @@ separaTitulo 1 "Install gpgmejson app..."
 
 separaTitulo 1 "Desktop manager..."
 readarray my_apps -t <<<" {{- template "apt/desktop" . -}} "
-sudo apt install --autoremove ${my_apps[@]}
+sudo apt install --autoremove --ignore-missing ${my_apps[@]}
 
 separaTitulo 1 "podem ser compilados..."
 echo sudo apt install direnv fzf tmux
@@ -39,17 +39,17 @@ sudo apt install dirmngr gpg
 
 separaTitulo 1 "BUILD ASDF ruby"
 readarray my_apps -t <<<" {{- template "build_deps/asdf_ruby" . -}} "
-sudo apt install --autoremove ${my_apps[@]}
+sudo apt install --autoremove --ignore-missing ${my_apps[@]}
 
 
 separaTitulo 1 "BUILD dupeguru (without venv)"
-sudo apt install \
+sudo apt install --ignore-missing \
   python3-pyqt5 pyqt5-dev-tools python3-wheel python3-dev build-essential \
   python3-setuptools debhelper
 
 {{ if ge .chezmoi.osRelease.versionID "21.04" -}}
 separaTitulo 1 "BUILD gammastep"
-sudo apt install \
+sudo apt install --ignore-missing \
   autopoint intltool libwayland-dev \
   libxcb1-dev libxcb-randr0-dev \
   libdrm-dev

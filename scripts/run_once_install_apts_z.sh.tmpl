@@ -5,7 +5,7 @@
 
 separaTitulo 3 "MAYBE"
 readarray my_apps -t <<<" {{- template "apt/maybe" . -}} "
-sudo apt install --autoremove ${my_apps[@]}
+sudo apt install --autoremove --ignore-missing ${my_apps[@]}
 
 separaTitulo 1 "Minimize manual"
 sudo apt-mark minimize-manual

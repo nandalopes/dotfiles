@@ -5,7 +5,6 @@ diceware
 doublecmd-{{ .what_gui }}
 exuberant-ctags
 feathernotes
-finch
 fonts-comfortaa
 fonts-emojione
 hardinfo
@@ -18,10 +17,6 @@ nmap
 openjdk-11-jre
 pandoc
 pdfmod
-pidgin
-pidgin-plugin-pack
-purple-discord
-purple-matrix
 speedcrunch
 speedtest-cli
 subnetcalc

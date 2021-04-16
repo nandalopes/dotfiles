@@ -21,7 +21,7 @@ sudo tar --owner=root --group=root -xpjvf {{ .chezmoi.sourceDir -}}
   /zfiles/system/usr/local/xdg-mozilla-browser.tar.bz2 -C/usr/local
 
 sudo ln -nfs ../lib/firefox/firefox /usr/local/bin/firefox
-# sudo ln -nfs ../lib/firefox/firefox-bin /usr/local/bin/firefox-bin
+sudo ln -nfs ../lib/firefox/firefox-bin /usr/local/bin/firefox-bin
 
 {{- end }}
 

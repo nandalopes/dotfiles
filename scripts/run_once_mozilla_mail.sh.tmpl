@@ -21,6 +21,7 @@ sudo tar --owner=root --group=root -xpjvf {{ .chezmoi.sourceDir -}}
   /zfiles/system/usr/local/xdg-mozilla-mail.tar.bz2 -C/usr/local
 
 sudo ln -nfs ../lib/thunderbird/thunderbird /usr/local/bin/thunderbird
+sudo ln -nfs ../lib/thunderbird/thunderbird-bin /usr/local/bin/thunderbird-bin
 
 {{- end }}
 

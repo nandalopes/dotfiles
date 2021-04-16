@@ -130,9 +130,8 @@ sudo apt update
 
 separaTitulo 1 "Install apts from ppas after lists..."
 
-sudo apt install \
-  appimagelauncher codium element-desktop flatpak gh inkscape keepassxc \
-  obs-studio papirus-icon-theme signal-desktop syncthing texstudio
+readarray my_apps -t <<<" {{- template "apt/ppas" . -}} "
+sudo apt install ${my_apps[@]}
 
 sudo apt install
   {{- if ne .chezmoi.hostname "home-PC-N" }} \

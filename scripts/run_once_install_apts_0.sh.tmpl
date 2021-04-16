@@ -18,7 +18,7 @@ separaTitulo 1 "Install gpgmejson app..."
   sudo apt install gpgme-json
 {{- else -}}
   sudo apt install {{ .chezmoi.sourceDir -}}
-    /zfiles/gpg-agent/gpgme-json_*.deb
+    /zfiles/debs/gpgme-json_amd64.deb
 {{- end }}
 
 separaTitulo 1 "Desktop manager..."

@@ -6,6 +6,7 @@ thunderbird-
   {{- end }}
 apt-file
 ca-certificates
+bash-completion
 curl
 dconf-cli
 dkms
@@ -25,6 +26,7 @@ python3-paramiko
 python3-pip
 python3-virtualenv
 rake
+ranger
 silversearcher-ag
 software-properties-common
 texlive-extra-utils

@@ -18,18 +18,24 @@ sudo install -T -m0644 -v \
 {{ $flatpakRemoteAdd }} --installation=nuvola flathub \
   https://flathub.org/repo/flathub.flatpakrepo
 
+
 echo "Flatpaks Gimp..."
 flatpak --installation=default install flathub \
-  org.gimp.GIMP org.gimp.GIMP.Plugin.FocusBlur \
-  org.gimp.GIMP.Plugin.Resynthesizer org.gimp.GIMP.Plugin.GMic
+  org.gimp.GIMP \
+  org.gimp.GIMP.Plugin.FocusBlur//2-40 \
+  org.gimp.GIMP.Plugin.Resynthesizer//2-40 \
+  org.gimp.GIMP.Plugin.GMic//2-40
+
 
 echo "Flatpaks systemwide..."
 flatpak --installation=default install flathub \
   net.scribus.Scribus org.filezillaproject.Filezilla org.shotcut.Shotcut
 
+
 echo "Flatpaks user only..."
 flatpak --user install flathub \
   org.telegram.desktop # com.discordapp.Discord
+
 
 echo "Flatpaks Nuvola Media..."
 sudo flatpak --installation=nuvola install nuvola \

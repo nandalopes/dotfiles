@@ -36,6 +36,12 @@ Components: main
 Signed-By: $(keyringName codium)
 EOP
 
+sudo tee /etc/apt/preferences.d/codium.pref << EOP
+Package: *
+Pin: origin paulcarroty.gitlab.io
+Pin-Priority: 100
+EOP
+
 
 separaTitulo 1 "Signal-Desktop..."
 
@@ -49,6 +55,12 @@ Suites: xenial
 Architectures: amd64
 Components: main
 Signed-By: $(keyringName signal)
+EOP
+
+sudo tee /etc/apt/preferences.d/signal.pref << EOP
+Package: *
+Pin: origin updates.signal.org
+Pin-Priority: 100
 EOP
 
 
@@ -66,6 +78,12 @@ Components: main
 Signed-By: $(keyringName element)
 EOP
 
+sudo tee /etc/apt/preferences.d/element.pref << EOP
+Package: *
+Pin: origin packages.riot.im
+Pin-Priority: 100
+EOP
+
 
 separaTitulo 1 "Github cli # groovy..."
 
@@ -81,6 +99,12 @@ Components: main
 Signed-By: $(keyringName github)
 EOP
 
+sudo tee /etc/apt/preferences.d/github.pref << EOP
+Package: *
+Pin: origin cli.github.com
+Pin-Priority: 100
+EOP
+
 
 separaTitulo 1 "Syncthing <https://apt.syncthing.net/>..."
 
@@ -94,6 +118,12 @@ Suites: syncthing
 Architectures: i386 amd64
 Components: stable
 Signed-By: $(keyringName syncthing)
+EOP
+
+sudo tee /etc/apt/preferences.d/syncthing.pref << EOP
+Package: *
+Pin: origin apt.syncthing.net
+Pin-Priority: 100
 EOP
 
 

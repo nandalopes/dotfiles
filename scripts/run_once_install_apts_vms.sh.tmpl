@@ -17,6 +17,12 @@ Components: stable
 Signed-By: $(keyringName docker)
 EOP
 
+sudo tee /etc/apt/preferences.d/docker.pref << EOP
+Package: *
+Pin: origin download.docker.com
+Pin-Priority: 100
+EOP
+
 {{ if eq .chezmoi.hostname "home-PC-N" -}}
 separaTitulo 1 "VirtualBox # focal..."
 curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | \
@@ -29,6 +35,12 @@ Suites: $(lsb_release -cs)
 Architectures: amd64
 Components: contrib
 Signed-By: $(keyringName vbox_2016)
+EOP
+
+sudo tee /etc/apt/preferences.d/vbox.pref << EOP
+Package: *
+Pin: origin download.virtualbox.org
+Pin-Priority: 100
 EOP
 {{- end }}
 

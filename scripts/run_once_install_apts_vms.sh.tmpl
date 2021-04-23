@@ -50,14 +50,14 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 
 
 {{ if gt .chezmoi.osRelease.versionID "20.04" -}}
-  separaTitulo 1 "editing ppas to focal..."
-  sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
-    /etc/apt/sources.list.d/vbox.sources
+  # separaTitulo 1 "editing ppas to focal..."
+  # sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
+  #   /etc/apt/sources.list.d/vbox.sources
 {{- end }}
 {{ if gt .chezmoi.osRelease.versionID "20.10" -}}
-  separaTitulo 1 "editing ppas to groovy..."
-  sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' \
-    /etc/apt/sources.list.d/docker.sources
+  # separaTitulo 1 "editing ppas to groovy..."
+  # sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' \
+  #   /etc/apt/sources.list.d/docker.sources
 {{- end }}
 
 

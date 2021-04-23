@@ -3,5 +3,10 @@ set guifontwide=FiraCode\ Nerd\ Font\ 11
 
 if has("gui_running")
   set lines=40
-  set columns=96
+  set columns=
+    {{- if regexMatch "home-PC.*" .chezmoi.hostname -}}
+      104
+    {{- else -}}
+      96
+    {{- end }}
 endif

@@ -1,0 +1,3 @@
+Package: *
+Pin: origin desktop-download.mendeley.com
+Pin-Priority: 100

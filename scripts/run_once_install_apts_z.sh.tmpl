@@ -7,6 +7,11 @@ separaTitulo 3 "MAYBE"
 readarray my_apps -t <<<" {{- template "apt/maybe" . -}} "
 sudo apt install --autoremove --ignore-missing ${my_apps[@]}
 
+separaTitulo 1 "Discipline third party repos"
+sudo install -m 0644 -o root -g root -v \
+  --target-directory=/etc/apt/preferences.d/ \
+  {{ .chezmoi.sourceDir }}/zfiles/apt-pref/*
+
 separaTitulo 1 "Minimize manual"
 sudo apt-mark minimize-manual
 

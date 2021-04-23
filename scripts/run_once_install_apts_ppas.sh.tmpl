@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 {{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
@@ -155,7 +155,9 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
   done
 {{- end }}
 
+
 sudo apt update
+
 
 separaTitulo 1 "Install apts from ppas after lists..."
 

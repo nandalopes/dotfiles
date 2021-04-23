@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 {{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
@@ -22,6 +22,7 @@ Package: *
 Pin: origin download.docker.com
 Pin-Priority: 100
 EOP
+
 
 {{ if eq .chezmoi.hostname "home-PC-N" -}}
 separaTitulo 1 "VirtualBox # focal..."
@@ -47,6 +48,7 @@ EOP
 
 sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 
+
 {{ if gt .chezmoi.osRelease.versionID "20.04" -}}
   separaTitulo 1 "editing ppas to focal..."
   sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
@@ -58,7 +60,9 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
     /etc/apt/sources.list.d/docker.sources
 {{- end }}
 
+
 sudo apt update
+
 
 separaTitulo 1 "Install apts for virtualization after lists..."
 sudo apt install \

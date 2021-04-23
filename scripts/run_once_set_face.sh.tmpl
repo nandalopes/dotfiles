@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 {{ if ne .chezmoi.hostname "home-PC-N" -}}
   install -m0644 -T {{ .chezmoi.sourceDir -}}

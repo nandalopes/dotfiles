@@ -29,12 +29,13 @@ flatpak --installation=default install flathub \
 
 echo "Flatpaks systemwide..."
 flatpak --installation=default install flathub \
-  net.scribus.Scribus org.filezillaproject.Filezilla org.shotcut.Shotcut
+  net.scribus.Scribus org.filezillaproject.Filezilla org.shotcut.Shotcut \
+  org.telegram.desktop
 
 
 echo "Flatpaks user only..."
 flatpak --user install flathub \
-  org.telegram.desktop # com.discordapp.Discord
+  com.github.artemanufrij.regextester # com.discordapp.Discord
 
 
 echo "Flatpaks Nuvola Media..."

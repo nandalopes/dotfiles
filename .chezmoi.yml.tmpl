@@ -35,7 +35,11 @@ data:
           ; type 'gammastep -m list' to see all possible values.
 diff:
   format: git
+editor:
+  # command: gvim
 encryption: gpg
 gpg:
   recipient: {{ default "B24CB540944A918E" $gpgkey }}
+  arguments:
+    - --quiet
 sourceDir: "{{ .chezmoi.sourceDir }}"

@@ -37,5 +37,5 @@ diff:
   format: git
 encryption: gpg
 gpg:
-  recipient: {{ default $gpgkey "B24CB540944A918E" }}
+  recipient: {{ default "B24CB540944A918E" $gpgkey }}
 sourceDir: "{{ .chezmoi.sourceDir }}"

@@ -19,10 +19,10 @@ data:
       adjustment:
         method: randr
         comment: |
-          ; Set the adjustment-method: 'randr', 'vidmode'
+          ; Set the adjustment-method: 'randr', 'vidmode'.
+          ; 'randr' is the preferred method, 'vidmode' is an older API that
+          ; works in some cases when 'randr' does not.
           ; type 'redshift -m list' to see all possible values.
-          ; 'randr' is the preferred method, 'vidmode' is an older API.
-          ; but works in some cases when 'randr' does not.
     gammastep:
       global: general
       program: gammastep
@@ -30,8 +30,8 @@ data:
         method: randr
         comment: |
           ; Set the adjustment-method: 'randr', 'vidmode', 'drm', 'wayland'.
-          ; 'randr' is the preferred X11 method, 'vidmode' is an older API
-          ; that works in some cases when 'randr' does not.
+          ; 'randr' is the preferred X11 method, 'vidmode' is an older API that
+          ; works in some cases when 'randr' does not.
           ; type 'gammastep -m list' to see all possible values.
 diff:
   format: git

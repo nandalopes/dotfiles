@@ -19,6 +19,7 @@ checkout =
 
 [.asdf]
 checkout =
+  [ -d '.asdf' ] && rm -rf '.asdf'
   git clone --shallow-since=2020-03-01 -j8 -- \
       'https://github.com/asdf-vm/asdf.git' '.asdf'
 

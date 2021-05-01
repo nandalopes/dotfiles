@@ -6,6 +6,7 @@ options:
   automatic-rename: false
 windows:
 - window_name: devilbox $USER
+  focus: true
   layout: main-vertical
   options:
     main-pane-width: 50%
@@ -15,16 +16,15 @@ windows:
   - shell_command:
     - cd ../devilbox
     - if [[ -f "../ask_devilbox.sh" ]]; then
-    -  "../ask_devilbox.sh"
+    -   "../ask_devilbox.sh"
     - fi
     focus: true
 - window_name: public_html
-  focus: true
   panes:
   - shell_command:
     - for p in */public_html; do
     -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n';
-      echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
+        echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
     - done
     - tmux selectl -t 2.2 tiled
-    - tmux killp -t 2.1
+    - neofetch

@@ -10,8 +10,6 @@ data:
     {{- eq .chezmoi.hostname "home-PC-N" | ternary "en-US" "pt-BR" -}}
   "
   my_bin_dir: "{{ default "$HOME/bin" $bin | expandenv }}"
-  thefuck: "{{ default "please" $fuck }}"
-  what_gui: "{{ eq .chezmoi.hostname "home-PC-N" | ternary "qt" "gtk" }}"
   screen:
     redshift:
       global: redshift
@@ -33,13 +31,15 @@ data:
           ; 'randr' is the preferred X11 method, 'vidmode' is an older API that
           ; works in some cases when 'randr' does not.
           ; type 'gammastep -m list' to see all possible values.
-diff:
-  format: git
-editor:
+  thefuck: "{{ default "please" $fuck }}"
+  what_gui: "{{ eq .chezmoi.hostname "home-PC-N" | ternary "qt" "gtk" }}"
+# diff:
+#   format: git
+edit:
   # command: gvim
 encryption: gpg
 gpg:
   recipient: {{ default "B24CB540944A918E" $gpgkey }}
-  arguments:
+  args:
     - --quiet
 sourceDir: "{{ .chezmoi.sourceDir }}"

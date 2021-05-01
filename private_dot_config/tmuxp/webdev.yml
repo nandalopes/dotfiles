@@ -14,7 +14,8 @@ windows:
   panes:
   - shell_command:
     - for p in */; do
-    -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules'; ${SHELL}"
+    -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules';
+      ${SHELL}"
     - done
     - tmux selectp -t 2.2
     - tmux selectl -t 2 main-vertical

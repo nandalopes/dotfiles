@@ -11,5 +11,11 @@ windows:
   - shell_command:
     - htop
   - shell_command:
-    - cls
+    - cd /var/log
+    - clear
+    - ls -ltr **/*log
+    - tail -f ufw.log | grep -iE "$( LC_ALL=C date +%b\ %d ).*ufw
+                                  (block|audit)\]"
     focus: true
+  - shell_command:
+    - neofetch

@@ -1,3 +1,4 @@
+language-pack-pt
 sirikali
   {{- if eq .chezmoi.hostname "home-PC-N" }}
 dolphin-plugins

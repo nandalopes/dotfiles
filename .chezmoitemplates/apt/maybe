@@ -1,6 +1,11 @@
 audacity
 convertall
+debhelper
 deborphan
+  {{- if ge .chezmoi.osRelease.versionID "21.04" }}
+default-jdk
+  {{- end }}
+default-jre
 diceware
 doublecmd-{{ .what_gui }}
 exuberant-ctags
@@ -13,13 +18,8 @@ luckybackup
 mediainfo-gui
 meld
 mtr-tiny
+neofetch
 nmap
-  {{- if ge .chezmoi.osRelease.versionID "21.04" }}
-openjdk-16-jdk
-  {{- else }}
-openjdk-14-jdk
-  {{- end }}
-openjdk-11-jre
 pandoc
 pdfmod
 speedcrunch

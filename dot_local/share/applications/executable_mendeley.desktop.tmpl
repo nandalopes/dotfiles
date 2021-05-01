@@ -2,7 +2,8 @@
 Name=Mendeley
 GenericName=Research Paper Manager
 Comment=Mendeley Desktop is software for managing and sharing research papers
-Exec=env XDG_CONFIG_HOME=$HOME/.config-light /home/nanda/.local/share/mendeleydesktop %f
+Exec=env XDG_CONFIG_HOME=$HOME/.config-light {{ .chezmoi.homeDir -}}
+  /.local/share/mendeleydesktop %f
 Icon=mendeleydesktop
 Terminal=false
 Type=Application

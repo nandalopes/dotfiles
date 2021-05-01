@@ -3,28 +3,27 @@ README.md
 install.sh
 docs
 zfiles
-scripts/install_dotfiles.sh
 
-{{ if ne .chezmoi.username "nanda" -}}
+  {{- if ne .chezmoi.username "nanda" }}
 .local/share/**/CmapTools.*
-#.local/share/applications/Freeplane.desktop
-{{- end }}
+# .local/share/applications/Freeplane.desktop
+  {{- end }}
 
-{{ if ge .chezmoi.osRelease.versionID "21.04" -}}
+  {{- if ge .chezmoi.osRelease.versionID "21.04" }}
 **/redshift*
-{{- else -}}
+  {{- else }}
 **/gammastep*
-{{- end }}
+  {{- end }}
 
-{{ if ne .chezmoi.hostname "home-PC-N" -}}
+  {{- if ne .chezmoi.hostname "home-PC-N" }}
 .config/user-dirs.locale
 Desktop/Home.desktop
 Desktop/trash.desktop
-{{- else if eq .chezmoi.username "nanda" -}}
+  {{- else if eq .chezmoi.username "nanda" }}
 Projects/www/ask_devilbox.sh
-{{- end }}
+  {{- end }}
 
-{{ if not .has_keybase -}}
+  {{- if not .has_keybase }}
 **/keybase*
 **/keybase/*
-{{- end }}
+  {{- end }}

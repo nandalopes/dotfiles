@@ -5,21 +5,28 @@ checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
 update = git pull --rebase
 uninstall = sudo ./remove-driver.sh
 install = sudo ./install-driver.sh
-upgrade = sudo ./remove-driver.sh; sudo ./install-driver.sh
+upgrade =
+  sudo ./remove-driver.sh
+  sudo ./install-driver.sh
 
 [88x2bu]
 checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
 update = git pull --rebase
 uninstall = sudo ./remove-driver.sh
 install = sudo ./install-driver.sh
-upgrade = sudo ./remove-driver.sh; sudo ./install-driver.sh
+upgrade =
+  sudo ./remove-driver.sh
+  sudo ./install-driver.sh
 
 
 ##### Programas #####
 [chezmoi]
 checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
 skip = lazy
-update = git pull --rebase
+update =
+  git pull --rebase
+  git fetch --tags
+  git describe --abbrev=0 --tags
 clean = make clean
 make = make build-linux
 install =
@@ -34,9 +41,14 @@ skip = lazy
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
 skip = lazy
-update = git pull --rebase
+update =
+  git pull --rebase
+  git fetch --tags
+  git describe --abbrev=0 --tags
 clean = make clean
-make = make; chmod a+rX -R ./
+make =
+  make
+  chmod a+rX -R ./
 install = sudo make install PREFIX=/usr/local
 
 [pass]
@@ -47,8 +59,13 @@ install = sudo make install PREFIX=/usr/local
 [tmux]
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
 skip = lazy
+update =
+  git checkout master
+  git fetch --tags
+  git describe --abbrev=0 --tags
 clean = make clean
 make =
+  git checkout $(git describe --abbrev=0 --tags)
   sh autogen.sh
   ./configure --prefix=/usr/local
   make
@@ -68,7 +85,10 @@ install =
 
 [fzf]
 checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
-update = git pull --tags --rebase
+update =
+  git pull --rebase
+  git fetch --tags
+  git describe --abbrev=0 --tags
 clean = make clean
 make = make
 install = make install
@@ -106,7 +126,9 @@ install =
 checkout = git clone 'https://gitlab.com/chinstrap/gammastep.git' 'gammastep'
 skip = lazy || (test `whoami` != nanda)
 update = git pull --rebase
-clean = make clean; git clean -df
+clean =
+  make clean
+  git clean -df
 make =
   ./bootstrap
   if [ -z $1 ]; then
@@ -120,7 +142,7 @@ install = make install || sudo make install
 
 [iperf3]
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
-skip = lazy || (test `whoami` != nanda)
+skip = lazy || (test $(whoami) != nanda)
 update = git pull --rebase
 clean = make clean
 make =
@@ -139,7 +161,10 @@ checkout =
   git clone --recurse-submodules -j8 -- \
       'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
 skip = lazy
-update = git pull --rebase
+update =
+  git pull --rebase
+  git fetch --tags
+  git describe --abbrev=0 --tags
 make =
   yarn install
   yarn run sync

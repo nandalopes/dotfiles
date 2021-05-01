@@ -1,3 +1,8 @@
+### Tilix path
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+  source /etc/profile.d/vte*.sh
+fi
+
 ### The Fuck config
 if [ -x "$(command -v thefuck)"  ]; then
   eval $(thefuck --alias "{{ .thefuck -}}")
@@ -40,3 +45,4 @@ eval "$(_TMUXP_COMPLETE=source_{{ .shell }} tmuxp)"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh ] && \
   source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh
 {{- end }}
+

@@ -21,6 +21,11 @@ checkout =
   git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
   git config remotes.up   'upstream lfilho akita vovin'
 
+[.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus]
+checkout = true
+update = true
+make = ./build -w -s -d docker
+
 
 [.asdf]
 checkout =

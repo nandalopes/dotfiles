@@ -10,13 +10,17 @@ checkout =
   git clone --branch=mine --no-single-branch -j8 -- \
       'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
   cd '.yadr'
+  # config
+  git config receive.denyCurrentBranch    warn
   # remotes
+  git remote add local \
+      'ssh://nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
   git remote add upstream 'https://github.com/skwp/dotfiles.git'
-  git remote add local    'ssh://nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
   git remote add lfilho   'https://github.com/lfilho/dotfiles.git'
   git remote add akita    'https://github.com/akitaonrails/dotfiles.git'
   git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
-  git config remotes.up "upstream lfilho akita vovin"
+  git config remotes.up   'upstream lfilho akita vovin'
+
 
 [.asdf]
 checkout =

@@ -146,7 +146,7 @@ alias vou_dormir='sleep 55m && systemctl
 
 alias freeplane.sh='~/bin/freeplane/freeplane.sh'
 
-alias buku_server='docker-compose --file ~/bin/buku/docker-compose.yml'
+alias buku_server='docker-compose --file ~/bin/docker-files/buku.yml'
 
 docker-stop-all() {
   docker ps --all | awk 'NR > 1 {print $1}' | \

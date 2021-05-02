@@ -5,6 +5,8 @@
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh ] && \
   source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh
 
+### Source ~/.aliases
+[ -f ~/.aliases ] && source ~/.aliases
 
 ### fix linux prompt
 # if [[ $terminfo[colors] == 8 ]]; then prompt skwp; fi

@@ -14,7 +14,6 @@ case "$TERM" in
   # xterm*)
   #   ;;
   linux)
-    [ -n "$FBTERM" ] && export TERM=fbterm
     prompt skwp
     ;;
 esac

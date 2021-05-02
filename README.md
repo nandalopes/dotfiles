@@ -18,9 +18,9 @@ In case of not having `chezmoi` installed - Just firing the
 
 ```bash
 # Using Curl
-sh -c "$(curl -fsSL https://git.io/JOLn2)"
+sh -c "$(curl -fsSL https://git.io/J3BNH)"
 # OR Using Wget
-sh -c "$(wget -qO- https://git.io/JOLn2)"
+sh -c "$(wget -qO- https://git.io/J3BNH)"
 
 # Optional parameters:
 # DOTFILES_USER

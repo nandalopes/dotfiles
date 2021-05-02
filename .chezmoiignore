@@ -1,6 +1,7 @@
 LICENSE
 README.md
 install.sh
+bin/scripts/install_dotfiles.sh
 docs
 zfiles
 

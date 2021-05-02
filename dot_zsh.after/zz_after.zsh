@@ -11,15 +11,8 @@
 ### fix linux prompt
 # if [[ $terminfo[colors] == 8 ]]; then prompt skwp; fi
 case "$TERM" in
-  xterm*)
-    if [ -e /usr/share/terminfo/x/xterm+256color ]; then
-      export TERM=xterm-256color
-    elif [ -e /usr/share/terminfo/x/xterm-color ]; then
-      export TERM=xterm-color;
-    else
-      export TERM=xterm
-    fi
-    ;;
+  # xterm*)
+  #   ;;
   linux)
     [ -n "$FBTERM" ] && export TERM=fbterm
     prompt skwp

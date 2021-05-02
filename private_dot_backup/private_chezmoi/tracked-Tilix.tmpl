@@ -1,9 +1,16 @@
 [/]
 backspace-binding='ascii-delete'
 enable-wide-handle=true
-encodings=['UTF-8']
+encodings=['UTF-8', 'ISO-8859-1', 'WINDOWS-1252']
 exit-action='close'
 quake-active-monitor=false
+quake-alignment='
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    center
+  {{- else -}}
+    left
+  {{- end -}}
+'
 quake-height-percent=70
 quake-hide-headerbar=false
 quake-keep-on-top=false

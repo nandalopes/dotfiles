@@ -18,7 +18,11 @@ quake-show-on-all-workspaces=true
 quake-specific-monitor=0
 quake-width-percent=75
 quake-window-position='
-  {{- regexMatch "home-PC.*" .chezmoi.hostname | ternary "bottom" "top" -}}
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    bottom
+  {{- else -}}
+    top
+  {{- end -}}
 '
 terminal-title-show-when-single=false
 terminal-title-style='small'

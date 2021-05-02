@@ -26,12 +26,16 @@
     "inhibit-desktop-hibernation": false,
     "lpd-enabled": false,
     "main-window-height":
-    {{- eq .chezmoi.hostname "netha-A14CR" | ternary " 500" " 700" -}}
+        {{- if (regexMatch "^home-PC" .chezmoi.hostname ) }} 700
+        {{- else }} 500
+        {{- end -}}
     ,
     "main-window-is-maximized": false,
     "main-window-layout-order": "menu,toolbar,filter,list,statusbar",
     "main-window-width":
-    {{- eq .chezmoi.hostname "netha-A14CR" | ternary " 600" " 900" -}}
+        {{- if (regexMatch "^home-PC" .chezmoi.hostname ) }} 900
+        {{- else }} 600
+        {{- end -}}
     ,
     "main-window-x": 50,
     "main-window-y": 50,
@@ -39,10 +43,14 @@
     "open-dialog-dir": "{{ .chezmoi.homeDir }}",
     "peer-id-ttl-hours": 6,
     "peer-limit-global":
-    {{- eq .chezmoi.hostname "netha-A14CR" | ternary " 200" " 300" -}}
+        {{- if (regexMatch "^home-PC" .chezmoi.hostname ) }} 300
+        {{- else }} 200
+        {{- end -}}
     ,
     "peer-limit-per-torrent":
-    {{- eq .chezmoi.hostname "netha-A14CR" | ternary " 50" " 80" -}}
+        {{- if (regexMatch "^home-PC" .chezmoi.hostname ) }} 80
+        {{- else }} 50
+        {{- end -}}
     ,
     "peer-port": 51413,
     "peer-port-random-high": 65535,

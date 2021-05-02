@@ -17,6 +17,7 @@ bin/scripts/calibre-install.sh
   {{- end }}
 
   {{- if ne .chezmoi.hostname "home-PC-N" }}
+.config/spectaclerc
 .config/user-dirs.locale
 Desktop/Home.desktop
 Desktop/trash.desktop

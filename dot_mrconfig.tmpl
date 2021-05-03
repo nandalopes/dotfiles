@@ -26,6 +26,11 @@ checkout = true
 update = true
 make = ./build -w -s -d docker
 
+[bin/chezmoi-dotfiles]
+checkout =
+  ln -nfs $(chezmoi --source-path) 'chezmoi-dotfiles'
+  cd 'chezmoi-dotfiles'
+  git config receive.denyCurrentBranch  warn
 
 [.asdf]
 checkout =

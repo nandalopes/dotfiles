@@ -37,6 +37,10 @@ forceInstall =
 [git-cola]
 checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
 skip = lazy
+make =
+  make prefix=$HOME/.local PYTHON=python3 build man
+install =
+  make prefix=$HOME/.local PYTHON=python3 install install-man
 
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'

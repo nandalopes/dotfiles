@@ -41,6 +41,13 @@ make =
   make prefix=$HOME/.local PYTHON=python3 build man
 install =
   make prefix=$HOME/.local PYTHON=python3 install install-man
+virtualenv =
+  virtualenv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
+  . {{ .my_bin_dir }}/.cola-test/bin/activate
+  for rfile in requirements/requirements*.txt ; do
+    pip install -r $rfile
+  done
+  deactivate
 
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'

@@ -48,6 +48,14 @@ virtualenv =
     pip install -r $rfile
   done
   deactivate
+test =
+  # [ -d {{ .my_bin_dir }}/.cola-test ] || mr -d $PWD pretest
+  if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
+    mr -d $PWD virtualenv
+  fi
+  . {{ .my_bin_dir }}/.cola-test/bin/activate
+  make test
+  deactivate
 
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'

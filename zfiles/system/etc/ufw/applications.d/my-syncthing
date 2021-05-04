@@ -1,9 +1,9 @@
-[syncthing]
+[my-syncthing]
 title=Syncthing
 description=Syncthing file synchronisation
 ports=22000:22050/tcp|21027/udp
 
-[syncthing-gui]
+[my-syncthing-gui]
 title=Syncthing-GUI
 description=Syncthing web gui
 ports=8384,8483/tcp

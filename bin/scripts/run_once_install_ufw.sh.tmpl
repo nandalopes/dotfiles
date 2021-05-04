@@ -52,8 +52,8 @@ $ufw_limit proto udp to $basic_ipv4 from $basic_ipv4 comment 'UPnP Play'
 separaTitulo 3 "Liberando apps da LAN..."
 lan_apps=(
   OpenSSH
-  syncthing
-  syncthing-gui
+  my-syncthing
+  my-syncthing-gui
   {{ if eq .chezmoi.hostname "home-PC-N" -}}
     KDE_Connect
   {{- end }}

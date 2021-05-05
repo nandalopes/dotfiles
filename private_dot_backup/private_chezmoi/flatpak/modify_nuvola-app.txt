@@ -1,0 +1,6 @@
+#!/bin/sh
+
+flatpak list --installation=nuvola --app --columns=ref \
+  | grep --color=never --invert-match '^Ref$'
+
+exit 0

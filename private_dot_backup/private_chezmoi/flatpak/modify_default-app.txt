@@ -1,0 +1,6 @@
+#!/bin/sh
+
+flatpak list --installation=default --app --columns=ref \
+  | grep --color=never --invert-match '^Ref$'
+
+exit 0

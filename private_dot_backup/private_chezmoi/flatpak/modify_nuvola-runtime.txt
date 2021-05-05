@@ -1,0 +1,6 @@
+#!/bin/sh
+
+flatpak list --installation=nuvola --runtime --columns=ref \
+  | grep --color=never --invert-match '^Ref$\|.Locale.'
+
+exit 0

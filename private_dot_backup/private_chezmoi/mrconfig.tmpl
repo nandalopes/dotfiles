@@ -34,29 +34,6 @@ install =
 forceInstall =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
 
-[git-cola]
-checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
-skip = lazy
-make =
-  make prefix=$HOME/.local PYTHON=python3 build man
-install =
-  make prefix=$HOME/.local PYTHON=python3 install install-man
-virtualenv =
-  virtualenv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
-  . {{ .my_bin_dir }}/.cola-test/bin/activate
-  for rfile in requirements/requirements*.txt ; do
-    pip install -r $rfile
-  done
-  deactivate
-test =
-  # [ -d {{ .my_bin_dir }}/.cola-test ] || mr -d $PWD pretest
-  if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
-    mr -d $PWD virtualenv
-  fi
-  . {{ .my_bin_dir }}/.cola-test/bin/activate
-  make test
-  deactivate
-
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
 skip = lazy
@@ -121,6 +98,28 @@ install =
   ln -nfs $PWD/funcoeszz $HOME/.local/bin/funcoeszz
   LC_ALL=C ./funcoeszz zzzz --zshrc --bashrc
   git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
+
+[git-cola]
+order = 79
+checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
+skip = lazy
+make =
+  make prefix=$HOME/.local PYTHON=python3 build man
+install =
+  make prefix=$HOME/.local PYTHON=python3 install install-man
+pre_test =
+  if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
+    virtualenv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
+    . {{ .my_bin_dir }}/.cola-test/bin/activate
+    for req in requirements/requirements*.txt ; do
+      pip install -r $req
+    done
+    deactivate
+  fi
+test =
+  . {{ .my_bin_dir }}/.cola-test/bin/activate
+  make test
+  deactivate
 
 [dupeguru]
 order = 89

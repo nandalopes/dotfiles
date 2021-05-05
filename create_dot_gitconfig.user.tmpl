@@ -18,12 +18,13 @@
   fontdiff = FiraCode Nerd Font,9,-1,5,50,0,0,0,0,0
   blameviewer = git gui blame
   expandtab = false
-  # tabsize = 2
+  tabsize = 4
     {{- if ne .chezmoi.hostname "home-PC-N" }}
   theme = flat-dark-blue
     {{- end }}
-  statusindent = false
   spellcheck = false
+  linebreak = false
+  statusindent = true
 [merge]
   tool = gvimdiff
 [protocol "keybase"]

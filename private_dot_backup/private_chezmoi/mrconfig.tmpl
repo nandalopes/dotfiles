@@ -104,9 +104,9 @@ order = 79
 checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
 skip = lazy
 make =
-  make prefix=$HOME/.local PYTHON=python3 build man
+  PYTHON=python3 prefix=$HOME/.local make build doc
 install =
-  make prefix=$HOME/.local PYTHON=python3 install install-man
+  PYTHON=python3 prefix=$HOME/.local make install install-doc
 pre_test =
   if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
     virtualenv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test

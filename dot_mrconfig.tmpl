@@ -1,46 +1,89 @@
 
 [DEFAULT]
 bundleall =
-  git bundle create ${1:-$HOME/Downloads/BKP}/$(basename \
+  git bundle create --all ${1:-$HOME/Downloads/BKP}/$(basename \
       $(git rev-parse --show-toplevel) \
-  ).gitrepo.$(date +%+4Y%m%d-%H%M) --all
+  ).gitrepo.$(date +%+4Y%m%d-%H%M)
 
 [.yadr]
 checkout =
-  git clone --branch=mine --no-single-branch -j8 -- \
+  git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
       'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
+post_checkout =
   cd '.yadr'
-  # config
-  git config receive.denyCurrentBranch    warn
   # remotes
   git remote add local \
-      'ssh://nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
+      'nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
   git remote add upstream 'https://github.com/skwp/dotfiles.git'
   git remote add lfilho   'https://github.com/lfilho/dotfiles.git'
   git remote add akita    'https://github.com/akitaonrails/dotfiles.git'
   git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
+  # config
   git config remotes.up   'upstream lfilho akita vovin'
+  git config receive.denyCurrentBranch   warn
+  git config receive.denyNonFastforwards false
+install = rake install
 
-[.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus]
+[.zprezto]
+chain = true
 checkout = true
+pre_update = git checkout master
+update =
+  git pull --ff-only
+  git submodule update --init --recursive
+
+[ {{- .my_bin_dir -}} /gitstatus]
+checkout =
+  ln -nfs \
+  $HOME/.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus \
+  'gitstatus'
 update = true
+status =
+  git status
+  git describe --abbrev=0 --tags
 make = ./build -w -s -d docker
 
 [bin/chezmoi-dotfiles]
 checkout =
-  ln -nfs $(chezmoi --source-path) 'chezmoi-dotfiles'
+  ln -nfs $(chezmoi source-path) 'chezmoi-dotfiles'
+post_checkout =
   cd 'chezmoi-dotfiles'
-  git config receive.denyCurrentBranch  warn
+  git config receive.denyCurrentBranch warn
+
 
 [.asdf]
+pre_checkout =
+  if [ -d '.asdf/installs' ]; then
+    mkdir -p ${TMPDIR:-/tmp}/asdf-bkp
+    mv -t ${TMPDIR:-/tmp}/asdf-bkp .asdf/installs/{direnv,tmux}
+  fi
+  rm -rf '.asdf'
 checkout =
-  [[ -d '.asdf' ]] && rm -rf '.asdf'
   git clone --shallow-since=2020-03-01 -j8 -- \
       'https://github.com/asdf-vm/asdf.git' '.asdf'
+post_checkout =
+  mv -t .asdf/installs ${TMPDIR:-/tmp}/asdf-bkp/* || true
+install =
+  ASDF_DIR="$HOME/.asdf"
+  # Dont source `~/.asdf/asdf.sh`
+  PATH="$ASDF_DIR/bin:$PATH"
+  . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
+  for plug in direnv tmux nodejs yarn golang ruby
+      {{- if eq .chezmoi.username "nanda" }} rust neovim
+      {{- else }} php
+      {{- end -}}
+    ; do
+    asdf plugin add $plug
+  done
+  asdf reshim
+
 
 [Projects/www/devilbox]
 checkout =
-  git clone --shallow-since=2015 --config core.sharedRepository=group -j8 -- \
+  git clone --shallow-since=2015 -j8 -- \
       'https://github.com/cytopia/devilbox' 'devilbox'
+post_checkout =
+  cd 'devilbox'
+  git config core.sharedRepository group
 skip = lazy
 

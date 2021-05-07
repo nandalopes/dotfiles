@@ -68,8 +68,8 @@ install =
   # Dont source `~/.asdf/asdf.sh`
   PATH="$ASDF_DIR/bin:$PATH"
   . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
-  for plug in direnv tmux nodejs yarn golang ruby
-      {{- if eq .chezmoi.username "nanda" }} rust neovim
+  for plug in direnv nodejs yarn golang ruby
+      {{- if eq .chezmoi.username "nanda" }} tmux rust neovim
       {{- else }} php
       {{- end -}}
     ; do

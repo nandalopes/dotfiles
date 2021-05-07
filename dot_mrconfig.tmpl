@@ -7,6 +7,10 @@ bundleall =
 make = make
 Clean = make clean
 
+[ALIAS]
+up = update
+
+
 [.yadr]
 checkout =
   git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
@@ -22,9 +26,9 @@ post_checkout =
   git remote add akita    'https://github.com/akitaonrails/dotfiles.git'
   git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
   # config
-  git config remotes.up   'upstream lfilho akita vovin'
   git config receive.denyCurrentBranch   warn
   git config receive.denyNonFastforwards false
+  git config remotes.up                  'upstream lfilho akita vovin'
 
 [.zprezto]
 checkout = true
@@ -57,11 +61,10 @@ checkout =
       'https://github.com/asdf-vm/asdf.git' '.asdf'
 install =
   ASDF_DIR="$HOME/.asdf"
-  # Dont source `~/.asdf/asdf.sh`
   PATH="$ASDF_DIR/bin:$PATH"
-  . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
+    . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
   for plug in direnv nodejs yarn golang ruby
-      {{- if eq .chezmoi.username "nanda" }} tmux rust neovim
+      {{- if eq .chezmoi.username "nanda" }} tmux neovim vim rust
       {{- else }} php
       {{- end -}}
     ; do
@@ -69,13 +72,8 @@ install =
   done
   asdf reshim
 pre_checkout =
-  if [ -d '.asdf/installs' ]; then
-    mkdir -p ${TMPDIR:-/tmp}/asdf-bkp
-    mv -t ${TMPDIR:-/tmp}/asdf-bkp .asdf/installs/{direnv,tmux}
-  fi
-  rm -rf '.asdf'
-post_checkout =
-  mv -t .asdf/installs ${TMPDIR:-/tmp}/asdf-bkp/* || true
+  rm -rf .asdf/installs/{direnv,tmux}
+  rmdir -p .asdf/installs
 
 
 [Projects/www/devilbox]
@@ -83,6 +81,7 @@ skip = lazy
 checkout =
   git clone --shallow-since=2015 -j8 -- \
       'https://github.com/cytopia/devilbox' 'devilbox'
+update = git pull --rebase
 post_checkout =
   cd 'devilbox'
   git config core.sharedRepository group

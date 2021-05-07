@@ -3,6 +3,9 @@
 make = make
 Clean = make clean
 
+[ALIAS]
+up = update
+
 
 ##### DRIVERS #####
 [8812au]
@@ -32,7 +35,6 @@ update = git pull --rebase
 make = make build-linux
 installChez =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
-#   GOOS=linux GOARCH=amd64 go build -o ${1:-$HOME/.local/bin}/chezmoi .
 post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
@@ -56,10 +58,11 @@ installsudo = sudo make install PREFIX=/usr/local
 skip = lazy
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
 installsudo = sudo make install
-pre_make =
+make =
   git checkout ${1:-$(git describe --abbrev=0 --tags)}
   sh autogen.sh
-  ./configure --prefix=/usr/local
+  ./configure --prefix=${2:-/usr/local}
+  make -j4
 pre_update = git checkout master
 post_update =
   git fetch --tags
@@ -102,18 +105,19 @@ testCola =
   . {{ .my_bin_dir }}/.cola-test/bin/activate
   make test
   deactivate
-pre_make =
-  echo 'PYTHON = python3'      | tee    ./config.mak
-  echo 'prefix =' $HOME/.local | tee -a ./config.mak
-  echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
-pre_install =
-  echo 'PYTHON = python3'      | tee    ./config.mak
-  echo 'prefix =' $HOME/.local | tee -a ./config.mak
-  echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
+lib =
+  case $MR_ACTION in
+    make|install)
+      echo 'PYTHON = python3'      | tee    ./config.mak
+      echo 'prefix =' $HOME/.local | tee -a ./config.mak
+      echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
+      ;;
+    *)
+  esac
 pre_testCola =
   if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
     python3 -m venv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
-    . {{ .my_bin_dir }}/.cola-test/bin/activate
+      . {{ .my_bin_dir }}/.cola-test/bin/activate
     for req in $MR_REPO/requirements/requirements*.txt ; do
       pip install -r $req
     done
@@ -122,10 +126,8 @@ pre_testCola =
   true
 post_checkout =
   cd 'git-cola'
-  git remote add fork https://github.com/nandalopes/git-cola.git
+  git remote add fork 'https://github.com/nandalopes/git-cola.git'
   git config core.sharedRepository group
-post_make = rm -v ./config.mak
-post_install = rm -v ./config.mak
 
 [dupeguru]
 skip = lazy
@@ -151,9 +153,8 @@ update = git pull --rebase
 Clean =
   make clean
   git clean -df
-makesudo = make || sudo make
 installsudo = make install || sudo make install
-pre_makesudo =
+makesudo =
   ./bootstrap
   if [ -z $1 ]; then
     ./configure --prefix=/usr/local
@@ -163,19 +164,21 @@ pre_makesudo =
   else
     ./configure --prefix=$1
   fi
+  make
 
 [iperf3]
 skip = lazy || (test $(whoami) != nanda)
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
 update = git pull --rebase
-installsudo = make install || sudo make install
-pre_make =
+make =
   if [ -z $1 ]; then
     ./configure --prefix=$HOME/.local
   else
     ./configure --prefix=$1
   fi
-post_make = chmod a+rX -R ./
+  make
+installsudo = make install || sudo make install
+post_make = chmod a+rX -R .
 
 [drawio-desktop]
 skip = lazy
@@ -199,9 +202,10 @@ order = 99
 checkout =
   git clone --branch=OpenSSL_1_0_2-stable -j8 -- \
       'https://github.com/openssl/openssl.git' 'OpenSSL_1_0'
-makeSSL = make -j4
 installSSL = make install || sudo make install
-pre_makeSSL = ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
+makeSSL =
+  ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
+  make -j4
 post_checkout =
   cd 'OpenSSL_1_0'
   git config core.sharedRepository group

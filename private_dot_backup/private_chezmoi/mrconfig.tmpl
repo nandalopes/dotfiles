@@ -3,18 +3,18 @@
 [8812au]
 checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
 update = git pull --rebase
-driverUninstall = sudo ./remove-driver.sh
-driverInstall = sudo ./install-driver.sh
-driverUpgrade =
+installDriver = sudo ./install-driver.sh
+uninstallDriver = sudo ./remove-driver.sh
+upgradeDriver =
   sudo ./remove-driver.sh
   sudo ./install-driver.sh
 
 [88x2bu]
 checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
 update = git pull --rebase
-driverUninstall = sudo ./remove-driver.sh
-driverInstall = sudo ./install-driver.sh
-driverUpgrade =
+installDriver = sudo ./install-driver.sh
+uninstallDriver = sudo ./remove-driver.sh
+upgradeDriver =
   sudo ./remove-driver.sh
   sudo ./install-driver.sh
 
@@ -29,7 +29,7 @@ post_update =
   git describe --abbrev=0 --tags
 clean = make clean
 make = make build-linux
-chezInstall =
+installChez =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
 #   GOOS=linux GOARCH=amd64 go build -o ${1:-$HOME/.local/bin}/chezmoi .
 
@@ -44,12 +44,12 @@ clean = make clean
 make =
   make
   chmod a+rX -R ./
-sudoInstall = sudo make install PREFIX=/usr/local
+installsudo = sudo make install PREFIX=/usr/local
 
 [pass]
 checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
 skip = lazy
-sudoInstall = sudo make install PREFIX=/usr/local
+installsudo = sudo make install PREFIX=/usr/local
 
 [tmux]
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
@@ -64,7 +64,7 @@ make =
   ./configure --prefix=/usr/local
   make
 post_make = git checkout master
-sudoInstall = sudo make install
+installsudo = sudo make install
 
 [bukubrow-host]
 checkout =
@@ -116,7 +116,7 @@ pre_install =
   echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
 post_make = rm -v ./config.mak
 post_install = rm -v ./config.mak
-pre_colaTest =
+pre_testCola =
   if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
     python3 -m venv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
     . {{ .my_bin_dir }}/.cola-test/bin/activate
@@ -126,7 +126,7 @@ pre_colaTest =
     deactivate
   fi
   true
-colaTest =
+testCola =
   . {{ .my_bin_dir }}/.cola-test/bin/activate
   make test
   deactivate
@@ -147,7 +147,7 @@ make =
 post_make =
   mv -v build/dupeguru*.deb build/dupeguru.deb
   mv -v build/dupeguru-dbgsym*.ddeb build/dupeguru-dbgsym.ddeb
-sudoInstall =
+installsudo =
   sudo apt install ./build/dupeguru.deb
 
 [gammastep]
@@ -157,7 +157,7 @@ update = git pull --rebase
 clean =
   make clean
   git clean -df
-sudoMake =
+makesudo =
   ./bootstrap
   if [ -z $1 ]; then
     ./configure --prefix=$HOME/.local \
@@ -166,7 +166,7 @@ sudoMake =
     ./configure --prefix=$1
   fi
   make
-sudoInstall = make install || sudo make install
+installsudo = make install || sudo make install
 
 [iperf3]
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
@@ -181,7 +181,7 @@ make =
   fi
   make
   chmod a+rX -R ./
-sudoInstall = make install || sudo make install
+installsudo = make install || sudo make install
 
 [drawio-desktop]
 checkout =
@@ -212,8 +212,8 @@ post_checkout =
   git remote update
 skip = lazy
 clean = make clean
-sslMake =
+makeSSL =
   ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
   make -j4
-sslInstall = make install || sudo make install
+installSSL = make install || sudo make install
 

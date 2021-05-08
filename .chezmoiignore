@@ -26,7 +26,3 @@ Desktop/trash.desktop
 Projects/www/ask_devilbox.sh
   {{- end }}
 
-  {{- if not .has_keybase }}
-**/keybase*
-**/keybase/*
-  {{- end }}

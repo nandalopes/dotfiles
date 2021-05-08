@@ -110,8 +110,9 @@ alias  upg_apt='sudo apt update && sudo apt upgrade -y'
 alias upg_flat='flatpak -y update'
 alias  upg_pip='
   {{- .my_bin_dir }}/venv/bin/pip3 install --upgrade docker-compose \
-  && sudo -H pip3 install --upgrade youtube-dl wakatime tmuxp pynvim && \
-  pip3 install --user --upgrade buku poku thefuck'
+  && sudo -H pip3 install --upgrade --upgrade-strategy=eager \
+    youtube-dl wakatime tmuxp pynvim \
+  && pip3 install --user --upgrade buku poku thefuck'
 
 alias  upg_all='upg_apt && sudo snap refresh && upg_pip && upg_flat'
 

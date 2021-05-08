@@ -70,5 +70,11 @@ sudo apt install \
     virtualbox-6.1
   {{- end }}
 
+separaTitulo 3 "docker-compose virtualenv..."
+virtualenv --system-site-packages --symlink-app-data --clear {{ .my_bin_dir -}}
+  /venv
+{{ .my_bin_dir -}}/venv/bin/pip install --upgrade docker-compose
+
+
 exit 0
 

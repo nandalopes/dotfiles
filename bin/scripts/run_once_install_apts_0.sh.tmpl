@@ -42,6 +42,10 @@ separaTitulo 1 "BUILD ASDF ruby"
 readarray my_apps -t <<<" {{- template "build_deps/asdf_ruby" -}} "
 sudo apt install --autoremove --ignore-missing ${my_apps[@]}
 
+separaTitulo 1 "BUILD ASDF php"
+readarray my_apps -t <<<" {{- template "build_deps/asdf_php" -}} "
+sudo apt install --autoremove --ignore-missing ${my_apps[@]}
+
 
 separaTitulo 1 "BUILD dupeguru"
 sudo apt install --ignore-missing \

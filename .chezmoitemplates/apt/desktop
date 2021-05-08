@@ -1,5 +1,4 @@
 language-pack-pt
-sirikali
   {{- if eq .chezmoi.hostname "home-PC-N" }}
 dolphin-plugins
 kdeutils
@@ -18,3 +17,4 @@ gammastep
   {{- else }}
 redshift-gtk
   {{- end }}
+sirikali

@@ -25,7 +25,7 @@ EOP
 
 
 {{ if eq .chezmoi.hostname "home-PC-N" -}}
-separaTitulo 1 "VirtualBox # focal..."
+separaTitulo 3 "VirtualBox # focal..."
 curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | \
   sudo apt-key --keyring $(keyringName vbox_2016) add -
 
@@ -50,21 +50,20 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 
 
 {{ if gt .chezmoi.osRelease.versionID "20.04" -}}
-  # separaTitulo 1 "editing ppas to focal..."
+  # separaTitulo 3 "editing ppas to focal..."
   # sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' \
   #   /etc/apt/sources.list.d/vbox.sources
 {{- end }}
 {{ if gt .chezmoi.osRelease.versionID "20.10" -}}
-  # separaTitulo 1 "editing ppas to groovy..."
+  # separaTitulo 3 "editing ppas to groovy..."
   # sudo sed -i 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' \
   #   /etc/apt/sources.list.d/docker.sources
 {{- end }}
 
-
 sudo apt update
 
 
-separaTitulo 1 "Install apts for virtualization after lists..."
+separaTitulo 3 "Install apts for virtualization after lists..."
 sudo apt install \
   containerd.io docker-ce docker-ce-cli
   {{- if eq .chezmoi.hostname "home-PC-N" }} \

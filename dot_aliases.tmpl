@@ -104,12 +104,6 @@ alias cfg_light='2>/dev/null gvim ${XDG_CONFIG_HOME:-$HOME/.config}/
 '
 alias   cfg_mpv='2>/dev/null gvim ~/.config/mpv/mpv.{conf,profile.conf}'
 
-{{ if eq .chezmoi.hostname "home-PC-N" -}}
-## KDE only
-## https://askubuntu.com/a/481738
-alias piti_do_plasma='kquitapp5 plasmashell || \
-  killall plasmashell && kstart5 plasmashell'
-{{- end }}
 
 ## Package management
 alias  upg_apt='sudo apt update && sudo apt upgrade -y'
@@ -129,25 +123,19 @@ alias  clear_pkgs='sudo apt-mark minimize-manual && sudo apt autoremove -y && \
   flat_system remove --unused && flat_user remove --unused && \
   flat_nuvola remove --unused'
 
-# Novos aliases
-#alias volta_wifi='sudo dkms install rtl8812au/4.3.8.12175.20140902+dfsg'
 
+## WIFI
+#alias volta_wifi='sudo dkms install rtl8812au/5.9.3.2'
+#alias volta_wifi='sudo dkms install rtl88x2bu/5.8.7.4'
+
+## ASDF
 #alias source_asdf='source ~/.asdf/asdf.sh'
+alias update-nvim-stable='asdf uninstall neovim stable && \
+  asdf install neovim stable'
+alias update-rust-stable='asdf uninstall rust stable && \
+  asdf install rust stable'
 
-alias escrever_here='2> /dev/null texstudio **/*.tex &'
-
-alias vou_dormir='sleep 55m && systemctl
-  {{- if eq .chezmoi.hostname "home-PC-N" }} \
-    poweroff
-  {{- else }} \
-    suspend
-  {{- end -}}
-'
-
-alias freeplane.sh='~/bin/freeplane/freeplane.sh'
-
-alias buku_server='docker-compose --file ~/bin/docker-files/buku.yml'
-
+## Docker
 docker-stop-all() {
   docker ps --all | awk 'NR > 1 {print $1}' | \
     xargs -r docker rm
@@ -160,8 +148,39 @@ docker-clean() {
     xargs --no-run-if-empty docker rmi
 }
 
+alias buku_server='docker-compose --file ~/bin/docker-files/buku.yml'
+alias jelly='docker-compose --file ~/bin/docker-files/jellyfin.yml'
+
+
+  {{- if eq .chezmoi.hostname "home-PC-N" }}
+
+## KDE only
+## https://askubuntu.com/a/481738
+alias piti_do_plasma='kquitapp5 plasmashell || \
+  killall plasmashell && kstart5 plasmashell'
+
+## Diversos
+alias vou_dormir='sleep 55m && systemctl poweroff'
+  {{- else }}
+
+## Diversos
+alias vou_dormir='sleep 35m && systemctl suspend'
+  {{- end }}
+
+alias escrever_here='2> /dev/null texstudio **/*.tex &'
+
+alias freeplane.sh='~/bin/freeplane/freeplane.sh'
+
 alias tmux-mvert='tmux select-layout main-vertical'
 alias tmux-mhori='tmux select-layout main-horizontal'
+
+alias xournal='
+  {{- if gt .chezmoi.osRelease.versionID "20.04" -}}
+    flatpak --system run com.github.xournalpp.xournalpp
+  {{- else -}}
+    xournalpp
+  {{- end -}}
+'
 
 alias irpf2021='java -jar {{ .chezmoi.homeDir -}}/bin/IRPF2021/irpf.jar'
 

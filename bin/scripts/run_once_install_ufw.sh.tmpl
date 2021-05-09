@@ -72,19 +72,12 @@ $ufw_allow to $basic_ipv6 from $basic_ipv6 app KDE_Connect
   {{- end }}
 
 separaTitulo 1 HTTP
-$ufw_allow to $basic_ipv4 from $basic_ipv4 port http \
-  comment 'Site navigation from repeater'
-$ufw_allow to $basic_ipv4 from $basic_ipv4 port https \
-  comment 'Site navigation from repeater'
-$ufw_limit to $basic_ipv4 from any port http  comment 'Site navigation'
-$ufw_limit to $basic_ipv4 from any port https comment 'Site navigation'
-# ipv6
-$ufw_allow to $basic_ipv6 from $basic_ipv6 port http \
-  comment 'Site navigation from repeater'
-$ufw_allow to $basic_ipv6 from $basic_ipv6 port https \
-  comment 'Site navigation from repeater'
-$ufw_limit to $basic_ipv6 from any port http  comment 'Site navigation'
-$ufw_limit to $basic_ipv6 from any port https comment 'Site navigation'
+for d in $basic_ipv4 $basic_ipv6 ; do
+  for p in http https; do
+    $ufw_limit to $d from any port $p comment 'Site navigation'
+    $ufw_allow to $d from $d  port $p comment 'Site navigation from repeater'
+  done
+done
 
 # separaTitulo 3 RSync
 # $ufw_allow to $basic_ipv4 from $basic_ipv4 port rsync comment 'RSync'

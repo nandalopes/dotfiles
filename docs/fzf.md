@@ -1,5 +1,7 @@
 # [fzf](https://github.com/junegunn/fzf)
 
+BUILD dep: go 1.13.x
+
 ```sh
 apt install -y fzf
 

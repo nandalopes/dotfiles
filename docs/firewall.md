@@ -100,3 +100,20 @@ following commands:
        [36] allow log to ff02::fb app avahi comment 'Bonjour discover'
        [37] allow log from any app DLNA to ff02::f comment 'UPnP discover ipv6'
     
+
+# Extra info
+
+
+    multicast
+    ff12::8384 is a MULTICAST address
+    ff02::/80
+
+    dig redevirtual.ufba.br 200.128.63.4
+    inetrev 200.128.56.0/21
+    intranet mask: 192.168.177.0/24
+
+    sudo ufw show added
+
+    sudo ufw show listening
+    sudo ufw status numbered
+    sudo ufw status verbose

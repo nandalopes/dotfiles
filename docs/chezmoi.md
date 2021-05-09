@@ -18,28 +18,27 @@ curl -sfL https://git.io/chezmoi | sh
 
 ~/.local/bin/chezmoi apply -v
 ```
+### Install
 
-## Install
-
-With wget:
+With wget:  
 `
 wget 'https://git.io/chezmoi' -O - | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
 `
 
-With curl:
+With curl:  
 `
 curl -sfL 'https://git.io/chezmoi' | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
 `
 
-## Completions
+### Completions
 
-### ZSH completions
+**ZSH completions**
 `
 $HOME/.local/bin/chezmoi completion  zsh --output
   $HOME/.local/share/zsh/site-functions/_chezmoi
 `
 
-### BASH completions
+**BASH completions**
 `
 $HOME/.local/bin/chezmoi completion bash --output
   $HOME/.local/share/bash-completion/completions/chezmoi

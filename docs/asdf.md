@@ -11,7 +11,6 @@ git clone --shallow-since=2020-03-01 -- 'https://github.com/asdf-vm/asdf.git' \
 cd ~/.asdf
 git checkout "$(git describe --abbrev=0 --tags)"
 
-# echo ". $HOME/.asdf/asdf.sh" >>| ~/.zsh.after/env.zsh
 ```
 
 **Fix compinit blaming:**
@@ -27,10 +26,10 @@ git checkout "$(git describe --abbrev=0 --tags)"
 
 ### Projetos
 
-- golang *1.13.x*
+- golang *1.16.x*, *1.13.x*
 - nodejs *10.x*, *8.x*, *6.x*
   - yarn *1.22.5*, *1.0.x*
-- ruby *2.5.x*, *1.8.x*, *1.9.x*
+- ruby *2.6.6*, *2.5.x*, *1.8.x*, *1.9.x*
 - rust stable
 
 ## [Plugins utilizados](https://asdf-vm.com/#/plugins-all)
@@ -39,7 +38,7 @@ git checkout "$(git describe --abbrev=0 --tags)"
 
 ```sh
 source ~/.asdf/asdf.sh
-asdf shell golang 1.13.
+asdf shell golang 1.16.x
 
 make
 make test
@@ -56,8 +55,8 @@ ln -nfs /usr/local/bin/tmux ~/.asdf/installs/tmux/system/bin/tmux`
 
 ### [golang](https://github.com/kennyp/asdf-golang.git)
 
-- **direnv compilation support**
-- fzf compilation support
+- **direnv compilation support** - version 1.16.x
+- fzf compilation support - version 1.13.x
 
 ### [nodejs](https://github.com/asdf-vm/asdf-nodejs.git)
 
@@ -105,5 +104,6 @@ sudo apt install -y libreadline-dev zlib1g-dev libncurses-dev libgdbm-dev
 ### [tmux](https://github.com/aphecetche/asdf-tmux.git)
 
 - dotfiles-yadr tests
-- `sudo apt install -y autoconf automake pkg-config libevent-dev libncurses-dev`
+- `sudo apt install -y autoconf automake pkg-config libevent-dev libncurses-dev
+  bison`
 

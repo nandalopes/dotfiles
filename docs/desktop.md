@@ -74,12 +74,11 @@ cp -r ~/.config/Code/User ~/.config/VSCodium/.
 
 ## System
 
-| Programa        | Caminho no Repo     | Caminho no sistema                                        |
-| --------------- | ------------------- | --------------------------------------------------------- |
-| ddclient        | s/n/ddclient.conf   | /etc/ddclient.conf                                        |
-| Network Manager | s/n/resolved.conf   | /etc/systemd/resolved.conf                                |
-| Network Manager | s/n/ppp-options     | /etc/ppp/options                                          |
-| Network Manager | s/n/vpn*            | /etc/NetworkManager/system-connections/vpn*.nmconnection  |
-| Aliases         | t/z/aliases.zsh     | ~/.zsh.after/aliases.zsh                                  |
-|                 |                     |                                                           |
+| Programa        | Caminho no Repo     | Caminho no sistema                 |
+| --------------- | ------------------- | ---------------------------------- |
+| ddclient        | s/n/ddclient.conf   | /etc/ddclient.conf                 |
+| Network Manager | s/n/resolved.conf   | /etc/systemd/resolved.conf         |
+| Network Manager | s/n/ppp-options     | /etc/ppp/options                   |
+| Network Manager | s/n/vpn*            | /etc/Net/sys-con/vpn*.nmconnection |
+|                 |                     |                                    |
 

@@ -3,28 +3,26 @@
 {{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
 
+separaTitulo 3 "Special applications..."
 sudo install -m 0644 -o root -g root -v \
   --target-directory=/etc/ufw/applications.d/ \
-  {{ .chezmoi.sourceDir }}/zfiles/system/etc/ufw/applications.d/*
+  {{ .chezmoi.sourceDir -}} /zfiles/system/etc/ufw/applications.d/*
+
+sudo ufw logging high --limit 5/min
+sudo ufw app list
+
+# Set aliases/vars
+ufw_allow="sudo ufw allow log"
+ufw_limit="sudo ufw limit log"
 
 basic_ipv4="{{ .ipv4.mask }}"
 basic_ipv6="fe80::/64"
 multi_ipv6="ff02::/80"
-# multicast
-# ff12::8384 is a MULTICAST address
-# ff02::/80
 basic_rfc4=(
   "10.0.0.0/8"
   "172.16.0.0/12"
   "192.168.0.0/16"
 )
-
-ufw_allow="sudo ufw allow log"
-ufw_limit="sudo ufw limit log"
-
-
-sudo ufw logging high --limit 5/min
-sudo ufw app list
 
 
 separaTitulo 3 "LAN config..."
@@ -35,15 +33,15 @@ $ufw_limit to ::/128 port dhcpv6-client from ::/128 port dhcpv6-server \
   comment 'DHCP v6'
 
 separaTitulo 1 DNS
-$ufw_limit to $basic_ipv4 from ${basic_ipv4/0\/24/1} port domain
+$ufw_limit to $basic_ipv4 from {{ .ipv4.base }}.1 port domain
 
 separaTitulo 1 "Multicast DNS/Avahi/Bonjour"
-$ufw_limit to any port mdns from $basic_ipv4 comment 'Bonjour discover'
+$ufw_limit to any         port mdns from $basic_ipv4 comment 'Bonjour discover'
 $ufw_limit to $multi_ipv6 port mdns from $basic_ipv6 comment 'Bonjour discover'
 # $ufw_limit to ff02::fb port mdns from any   comment 'Bonjour discover'
 
 separaTitulo 1 UPnP
-$ufw_limit from $basic_ipv4 app DLNA comment 'UPnP discover'
+$ufw_limit        from $basic_ipv4 app DLNA comment 'UPnP discover'
 $ufw_limit to $multi_ipv6 from any app DLNA comment 'UPnP discover ipv6'
 $ufw_limit proto udp to $basic_ipv4 from $basic_ipv4 comment 'UPnP Play'
 # $ufw_allow to ff02::f from any app DLNA comment 'UPnP discover ipv6'
@@ -54,9 +52,9 @@ lan_apps=(
   OpenSSH
   my-syncthing
   my-syncthing-gui
-  {{ if eq .chezmoi.hostname "home-PC-N" -}}
-    KDE_Connect
-  {{- end }}
+    {{- if eq .chezmoi.hostname "home-PC-N" }}
+  KDE_Connect
+    {{- end }}
 )
 for ap in ${lan_apps[@]}; do
   separaTitulo 1 $ap
@@ -94,9 +92,9 @@ $ufw_limit to $basic_ipv6 from any port https comment 'Site navigation'
 
 
 separaTitulo 3 "Liberando protocolos específicos..."
-for d in igmp udp ; do
-  $ufw_allow proto $d from "${basic_ipv4/0\/24/1}" to 224.0.0.1 \
-    comment 'udp f=43092 t=21027'
+for p in igmp udp ; do
+  $ufw_allow proto $p from "{{ .ipv4.base }}.1" to 224.0.0.1 \
+    comment 'syncthing?'
 done
 for d in "224.0.0.251" "239.255.255.250" ; do
   for s in "${basic_rfc4[@]}" ; do
@@ -108,9 +106,9 @@ done
 separaTitulo 3 "Liberando apps da internet..."
 net_apps=(
   Transmission
-  {{ if eq .chezmoi.hostname "home-PC-N" -}}
-    KTorrent
-  {{- end }}
+    {{- if eq .chezmoi.hostname "home-PC-N" }}
+  KTorrent
+    {{- end }}
 )
 for ap in ${net_apps[@]}; do
   separaTitulo 1 $ap
@@ -127,17 +125,13 @@ separaTitulo 1 "torrents"
 $ufw_limit proto tcp to $basic_ipv4 from any comment 'transmission'
 $ufw_limit proto tcp to $basic_ipv6 from any comment 'transmission'
 
+# separaTitulo 1 "Routed"
 # $ufw_limit to $basic_ipv4 from any port route
 # $ufw_limit to $basic_ipv6 from any port route
 
 
 separaTitulo 3 "Finalizando..."
 sudo ufw enable
-sudo ufw show added
-#sudo ufw show listening
-
-#sudo ufw status numbered
-#sudo ufw status verbose
 
 exit 0
 

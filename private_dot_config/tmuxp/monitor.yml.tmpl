@@ -6,7 +6,13 @@ windows:
 - window_name: "Hello $USER!"
   layout: main-vertical
   options:
-    main-pane-width: 50%
+    main-pane-width: "
+      {{- if le .chezmoi.osRelease.versionID "20.04" -}}
+    80
+      {{- else -}}
+    50%
+      {{- end -}}
+    "
   panes:
   - shell_command:
     - htop

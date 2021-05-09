@@ -8,7 +8,13 @@ windows:
   start_directory: $HOME/Projects/webdev
   focus: true
   options:
-    main-pane-width: 50%
+    main-pane-width: "
+      {{- if le .chezmoi.osRelease.versionID "20.04" -}}
+    80
+      {{- else -}}
+    50%
+      {{- end -}}
+    "
   shell_before_command:
     - umask 007
   panes:

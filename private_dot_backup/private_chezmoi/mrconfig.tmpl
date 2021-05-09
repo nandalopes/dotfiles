@@ -54,16 +54,16 @@ installsudo = sudo make install PREFIX=/usr/local
 [tmux]
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
 skip = lazy
+pre_update = git checkout master
 post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
 clean = make clean
-pre_make = git checkout $(git describe --abbrev=0 --tags)
+pre_make = git checkout ${1:-$(git describe --abbrev=0 --tags)}
 make =
   sh autogen.sh
   ./configure --prefix=/usr/local
   make
-post_make = git checkout master
 installsudo = sudo make install
 
 [bukubrow-host]

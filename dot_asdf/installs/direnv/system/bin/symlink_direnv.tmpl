@@ -1,1 +1,5 @@
-/usr/bin/direnv
+/usr
+  {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" -}}
+/local
+  {{- end -}}
+/bin/direnv

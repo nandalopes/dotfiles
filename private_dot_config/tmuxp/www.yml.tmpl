@@ -21,9 +21,7 @@ windows:
     - htop --user=$USER
   - shell_command:
     - cd ../devilbox
-    - if [[ -f "../ask_devilbox.sh" ]]; then
-    -   "../ask_devilbox.sh"
-    - fi
+    - if [[ -f "../ask_devilbox.sh" ]]; then "../ask_devilbox.sh"; fi
     focus: true
 - window_name: public_html
   panes:

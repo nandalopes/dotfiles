@@ -21,57 +21,51 @@ upgradeDriver =
 
 ##### Programas #####
 [chezmoi]
-checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
 skip = lazy
+checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
 update = git pull --rebase
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
-clean = make clean
 make = make build-linux
 installChez =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
 #   GOOS=linux GOARCH=amd64 go build -o ${1:-$HOME/.local/bin}/chezmoi .
-
-[direnv]
-checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
-skip = lazy
-update = git pull --rebase
 post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
-clean = make clean
-make =
-  make
-  chmod a+rX -R ./
+
+[direnv]
+skip = lazy
+checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
+update = git pull --rebase
 installsudo = sudo make install PREFIX=/usr/local
+post_update =
+  git fetch --tags
+  git describe --abbrev=0 --tags
+post_make = chmod a+rX -R .
 
 [pass]
-checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
 skip = lazy
+checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
 installsudo = sudo make install PREFIX=/usr/local
 
 [tmux]
-checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
 skip = lazy
+checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
+installsudo = sudo make install
+pre_make =
+  git checkout ${1:-$(git describe --abbrev=0 --tags)}
+  sh autogen.sh
+  ./configure --prefix=/usr/local
 pre_update = git checkout master
 post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
-clean = make clean
-pre_make = git checkout ${1:-$(git describe --abbrev=0 --tags)}
-make =
-  sh autogen.sh
-  ./configure --prefix=/usr/local
-  make
-installsudo = sudo make install
 
 [bukubrow-host]
+skip = lazy
 checkout =
   git clone 'https://github.com/samhh/bukubrow-host.git' 'bukubrow-host'
-skip = lazy
 update = git pull --rebase
-clean = cargo clean
+Clean = cargo clean
 make = cargo build --release
 install =
   cp -v target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
@@ -80,12 +74,10 @@ install =
 [fzf]
 checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
 update = git pull --rebase
+install = make install
 post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
-clean = make clean
-make = make
-install = make install
 
 [funcoeszz]
 order = 69
@@ -96,16 +88,15 @@ install =
 post_install = git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
 
 [git-cola]
-checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
-post_checkout =
-  cd 'git-cola'
-  git remote add fork https://github.com/nandalopes/git-cola.git
-  git config core.sharedRepository group
-order = 79
 skip = lazy
-clean = make clean
+order = 79
+checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
 make = make build doc
 install = make install install-doc
+testCola =
+  . {{ .my_bin_dir }}/.cola-test/bin/activate
+  make test
+  deactivate
 pre_make =
   echo 'PYTHON = python3'      | tee    ./config.mak
   echo 'prefix =' $HOME/.local | tee -a ./config.mak
@@ -114,8 +105,6 @@ pre_install =
   echo 'PYTHON = python3'      | tee    ./config.mak
   echo 'prefix =' $HOME/.local | tee -a ./config.mak
   echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
-post_make = rm -v ./config.mak
-post_install = rm -v ./config.mak
 pre_testCola =
   if ! [ -d {{ .my_bin_dir }}/.cola-test ]; then
     python3 -m venv --system-site-packages --clear {{ .my_bin_dir }}/.cola-test
@@ -126,94 +115,92 @@ pre_testCola =
     deactivate
   fi
   true
-testCola =
-  . {{ .my_bin_dir }}/.cola-test/bin/activate
-  make test
-  deactivate
+post_checkout =
+  cd 'git-cola'
+  git remote add fork https://github.com/nandalopes/git-cola.git
+  git config core.sharedRepository group
+post_make = rm -v ./config.mak
+post_install = rm -v ./config.mak
 
 [dupeguru]
+skip = lazy
 order = 89
 checkout =
   git clone --depth=50 -j8 -- \
       'https://github.com/arsenetar/dupeguru.git' 'dupeguru'
-skip = lazy
-clean = make clean
-pre_make =
-  python3 -m venv --system-site-packages --clear ./env
-  ./env/bin/pip install -r requirements.txt -r requirements-extra.txt
 make =
   ./env/bin/python build.py --clean
   ./env/bin/python package.py
+installsudo = sudo apt install ./build/dupeguru.deb
+pre_make =
+  python3 -m venv --system-site-packages --clear ./env
+  ./env/bin/pip install -r requirements.txt -r requirements-extra.txt
 post_make =
   mv -v build/dupeguru*.deb build/dupeguru.deb
   mv -v build/dupeguru-dbgsym*.ddeb build/dupeguru-dbgsym.ddeb
-installsudo =
-  sudo apt install ./build/dupeguru.deb
 
 [gammastep]
-checkout = git clone 'https://gitlab.com/chinstrap/gammastep.git' 'gammastep'
 skip = lazy || (test `whoami` != nanda)
+checkout = git clone 'https://gitlab.com/chinstrap/gammastep.git' 'gammastep'
 update = git pull --rebase
-clean =
+Clean =
   make clean
   git clean -df
-makesudo =
+makesudo = make || sudo make
+installsudo = make install || sudo make install
+pre_makesudo =
   ./bootstrap
   if [ -z $1 ]; then
-    ./configure --prefix=$HOME/.local \
+    ./configure --prefix=/usr/local
+  else if [ "${1#$HOME}" != "$1" ]; then
+    ./configure --prefix=$1
                 --with-systemduserunitdir=$HOME/.config/systemd/user
   else
     ./configure --prefix=$1
   fi
-  make
-installsudo = make install || sudo make install
 
 [iperf3]
-checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
 skip = lazy || (test $(whoami) != nanda)
+checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
 update = git pull --rebase
-clean = make clean
-make =
+installsudo = make install || sudo make install
+pre_make =
   if [ -z $1 ]; then
     ./configure --prefix=$HOME/.local
   else
     ./configure --prefix=$1
   fi
-  make
-  chmod a+rX -R ./
-installsudo = make install || sudo make install
+post_make = chmod a+rX -R ./
 
 [drawio-desktop]
+skip = lazy
 checkout =
   git clone --recurse-submodules -j8 -- \
       'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
-skip = lazy
 update = git pull --rebase
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
 make =
   yarn install
   yarn run sync
   yarn run release-linux --linux AppImage --x64
+post_update =
+  git fetch --tags
+  git describe --abbrev=0 --tags
 
 
 ##### Old Ruby Devel #####
 [OpenSSL_1_0]
+skip = lazy
 order = 99
 checkout =
   git clone --branch=OpenSSL_1_0_2-stable -j8 -- \
       'https://github.com/openssl/openssl.git' 'OpenSSL_1_0'
+makeSSL = make -j4
+installSSL = make install || sudo make install
+pre_makeSSL = ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
 post_checkout =
   cd 'OpenSSL_1_0'
   git config core.sharedRepository group
   git remote set-branches origin \
-      OpenSSL_1_0_0-stable OpenSSL_1_0_1-stable OpenSSL_1_0_2-stable
+      'OpenSSL_1_0_0-stable OpenSSL_1_0_1-stable OpenSSL_1_0_2-stable'
   git remote update
-skip = lazy
-clean = make clean
-makeSSL =
-  ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
-  make -j4
-installSSL = make install || sudo make install
 

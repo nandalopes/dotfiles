@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pip completion --zsh
+
+exit 0

@@ -1,0 +1,23 @@
+#compdef direnv
+
+# setopt -eu
+
+function _direnv {
+local direnv
+local -a comp_list
+
+direnv="\
+allow[Grants direnv to load the given .envrc]
+deny[Revokes the auhorization of a given .envrc]
+edit[Edits .envrc]
+help[shows this help]
+hook[Used to setup the shell hook]
+reload[triggers an env reload]
+status[prints some debug status informations]
+stdlib[Displays the stdlib available in the .envrc execution context]"
+
+comp_list=( ${(f)direnv} )
+_values 'direnv subcmds' "$comp_list[@]"
+}
+
+_direnv "$@"

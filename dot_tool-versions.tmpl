@@ -1,5 +1,5 @@
 direnv system
 tmux system
-{{ if eq .chezmoi.username "nanda" -}}
-  neovim stable system
-{{- end }}
+  {{- if eq .chezmoi.username "nanda" }}
+neovim stable system
+  {{- end }}

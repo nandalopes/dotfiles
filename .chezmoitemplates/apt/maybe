@@ -27,3 +27,4 @@ speedtest-cli
 subnetcalc
 traceroute
 transmission-{{ .what_gui }}
+vrms

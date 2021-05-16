@@ -157,7 +157,7 @@ pre_makesudo =
   ./bootstrap
   if [ -z $1 ]; then
     ./configure --prefix=/usr/local
-  else if [ "${1#$HOME}" != "$1" ]; then
+  elif [ "${1#$HOME}" != "$1" ]; then
     ./configure --prefix=$1
                 --with-systemduserunitdir=$HOME/.config/systemd/user
   else

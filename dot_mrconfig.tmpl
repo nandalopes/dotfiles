@@ -79,11 +79,11 @@ post_checkout =
 
 
 [Projects/www/devilbox]
+skip = lazy
 checkout =
   git clone --shallow-since=2015 -j8 -- \
       'https://github.com/cytopia/devilbox' 'devilbox'
 post_checkout =
   cd 'devilbox'
   git config core.sharedRepository group
-skip = lazy
 

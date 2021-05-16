@@ -1,7 +1,7 @@
 
 [DEFAULT]
 bundleall =
-  git bundle create --all ${1:-$HOME/Downloads/BKP}/$(basename \
+  git bundle create --all ${1:-$HOME/Sync/system/repos}/$(basename \
       $(git rev-parse --show-toplevel) \
   ).gitrepo.$(date +%+4Y%m%d-%H%M)
 make = make

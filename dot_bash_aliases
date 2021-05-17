@@ -131,4 +131,4 @@ alias gz='tar -zcvf'
 # asdf
 alias aua='asdf update --head && asdf plugin-update --all'
 alias ala='asdf list-all'
-alias rlv="asdf list-all ruby | rg '^\d'"
+alias rlv="asdf list-all ruby | ag '^\d'"

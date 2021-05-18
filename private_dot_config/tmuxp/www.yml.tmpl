@@ -5,30 +5,32 @@ start_directory: $HOME/Projects/www/data
 options:
   automatic-rename: false
 windows:
-- window_name: devilbox $USER
-  focus: true
-  layout: main-vertical
-  options:
-    main-pane-width: "
-      {{- if le .chezmoi.osRelease.versionID "20.04" -}}
-    80
-      {{- else -}}
-    50%
-      {{- end -}}
-    "
-  panes:
-  - shell_command:
-    - htop --user=$USER
-  - shell_command:
-    - cd ../devilbox
-    - if [[ -f "../ask_devilbox.sh" ]]; then "../ask_devilbox.sh"; fi
+  - window_name: devilbox $USER
+    layout: main-vertical
+    options:
+      main-pane-width: "
+        {{- if le .chezmoi.osRelease.versionID "20.04" -}}
+      80
+        {{- else -}}
+      50%
+        {{- end -}}
+      "
+    panes:
+      - shell_command:
+        - htop --user=$USER
+      - shell_command:
+        - cd ../devilbox
+        - if [[ -f '../ask_devilbox.sh' ]]; then
+        -   '../ask_devilbox.sh'
+        - fi
+        focus: true
+  - window_name: public_html
     focus: true
-- window_name: public_html
-  panes:
-  - shell_command:
-    - for p in */public_html; do
-    -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n';
-        echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
-    - done
-    - tmux selectl -t 2.2 tiled
-    - neofetch
+    panes:
+      - shell_command:
+        - for p in */public_html; do
+        -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n';
+            echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
+        - done
+        - tmux selectl -t 2 tiled
+        - neofetch

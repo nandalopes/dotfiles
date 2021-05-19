@@ -66,9 +66,9 @@ sudo apt update
 separaTitulo 3 "Install apts for virtualization after lists..."
 sudo apt install \
   containerd.io docker-ce docker-ce-cli
-  {{- if eq .chezmoi.hostname "home-PC-N" }} \
-    virtualbox-6.1
-  {{- end }}
+    {{- if eq .chezmoi.hostname "home-PC-N" }} \
+  virtualbox-6.1
+    {{- end }}
 
 separaTitulo 3 "docker-compose virtualenv..."
 virtualenv --system-site-packages --clear {{ .my_bin_dir -}}/venv

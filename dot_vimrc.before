@@ -1,5 +1,5 @@
 let g:session_autosave='no'
-let g:snipMate = { 'snippet_version' : 0 }
+let g:snipMate = { 'snippet_version' : 1 }
 
 set textwidth=80
 set colorcolumn+=80

@@ -108,13 +108,13 @@ alias   cfg_mpv='2>/dev/null gvim ~/.config/mpv/mpv.{conf,profile.conf}'
 ## Package management
 alias  upg_apt='sudo apt update && sudo apt upgrade -y'
 alias upg_flat='flatpak -y update'
-alias  upg_pip='
-    {{- if eq .chezmoi.username "nanda" }}
-  {{- .my_bin_dir -}}/venv/bin/pip3 install --upgrade docker-compose \
+alias  upg_pip='pip3 install --user --upgrade buku poku thefuck
+    {{- if eq .chezmoi.username "nanda" }} \
   && sudo -H pip3 install --upgrade --upgrade-strategy=eager \
-    youtube-dl wakatime tmuxp pynvim && \
-    {{ end -}}
-  pip3 install --user --upgrade buku poku thefuck'
+     pynvim tmuxp ranger-fm youtube-dl wakatime \
+  && {{ .my_bin_dir -}}/venv/bin/pip3 install --upgrade docker-compose
+    {{- end -}}
+'
 
 alias  upg_all='upg_apt && upg_pip && upg_flat'
 

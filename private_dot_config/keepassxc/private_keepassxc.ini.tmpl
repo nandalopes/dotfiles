@@ -9,7 +9,12 @@ CustomProxyLocation=
 Enabled=true
 
 [FdoSecrets]
-Enabled=true
+Enabled=
+{{- if eq .chezmoi.hostname "home-PC-N" -}}
+  true
+{{- else -}}
+  false
+{{- end }}
 
 [GUI]
 ApplicationTheme=dark

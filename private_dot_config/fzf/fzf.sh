@@ -53,7 +53,7 @@ get_buku_ids() {
 }
 
 # buku open
-fb() {
+fbo() {
   # save newline separated string into an array
   ids=( $(get_buku_ids) )
   [[ -z $ids ]] && return 0 # return if has no bookmark selected

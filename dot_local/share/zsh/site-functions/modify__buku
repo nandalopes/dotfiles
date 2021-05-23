@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-curl -fsL 'https://github.com/jarun/buku/raw/master/auto-completion/zsh/_buku'
-
-exit 0

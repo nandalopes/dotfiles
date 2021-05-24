@@ -1,7 +1,7 @@
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-{{ if ne .chezmoi.username "nanda" -}}
-  umask 007
-{{- else -}}
+{{ if eq .chezmoi.username "nanda" -}}
   umask 027
+{{- else -}}
+  umask 007
 {{- end }}

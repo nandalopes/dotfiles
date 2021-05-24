@@ -8,8 +8,8 @@ if [ -d "$HOME/.local/bin" ] ; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
-### LIBVA problem on mpv
+# LIBVA problem on mpv
 [[ -z "$LIBVA_DRIVER_NAME" ]] && export LIBVA_DRIVER_NAME=i965
 
-# export DEVILBOX_PATH="$HOME/Projects/devilbox"
+# export DEVILBOX_PATH="$HOME/Projects/www/devilbox"
 export PASSWORD_STORE_CLIP_TIME=30

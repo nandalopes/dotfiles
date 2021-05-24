@@ -15,12 +15,12 @@ separaTitulo 1 "requer interação"
 sudo apt install ddclient
 
 separaTitulo 1 "Install gpgmejson app..."
-{{ if ge .chezmoi.osRelease.versionID "20.10" -}}
-  sudo apt install gpgme-json
-{{- else -}}
-  sudo apt install {{ .chezmoi.sourceDir -}}
-    /zfiles/debs/gpgme-json_amd64.deb
-{{- end }}
+  {{- if ge .chezmoi.osRelease.versionID "20.10" }}
+sudo apt install gpgme-json
+  {{- else }}
+sudo apt install {{ .chezmoi.sourceDir -}}
+  /zfiles/debs/gpgme-json_amd64.deb
+  {{- end }}
 
 separaTitulo 1 "Desktop manager..."
 readarray my_apps -t <<<" {{- template "apt/desktop" . -}} "

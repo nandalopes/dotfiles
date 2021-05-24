@@ -37,12 +37,13 @@ export  ZZDIR=" {{- .my_bin_dir -}} /funcoeszz/zz"         # pasta zz/
 eval "$(_TMUXP_COMPLETE=source_{{ .shell }} tmuxp)"
 
 
-{{ if eq .shell "bash" -}}
+  {{- if eq .shell "bash" }}
+
 ### FZF fuzzy finder
 # fzf/install --no-fish --no-update-rc --completion --xdg
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && \
   source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh ] && \
   source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh
-{{- end }}
 
+  {{- end }}

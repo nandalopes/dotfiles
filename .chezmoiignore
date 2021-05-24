@@ -5,12 +5,6 @@ bin/scripts/install_dotfiles.sh
 docs
 zfiles
 
-  {{- if ne .chezmoi.username "nanda" }}
-.local/share/**/CmapTools.*
-# .local/share/applications/Freeplane.desktop
-bin/scripts/calibre-install.sh
-  {{- end }}
-
   {{- if ge .chezmoi.osRelease.versionID "21.04" }}
 **/redshift*
   {{- else }}
@@ -25,4 +19,3 @@ Desktop/trash.desktop
   {{- else if eq .chezmoi.username "nanda" }}
 Projects/www/ask_devilbox.sh
   {{- end }}
-

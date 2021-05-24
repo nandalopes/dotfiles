@@ -55,6 +55,7 @@ alias ze='be'
 alias be='vim ~/.bashrc'
 
 # Git Aliases
+alias g='git'
 alias gs='git status'
 alias gstsh='git stash'
 alias gst='git stash'

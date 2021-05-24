@@ -37,16 +37,27 @@ update =
   git submodule update --init --recursive
 pre_update = git checkout master
 
-[bin/gitstatus]
+[${XDG_CONFIG_HOME:-.config}/gitstatus]
 checkout =
-  ln -nfs \
-    $HOME/.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus \
-    'gitstatus'
-update = true
+  if [ -d ~/.yadr ]; then
+    ln -nfs \
+      ~/.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus \
+      'gitstatus'
+  else
+    git clone --depth=1 'https://github.com/romkatv/gitstatus.git' 'gitstatus'
+  fi
+update =
+  if [ -s "$MR_REPO" ]; then
+    true
+  else
+    git pull
+  fi
 status =
   git status
   git describe --abbrev=0 --tags
-make = ./build -w -s -d docker
+make =
+  ./build -w -s -d docker
+  sudo chown $USER:$USER -R usrbin deps
 
 [bin/chezmoi-dotfiles]
 checkout = ln -nfs $(chezmoi source-path) 'chezmoi-dotfiles'

@@ -128,6 +128,11 @@ fi
 {{- end }}
 [ ${ZZPATH:-} ] && source "$ZZPATH"
 
+# enable gitstatus prompt
+if [ -f ${XDG_CONFIG_HOME:-~/.config}/gitstatus/gitstatus.prompt.sh ]; then
+    # GITSTATUS_DIR='~/bin/gitstatus/gitstatus.plugin.sh'
+    . ${XDG_CONFIG_HOME:-~/.config}/gitstatus/gitstatus.prompt.sh
+fi
 
 ### append bash completions
 . $ASDF_DIR/completions/asdf.bash

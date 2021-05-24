@@ -5,11 +5,6 @@ pip3 install --user --upgrade buku poku thefuck
 
 {{ template "exit_user.sh" }}
 
-echo "Install docker-compose..."
-virtualenv --system-site-packages --symlink-app-data --clear \
-  {{ .my_bin_dir -}} /venv
-{{ .my_bin_dir -}} /venv/bin/pip install --upgrade docker-compose
-
 echo "Install system pips..."
 sudo -H pip3 install --upgrade youtube-dl wakatime tmuxp pynvim
 

@@ -2,7 +2,7 @@ audacity
 convertall
 debhelper
 deborphan
-  {{- if ge .chezmoi.osRelease.versionID "21.04" }}
+  {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
 default-jdk
   {{- end }}
 default-jre
@@ -28,3 +28,4 @@ subnetcalc
 traceroute
 transmission-{{ .what_gui }}
 vrms
+

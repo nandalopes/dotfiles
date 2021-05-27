@@ -1,9 +1,3 @@
-vlc-
-gimp*-
-  {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
-firefox-
-thunderbird-
-  {{- end }}
 apt-file
 ca-certificates
 bash-completion
@@ -13,12 +7,7 @@ dkms
 ffmpeg
 gpg-agent
 htop
-hyphen-pt-br
-hunspell-pt-br
-libreoffice
-libreoffice-l10n-pt-br
 myrepos
-mythes-pt-pt
 openssh-server
 perl-doc
 python3-bcrypt
@@ -30,16 +19,8 @@ python3-virtualenv
 rake
 silversearcher-ag
 software-properties-common
-texlive-extra-utils
-texlive-fonts-extra
-texlive-lang-portuguese
-texlive-publishers
-texlive-science
-tilix
 tree
 vim
-vim-gtk3
-xclip
 zsh
 zsync
-wbrazilian
+

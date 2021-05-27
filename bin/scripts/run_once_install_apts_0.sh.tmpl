@@ -7,7 +7,7 @@ sudo mkdir -m0755 --parents /usr/local/share/keyrings
 
 
 separaTitulo 3 "Install DEFAULT apts..."
-readarray my_apps -t <<<" {{- template "apt/default" . -}} "
+readarray my_apps -t <<<" {{- template "apt/default" -}} "
 sudo apt install --ignore-missing --autoremove ${my_apps[@]}
 sudo apt install --no-install-recommends -y mpv
 

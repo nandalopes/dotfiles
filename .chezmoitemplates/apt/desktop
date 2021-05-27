@@ -1,18 +1,8 @@
-language-pack-pt
-sirikali
-
-  {{- if eq .chezmoi.hostname "home-PC-N" }}
-dolphin-plugins
-kdeutils
-kbackup
-kfind
-kshutdown
-kteatime
-libreoffice-kf5
-kubuntu-restricted-extras
-  {{- else }}
-copyq
-ubuntu-restricted-extras
+vlc-
+gimp*-
+  {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
+firefox-
+thunderbird-
   {{- end }}
 
   {{- if ge .chezmoi.osRelease.versionID "21.04" }}
@@ -20,3 +10,29 @@ gammastep
   {{- else }}
 redshift-gtk
   {{- end }}
+
+  {{- if eq .chezmoi.hostname "home-PC-N" }}
+dolphin-plugins
+kbackup
+kdeutils
+kfind
+kshutdown
+kteatime
+kubuntu-restricted-extras
+libreoffice-kf5
+  {{- else }}
+copyq
+ubuntu-restricted-extras
+  {{- end }}
+hunspell-pt-br
+hyphen-pt-br
+mythes-pt-pt
+language-pack-pt
+libreoffice
+libreoffice-l10n-pt-br
+sirikali
+tilix
+vim-gtk3
+xclip
+wbrazilian
+

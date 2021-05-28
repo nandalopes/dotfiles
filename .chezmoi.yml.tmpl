@@ -10,27 +10,6 @@ data:
     {{- eq .chezmoi.hostname "home-PC-N" | ternary "en-US" "pt-BR" -}}
   "
   my_bin_dir: "{{ default "$HOME/bin" $bin | expandenv }}"
-  screen:
-    redshift:
-      global: redshift
-      program: redshift
-      adjustment:
-        method: randr
-        comment: |
-          ; Set the adjustment-method: 'randr', 'vidmode'.
-          ; 'randr' is the preferred method, 'vidmode' is an older API that
-          ; works in some cases when 'randr' does not.
-          ; type 'redshift -m list' to see all possible values.
-    gammastep:
-      global: general
-      program: gammastep
-      adjustment:
-        method: randr
-        comment: |
-          ; Set the adjustment-method: 'randr', 'vidmode', 'drm', 'wayland'.
-          ; 'randr' is the preferred X11 method, 'vidmode' is an older API that
-          ; works in some cases when 'randr' does not.
-          ; type 'gammastep -m list' to see all possible values.
   thefuck: "{{ default "please" $fuck }}"
   what_gui: "{{ eq .chezmoi.hostname "home-PC-N" | ternary "qt" "gtk" }}"
 # diff:

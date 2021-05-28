@@ -9,7 +9,7 @@ sudo install -m 0644 -o root -g root -v \
   {{ .chezmoi.sourceDir -}} /zfiles/system/etc/ufw/applications.d/*
 
 sudo ufw logging high --limit 5/min
-sudo ufw app list
+sudo ufw app list | tee ~/.backup/chezmoi/network/ufw-apps.txt
 
 # Set aliases/vars
 ufw_allow="sudo ufw allow log"
@@ -125,6 +125,8 @@ $ufw_limit proto tcp to $basic_ipv6 from any comment 'transmission'
 
 separaTitulo 3 "Finalizando..."
 sudo ufw enable
+
+sudo ufw show added | tee ~/.backup/chezmoi/network/ufw-adds.txt
 
 exit 0
 

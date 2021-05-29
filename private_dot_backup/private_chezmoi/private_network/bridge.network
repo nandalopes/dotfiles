@@ -1,0 +1,10 @@
+#[Match]
+#Type=bridge
+#
+#[Network]
+#LLMNR=yes
+#MulticastDNS=yes
+#
+#[Link]
+#Multicast=yes
+#

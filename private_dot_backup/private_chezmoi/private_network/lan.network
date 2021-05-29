@@ -1,0 +1,17 @@
+#[Match]
+#Type=ether wlan
+
+#[Network]
+#LLMNR=true
+#MulticastDNS=true
+
+#[Link]
+#Multicast=true
+#RequiredForOnline=yes
+
+#[DHCPv4]
+#UseDomains=yes
+
+#[IPv6AcceptRA]
+#UseDomains=yes
+#

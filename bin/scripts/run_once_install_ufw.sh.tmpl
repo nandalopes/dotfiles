@@ -100,13 +100,13 @@ done
 separaTitulo 3 "Liberando protocolos específicos..."
 for p in igmp udp ; do
   for d in "${multi_ipv4[@]}" ; do
-    $ufw_allow proto $p from "{{ .ipv4.base }}.1" to $d \
+    $ufw_limit proto $p from "{{ .ipv4.base }}.1" to $d \
       comment 'syncthing?'
   done
 done
 for d in "${multi_ipv4[@]}" ; do
   for s in "${basic_rfc4[@]}" ; do
-    $ufw_allow proto igmp to $d from $s comment 'DHCP error?'
+    $ufw_limit proto igmp to $d from $s comment 'DHCP error?'
   done
 done
 

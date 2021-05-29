@@ -15,14 +15,21 @@ sudo ufw app list | tee ~/.backup/chezmoi/network/ufw-apps.txt
 ufw_allow="sudo ufw allow log"
 ufw_limit="sudo ufw limit log"
 
+# IPv4
 basic_ipv4="{{ .ipv4.mask }}"
-basic_ipv6="fe80::/64"
-multi_ipv6="ff02::/80"
 basic_rfc4=(
   "10.0.0.0/8"
   "172.16.0.0/12"
   "192.168.0.0/16"
 )
+multi_ipv4=(
+  "224.0.0.0/4"
+  "239.0.0.0/8"
+)
+
+# IPv6
+basic_ipv6="fe80::/64"
+multi_ipv6="ff02::/80"
 
 
 separaTitulo 3 "LAN config..."
@@ -86,10 +93,10 @@ done
 
 separaTitulo 3 "Liberando protocolos específicos..."
 for p in igmp udp ; do
-  $ufw_allow proto $p from "{{ .ipv4.base }}.1" to 224.0.0.1 \
+  $ufw_allow proto $p from "{{ .ipv4.base }}.1" to 224.0.0.0/4 \
     comment 'syncthing?'
 done
-for d in "224.0.0.251" "239.255.255.250" ; do
+for d in "${multi_ipv4[@]}" ; do
   for s in "${basic_rfc4[@]}" ; do
     $ufw_allow proto igmp to $d from $s comment 'DHCP error?'
   done

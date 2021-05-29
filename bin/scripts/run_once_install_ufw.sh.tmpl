@@ -99,8 +99,10 @@ done
 
 separaTitulo 3 "Liberando protocolos específicos..."
 for p in igmp udp ; do
-  $ufw_allow proto $p from "{{ .ipv4.base }}.1" to 224.0.0.0/4 \
-    comment 'syncthing?'
+  for d in "${multi_ipv4[@]}" ; do
+    $ufw_allow proto $p from "{{ .ipv4.base }}.1" to $d \
+      comment 'syncthing?'
+  done
 done
 for d in "${multi_ipv4[@]}" ; do
   for s in "${basic_rfc4[@]}" ; do

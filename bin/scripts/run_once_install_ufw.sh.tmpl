@@ -47,6 +47,12 @@ $ufw_limit to any         port mdns from $basic_ipv4 comment 'Bonjour discover'
 $ufw_limit to $multi_ipv6 port mdns from $basic_ipv6 comment 'Bonjour discover'
 # $ufw_limit to ff02::fb port mdns from any   comment 'Bonjour discover'
 
+separaTitulo 1 LLMNR
+# 5355
+for d in "${multi_ipv4[@]}" "${multi_ipv6}"; do
+  $ufw_limit to $d port 5355 from any port 5355 comment 'LLMNR discover'
+done
+
 separaTitulo 1 UPnP
 $ufw_limit        from $basic_ipv4 app DLNA comment 'UPnP discover'
 $ufw_limit to $multi_ipv6 from any app DLNA comment 'UPnP discover ipv6'

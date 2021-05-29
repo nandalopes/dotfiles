@@ -2,6 +2,8 @@ Regras de usuário adicionadas (veja 'ufw status' para executar o firewall):
 ufw limit log from 0.0.0.0 port 67 to 0.0.0.0 port 68 proto udp comment 'DHCP v4'
 ufw limit log from 10.0.10.1 port 53 to 10.0.10.0/24
 ufw limit log from 10.0.10.0/24 to any port 5353 proto udp comment 'Bonjour discover'
+ufw limit log from any port 5355 to 224.0.0.0/4 port 5355 comment 'LLMNR discover'
+ufw limit log from any port 5355 to 239.0.0.0/8 port 5355 comment 'LLMNR discover'
 ufw limit log from 10.0.10.0/24 app DLNA comment 'UPnP discover'
 ufw limit log from 10.0.10.0/24 to 10.0.10.0/24 proto udp comment 'UPnP Play'
 ufw allow log from 10.0.10.0/24 to any app Jellyfin
@@ -17,14 +19,16 @@ ufw limit log from any port 80 to 10.0.10.0/24 proto tcp comment 'Site navigatio
 ufw allow log from 10.0.10.0/24 port 80 to 10.0.10.0/24 proto tcp comment 'Site navigation from repeater'
 ufw limit log from any port 443 to 10.0.10.0/24 comment 'Site navigation'
 ufw allow log from 10.0.10.0/24 port 443 to 10.0.10.0/24 comment 'Site navigation from repeater'
-ufw allow log from 10.0.10.1 to 224.0.0.0/4 proto igmp comment 'syncthing?'
-ufw allow log from 10.0.10.1 to 224.0.0.0/4 proto udp comment 'syncthing?'
-ufw allow log from 10.0.0.0/8 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
-ufw allow log from 172.16.0.0/12 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
-ufw allow log from 192.168.0.0/16 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
-ufw allow log from 10.0.0.0/8 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
-ufw allow log from 172.16.0.0/12 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
-ufw allow log from 192.168.0.0/16 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
+ufw limit log from 10.0.10.1 to 224.0.0.0/4 proto igmp comment 'syncthing?'
+ufw limit log from 10.0.10.1 to 239.0.0.0/8 proto igmp comment 'syncthing?'
+ufw limit log from 10.0.10.1 to 224.0.0.0/4 proto udp comment 'syncthing?'
+ufw limit log from 10.0.10.1 to 239.0.0.0/8 proto udp comment 'syncthing?'
+ufw limit log from 10.0.0.0/8 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
+ufw limit log from 172.16.0.0/12 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
+ufw limit log from 192.168.0.0/16 to 224.0.0.0/4 proto igmp comment 'DHCP error?'
+ufw limit log from 10.0.0.0/8 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
+ufw limit log from 172.16.0.0/12 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
+ufw limit log from 192.168.0.0/16 to 239.0.0.0/8 proto igmp comment 'DHCP error?'
 ufw allow log Stremio
 ufw allow log Transmission
   {{- if eq .chezmoi.hostname "home-PC-N" }}
@@ -38,6 +42,7 @@ ufw allow log from 10.0.10.0/24 to 10.0.10.0/24 proto tcp comment 'syncthing'
 ufw limit log to 10.0.10.0/24 proto tcp comment 'transmission'
 ufw limit log from :: port 547 to :: port 546 proto udp comment 'DHCP v6'
 ufw limit log from fe80::/64 to ff02::/80 port 5353 proto udp comment 'Bonjour discover'
+ufw limit log from any port 5355 to ff02::/80 port 5355 comment 'LLMNR discover'
 ufw limit log from any app DLNA to ff02::/80 comment 'UPnP discover ipv6'
 ufw allow log from fe80::/64 to any app Jellyfin
 ufw allow log from fe80::/64 to any app OpenSSH

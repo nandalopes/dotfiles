@@ -20,6 +20,12 @@
 
 # Avahi
 
+Setup NetworkManager:
+
+    nmcli connection show
+    sudo nmcli connection modify 'Connection Name' +connection.mdns yes
+    sudo nmcli connection reload
+
 An mDNS message is a multicast UDP packet sent using the following addressing:
 
 mDNS:  

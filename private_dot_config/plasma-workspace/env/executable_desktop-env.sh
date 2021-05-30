@@ -5,5 +5,6 @@
 #
 # [[ -z "$FREEPLANE_JAVA_HOME" ]] && export FREEPLANE_JAVA_HOME=/home/media/bin/jre
 
-# export LIBVA_DRIVER_NAME=i965
+[[ -z "$LIBVA_DRIVER_NAME" ]] && export LIBVA_DRIVER_NAME=i965
+
 $HOME/.xprofile

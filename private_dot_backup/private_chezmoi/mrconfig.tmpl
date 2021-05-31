@@ -9,6 +9,7 @@ up = update
 
 ##### DRIVERS #####
 [8812au]
+skip = lazy
 checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
 update = git pull --rebase
 installDriver = sudo ./install-driver.sh
@@ -18,6 +19,7 @@ upgradeDriver =
   sudo ./install-driver.sh
 
 [88x2bu]
+skip = lazy
 checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
 update = git pull --rebase
 installDriver = sudo ./install-driver.sh

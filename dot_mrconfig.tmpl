@@ -52,6 +52,12 @@ update =
   else
     git pull
   fi
+fetch =
+  if [ -s "$MR_REPO" ]; then
+    true
+  else
+    git fetch
+  fi
 status =
   git status
   git describe --abbrev=0 --tags

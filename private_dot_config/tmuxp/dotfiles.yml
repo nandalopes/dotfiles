@@ -3,30 +3,30 @@ start_directory: $HOME
 options:
   automatic-rename: false
 windows:
-- window_name: RESPIRA!!!
-  layout: tiled
-  panes:
-  - shell_command:
-    - cd Music
-    - ls -t **/*.m3u
-  - shell_command:
-    - cd Videos
-    - ls -t **/*.m3u
-    focus: true
-  - shell_command:
-    - cd .yadr
-    - g r update --prune
-    - g s
-- window_name: chezmoi $USER
-  layout: even-horizontal
-  panes:
-  - shell_command:
-    - chezmoi cd
-    - g r update --prune
-    - g s
-  - shell_command:
-    - cd {{ .my_bin_dir }}
-    {{ if eq .chezmoi.username "nanda" -}}
-    - mr update
-    {{- end }}
-    focus: true
+  - window_name: RESPIRA!!!
+    layout: tiled
+    panes:
+      - shell_command:
+        - cd Music
+        - ls -t **/*.m3u
+      - shell_command:
+        - cd Videos
+        - ls -t **/*.m3u
+        focus: true
+      - shell_command:
+        - cd .yadr
+        - g r update --prune
+        - g s
+  - window_name: chezmoi $USER
+    layout: even-horizontal
+    panes:
+      - shell_command:
+        - chezmoi cd
+        - g r update --prune
+        - g s
+      - shell_command:
+        - cd {{ .my_bin_dir }}
+        {{ if eq .chezmoi.username "nanda" -}}
+        - mr update
+        {{- end }}
+        focus: true

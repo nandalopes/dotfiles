@@ -3,25 +3,25 @@ start_directory: $HOME/Projects
 options:
   automatic-rename: false
 windows:
-- window_name: "Hello $USER!"
-  layout: main-vertical
-  options:
-    main-pane-width: "
-      {{- if le .chezmoi.osRelease.versionID "20.04" -}}
-    80
-      {{- else -}}
-    50%
-      {{- end -}}
-    "
-  panes:
-  - shell_command:
-    - htop
-  - shell_command:
-    - cd /var/log
-    - clear
-    - ls -ltr **/*log
-    - tail -f ufw.log | grep -iE "$( LC_ALL=C date +%b\ %d ).*ufw
-                                  (block|audit)\]"
-    focus: true
-  - shell_command:
-    - neofetch
+  - window_name: "Hello $USER!"
+    layout: main-vertical
+    options:
+      main-pane-width: "
+        {{- if le .chezmoi.osRelease.versionID "20.04" -}}
+      80
+        {{- else -}}
+      50%
+        {{- end -}}
+      "
+    panes:
+      - shell_command:
+        - htop
+      - shell_command:
+        - cd /var/log
+        - clear
+        - ls -ltr **/*log
+        - tail -f ufw.log | grep -iE \
+        - "$( LC_ALL=C date +%b\ %d ).*ufw (block|audit)\]"
+        focus: true
+      - shell_command:
+        - neofetch

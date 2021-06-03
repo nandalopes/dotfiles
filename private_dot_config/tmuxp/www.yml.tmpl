@@ -29,8 +29,8 @@ windows:
     panes:
       - shell_command:
         - for p in */public_html; do
-        -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n';
-            echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
+        -   tmux splitw -t 2.1 -dhc "${PWD}/${p}" "ls -F; echo '\n\n'; \
+        -   echo ${p%%/*} | tr '[:lower:]' '[:upper:]'; ${SHELL}"
         - done
         - tmux selectl -t 2 tiled
         - neofetch

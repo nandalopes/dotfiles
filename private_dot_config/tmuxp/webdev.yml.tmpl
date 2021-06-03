@@ -4,26 +4,26 @@ environment:
 options:
   automatic-rename: false
 windows:
-- window_name: webdev $USER
-  start_directory: $HOME/Projects/webdev
-  focus: true
-  options:
-    main-pane-width: "
-      {{- if le .chezmoi.osRelease.versionID "20.04" -}}
-    80
-      {{- else -}}
-    50%
-      {{- end -}}
-    "
-  shell_before_command:
-    - umask 007
-  panes:
-  - shell_command:
-    - for p in */; do
-    -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules';
-      ${SHELL}"
-    - done
-    - tmux selectp -t 2.2
-    - tmux selectl -t 2 main-vertical
-    - htop --user=$USER
+  - window_name: webdev $USER
+    start_directory: $HOME/Projects/webdev
     focus: true
+    options:
+      main-pane-width: "
+        {{- if le .chezmoi.osRelease.versionID "20.04" -}}
+      80
+        {{- else -}}
+      50%
+        {{- end -}}
+      "
+    shell_before_command:
+      - umask 007
+    panes:
+      - shell_command:
+        - for p in */ ; do
+        -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules';
+            ${SHELL}"
+        - done
+        - tmux selectl -t 2 main-vertical
+        - tmux selectp -t 2.2
+        - htop --user=$USER
+        focus: true

@@ -16,6 +16,7 @@ checkout =
   git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
       'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
 install = ASK=true rake install
+order = 7
 post_checkout =
   cd '.yadr'
   # remotes
@@ -32,6 +33,7 @@ post_checkout =
 
 [.zprezto]
 checkout = true
+order = 3
 update =
   git pull --ff-only
   git submodule update --init --recursive
@@ -46,6 +48,7 @@ checkout =
   else
     git clone --depth=1 'https://github.com/romkatv/gitstatus.git' 'gitstatus'
   fi
+order = 9
 update =
   if [ -s "$MR_REPO" ]; then
     true
@@ -67,15 +70,28 @@ make =
 
 [bin/chezmoi-dotfiles]
 checkout = ln -nfs $(chezmoi source-path) 'chezmoi-dotfiles'
+order = 9
 post_checkout =
   cd 'chezmoi-dotfiles'
   git config receive.denyCurrentBranch warn
 
+[bin/chezmoi-dotfiles/zfiles/look_and_feel/sweet-folders]
+checkout =
+  git clone 'https://github.com/EliverLara/Sweet-folders.git' 'sweet-folders'
+pre_update = git checkout master
+post_update = gtk-update-icon-cache ~/.local/share/icons/Sweet-*
+
+[bin/chezmoi-dotfiles/zfiles/look_and_feel/candy-icons]
+checkout =
+  git clone 'https://github.com/EliverLara/candy-icons.git' 'candy-icons'
+pre_update = git checkout master
+post_update = gtk-update-icon-cache ~/.local/share/icons/candy-icons
 
 [.asdf]
 checkout =
   git clone --shallow-since=2020-03-01 -j8 -- \
       'https://github.com/asdf-vm/asdf.git' '.asdf'
+order = 9
 install =
   ASDF_DIR="$HOME/.asdf"
   PATH="$ASDF_DIR/bin:$PATH"

@@ -10,7 +10,7 @@
 add-alias ()
 {
   local name=$1 value="$2"
-  echo alias $name=\'$value\' | tee -a ~/.aliases
+  echo alias $name=\'$value\' >> ~/.aliases
   eval alias $name=\'$value\'
   alias $name
 }

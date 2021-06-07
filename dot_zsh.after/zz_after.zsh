@@ -8,6 +8,9 @@
 ### Source ~/.aliases
 [ -f ~/.aliases ] && source ~/.aliases
 
+### Suffix aliases to open files based on extension
+alias -s  tex='2>/dev/null texstudio'
+
 ### fix linux prompt
 # if [[ $terminfo[colors] == 8 ]]; then prompt skwp; fi
 case "$TERM" in

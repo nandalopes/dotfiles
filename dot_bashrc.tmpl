@@ -120,7 +120,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 ### append shell dependant files
 {{ with dict "shell" "bash" | merge . -}}
   {{ template "shell_specific" . }}

@@ -172,6 +172,7 @@ makesudo =
 skip = lazy || (test $(whoami) != nanda)
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
 update = git pull --rebase
+installsudo = make install || sudo make install
 make =
   if [ -z $1 ]; then
     ./configure --prefix=$HOME/.local
@@ -179,7 +180,6 @@ make =
     ./configure --prefix=$1
   fi
   make
-installsudo = make install || sudo make install
 post_make = chmod a+rX -R .
 
 [drawio-desktop]

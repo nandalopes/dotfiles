@@ -7,11 +7,17 @@ data:
     base: "{{ default "10.0.10" $basic_ipv4 }}"
     mask: "{{ default "10.0.10" $basic_ipv4 }}.0/24"
   lang_mozilla: "
-    {{- eq .chezmoi.hostname "home-PC-N" | ternary "en-US" "pt-BR" -}}
+    {{- if eq .chezmoi.hostname "home-PC-N" -}} en-US
+    {{- else -}} pt-BR
+    {{- end -}}
   "
   my_bin_dir: "{{ default "$HOME/bin" $bin | expandenv }}"
   thefuck: "{{ default "please" $fuck }}"
-  what_gui: "{{ eq .chezmoi.hostname "home-PC-N" | ternary "qt" "gtk" }}"
+  what_gui: "
+    {{- if eq .chezmoi.hostname "home-PC-N" -}} qt
+    {{- else -}} gtk
+    {{- end -}}
+  "
 # diff:
 #   format: git
 edit:

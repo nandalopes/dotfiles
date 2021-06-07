@@ -26,8 +26,8 @@ export _DOT_ZSH_PROFILE_1=`date  --rfc-3339=ns`
 # ------------------------------------------------
 
 load_shell_time() {
-  local st0=`date -d "$_DOT_ZSH_PROFILE_0" +"%S.%N"`
-  local st1=`date -d "$_DOT_ZSH_PROFILE_1" +"%S.%N"`
+  local st0=`date -d "$_DOT_ZSH_PROFILE_0" +"%s.%N"`
+  local st1=`date -d "$_DOT_ZSH_PROFILE_1" +"%s.%N"`
 
   date -d "0 $st1 sec - $st0 sec" +%S.%N
 }

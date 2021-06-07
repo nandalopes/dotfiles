@@ -154,6 +154,11 @@ docker-clean() {
 alias buku_server='docker-compose --file ~/bin/docker-files/buku.yml'
 alias jelly='docker-compose --file ~/bin/docker-files/jellyfin.yml'
 
+## Tmux
+alias tmuxlayout='tmux select-layout'
+alias tmux-mvert='tmux select-layout main-vertical'
+alias tmux-mhori='tmux select-layout main-horizontal'
+
 
   {{- if eq .chezmoi.hostname "home-PC-N" }}
 
@@ -173,10 +178,6 @@ alias vou_dormir='sleep 35m && systemctl suspend'
 alias escrever_here='2> /dev/null texstudio **/*.tex &'
 
 alias freeplane.sh='~/bin/freeplane/freeplane.sh'
-
-alias tmuxlayout='tmux select-layout'
-alias tmux-mvert='tmux select-layout main-vertical'
-alias tmux-mhori='tmux select-layout main-horizontal'
 
 alias xournal='
   {{- if gt .chezmoi.osRelease.versionID "20.04" -}}

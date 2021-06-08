@@ -1,0 +1,19 @@
+# http://stackoverflow.com/a/25924462
+Host *github.com
+  HostName github.com
+  CheckHostIP no
+
+Host gitlab.com
+  HostName gitlab.com
+  CheckHostIP no
+
+### Local machines
+Host vizinha.loc
+  HostName home-PC-N
+
+Host *.loc *.local {{ .ipv4.base }}.*
+  Port 220
+  CheckHostIP no
+  User nanda
+  #VisualHostKey yes
+

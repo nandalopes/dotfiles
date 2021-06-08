@@ -1,9 +1,0 @@
-# http://stackoverflow.com/a/25924462
-Host *github.com
-  HostName github.com
-  CheckHostIP no
-
-Host gitlab.com
-  HostName gitlab.com
-  CheckHostIP no
-

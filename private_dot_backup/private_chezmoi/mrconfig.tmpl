@@ -87,8 +87,10 @@ install =
 checkout = git clone 'https://github.com/BurntSushi/ripgrep.git' 'ripgrep'
 update = git pull --rebase
 Clean = cargo clean
-make = cargo build --release
-install = cargo install ripgrep --force --root ${1:-$HOME/.local}
+make =
+  cargo build --release --jobs 4 --bin rg
+  cargo doc   --release --jobs 4 --bin rg
+install = cargo install ripgrep --jobs 4 --force --root ${1:-$HOME/.local}
 
 [funcoeszz]
 order = 69

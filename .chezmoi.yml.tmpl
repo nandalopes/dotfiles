@@ -26,5 +26,6 @@ encryption: gpg
 gpg:
   recipient: {{ default "B24CB540944A918E" $gpgkey }}
   args:
+    # - --homedir=/media/user/path/to/.gnupg
     - --quiet
 sourceDir: "{{ .chezmoi.sourceDir }}"

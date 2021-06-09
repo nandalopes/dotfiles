@@ -1,5 +1,6 @@
 
 [DEFAULT]
+skip = lazy
 make = make
 Clean = make clean
 
@@ -9,7 +10,6 @@ up = update
 
 ##### DRIVERS #####
 [8812au]
-skip = lazy
 checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
 update = git pull --rebase
 installDriver = sudo ./install-driver.sh
@@ -19,7 +19,6 @@ upgradeDriver =
   sudo ./install-driver.sh
 
 [88x2bu]
-skip = lazy
 checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
 update = git pull --rebase
 installDriver = sudo ./install-driver.sh
@@ -31,7 +30,6 @@ upgradeDriver =
 
 ##### Programas #####
 [chezmoi]
-skip = lazy
 checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
 update = git pull --rebase
 make = make build-linux
@@ -42,7 +40,6 @@ post_update =
   git describe --abbrev=0 --tags
 
 [direnv]
-skip = lazy
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
 update = git pull --rebase
 installsudo = sudo make install PREFIX=/usr/local
@@ -52,12 +49,10 @@ post_update =
 post_make = chmod a+rX -R .
 
 [pass]
-skip = lazy
 checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
 installsudo = sudo make install PREFIX=/usr/local
 
 [tmux]
-skip = lazy
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
 installsudo = sudo make install
 make =
@@ -70,8 +65,15 @@ post_update =
   git fetch --tags
   git describe --abbrev=0 --tags
 
+[fzf]
+checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
+update = git pull --rebase
+install = make install
+post_update =
+  git fetch --tags
+  git describe --abbrev=0 --tags
+
 [bukubrow-host]
-skip = lazy
 checkout =
   git clone 'https://github.com/samhh/bukubrow-host.git' 'bukubrow-host'
 update = git pull --rebase
@@ -81,13 +83,6 @@ install =
   cp -v target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
   ${1:- {{- .my_bin_dir -}} }/bukubrow --install-firefox --install-chrome
 
-[fzf]
-checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
-update = git pull --rebase
-install = make install
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
 
 [funcoeszz]
 order = 69
@@ -98,7 +93,6 @@ install =
 post_install = git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
 
 [git-cola]
-skip = lazy
 order = 79
 checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
 make = make build doc
@@ -132,7 +126,6 @@ post_checkout =
   git config core.sharedRepository group
 
 [dupeguru]
-skip = lazy
 order = 89
 checkout =
   git clone --depth=50 -j8 -- \
@@ -183,7 +176,6 @@ make =
 post_make = chmod a+rX -R .
 
 [drawio-desktop]
-skip = lazy
 checkout =
   git clone --recurse-submodules -j8 -- \
       'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
@@ -199,7 +191,6 @@ post_update =
 
 ##### Old Ruby Devel #####
 [OpenSSL_1_0]
-skip = lazy
 order = 99
 checkout =
   git clone --branch=OpenSSL_1_0_2-stable -j8 -- \

@@ -1,16 +1,15 @@
 session_name: syncthing
-# start_directory: $HOME
 suppress_history: false
 options:
   automatic-rename: false
 windows:
-  - window_name: sync $USER!
+  - window_name: sync $USER@$HOST!
     layout: even-horizontal
     options_after:
       synchronize-panes: on
     panes:
       - shell_command:
         - syncthing
+        focus: true
       - shell_command:
         - ssh vizinha.loc -t syncthing
-        focus: true

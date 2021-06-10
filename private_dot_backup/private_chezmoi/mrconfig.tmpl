@@ -1,6 +1,6 @@
 
 [DEFAULT]
-skip = lazy
+skip = lazy || ( [ "$1" = update ] && ! hours_since "$1" 2 )
 make = make
 Clean = make clean
 

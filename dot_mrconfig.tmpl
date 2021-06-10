@@ -1,9 +1,10 @@
 
 [DEFAULT]
 bundleall =
-  git bundle create --all ${1:-$HOME/Sync/system/repos}/$(basename \
+  git bundle create ${1:-$HOME/Sync/system/repos}/$(basename \
       $(git rev-parse --show-toplevel) \
-  ).gitrepo.$(date +%+4Y%m%d-%H%M)
+  ).gitrepo.$(date +%+4Y%m%d-%H%M) \
+  --all
 make = make
 Clean = make clean
 

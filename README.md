@@ -9,24 +9,25 @@ steal anything that would improve your own productivity.
 
 I'd not care of using GitHub for backing up my `dotfiles` if my perspectives of
 using them remained in a single machine.
-You can install this repo via a Convenient script or manually in its defect.
+You can install this repo via a convenience script or manually in its defect.
 
 ### Convenience script
 
 In case of not having `chezmoi` installed - Just firing the
-`install_dotfiles.sh` after a simple download of it.
+[`install_dotfiles.sh`](https://raw.githubusercontent.com/nandalopes/dotfiles/main/bin/scripts/install_dotfiles.sh)
+after a simple download of it.
 
 ```bash
 # Using Curl
 sh -c "$(curl -fsSL https://git.io/J3BNH)"
 # OR Using Wget
-sh -c "$(wget -qO- https://git.io/J3BNH)"
+sh -c "$(wget  -qO- https://git.io/J3BNH)"
 
 # Optional parameters:
 # DOTFILES_USER
 # DOTFILES_REPO
 # DOTFILES_BRANCH
-# DOTFILES_DIR      e.g. $HOME/.local/share/chezmoi or "${HOME}/.dotfiles"
+# DOTFILES_DIR      e.g. "$HOME/.local/share/chezmoi" or "$HOME/.dotfiles"
 ```
 
 ### Manually with `git`
@@ -39,7 +40,8 @@ You will have to clone the repo and from its root directory, execute the
 Leveraging Chezmoi capabilities
 
 ```bash
-chezmoi init --apply --verbose https://github.com/nandalopes/dotfiles.git
+chezmoi init --apply --verbose --source ~/.dotfiles \
+  https://github.com/nandalopes/dotfiles.git
 ```
 
 ## Security considerations

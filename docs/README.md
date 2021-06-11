@@ -14,36 +14,26 @@
 ## [Chezmoi](chezmoi.md)
 
 ```sh
-cd ~/.local
+# Using Curl
+sh -c "$(curl -fsSL https://git.io/J3BNH)"
+# OR Using Wget
+sh -c "$(wget  -qO- https://git.io/J3BNH)"
 
-wget https://git.io/chezmoi -O - | sh
-# OR...
-curl -sfL https://git.io/chezmoi | sh
-
-~/.local/bin/chezmoi init https://github.com/nandalopes/dotfiles.git
 # Defaults:
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
 # - Base_do_IPv4=10.0.10
 # - thefuck=please
-
-~/.local/bin/chezmoi diff
-
-~/.local/bin/chezmoi apply -v
 ```
 
-## VIM dotfiles
+## [VIM dotfiles](yadr-workflow.md)
 
 ```sh
-sudo apt install -y curl zsh rake git vim vim-gtk
+sudo apt install -y curl zsh rake git vim vim-gtk3
 
-git clone --branch=gh-pages --no-single-branch -- \
-  https://github.com/nandalopes/dotfiles-yadr.git ~/Projects/gh-pages-yadr
-git clone --branch=mine --no-single-branch -- \
-  https://github.com/nandalopes/dotfiles-yadr.git ~/.yadr
-
-cd ~/.yadr
-ASK="true" rake install
+sh -c "`curl -fsSL \
+https://raw.githubusercontent.com/nandalopes/dotfiles-yadr/main/install.sh`" \
+-s ask
 ```
 
 ## Flatpak suport
@@ -144,7 +134,7 @@ virtualenv --system-site-packages --symlink-app-data --clear venv
 ln -s $PWD/venv/bin/docker-compose ~/.local/bin/docker-compose
 ```
 
-### VirtualBox
+## VirtualBox
 
 - <https://www.virtualbox.org/wiki/Downloads>
 - <https://download.virtualbox.org/virtualbox/debian/dists/>
@@ -188,8 +178,8 @@ Integração com navegadores (opcional) [BuKuBrow](https://github.com/SamHH/buku
 ```sh
 # Para compilar
 sudo apt install cargo
-# ou use
-# asdf shell rust stable
+# ou ASDF
+asdf shell rust stable
 ```
 
 ## KDE Only
@@ -211,11 +201,13 @@ sudo apt install -y luckybackup pdfmod libreoffice-l10n-pt-br openjdk-14-jdk \
   diceware speedtest-cli apt-file ddclient mediainfo-gui audacity zsync
 ```
 
-Intel media stack: <https://github.com/Intel-Media-SDK/MediaSDK/wiki/Intel-media-stack-on-Ubuntu>
+### Intel media stack
+
+- <https://github.com/Intel-Media-SDK/MediaSDK/wiki/Intel-media-stack-on-Ubuntu>
 
 `sudo apt install -y libmfx-tools libva-glx2 intel-media-va-driver-non-free`
 
-Programas q instalam e configuram listas apt:
+### Programas q instalam listas apt (ou nem tem listas apt)
 
 ```sh
 sudo apt install -y ./google-chrome-stable*.deb \
@@ -234,6 +226,7 @@ sudo -H pip3 install --upgrade youtube_dl
 ## MPV
 
 - Master branch: `sudo add-apt-repository ppa:mc3man/mpv-tests`
+- From ubuntu repository: `sudo apt install --without-recommends mpv`
 
 ## Open Broadcast Studio
 
@@ -288,4 +281,4 @@ Ou então [asdf](asdf.md).
 ## Outros
 
 - Wakatime: `sudo -H pip3 install --upgrade wakatime`
-- Toggl Track flatpak: `flatpak install com.toggl.TogglDesktop`
+- Toggl: `flatpak install com.toggl.TogglDesktop`

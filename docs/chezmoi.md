@@ -1,13 +1,25 @@
 # Chezmoi
 
+## Install
+
 ```sh
+# Optional parameters:
+# LOG_LEVEL=3
+# BINDIR=$HOME/.local/bin
+
 cd ~/.local
 
-wget https://git.io/chezmoi -O - | sh
+wget https://git.io/chezmoi  -qO- | sh
 # OR...
-curl -sfL https://git.io/chezmoi | sh
+curl -fsSL https://git.io/chezmoi | sh
+```
 
-~/.local/bin/chezmoi init https://github.com/nandalopes/dotfiles.git
+## Apply
+
+```sh
+~/.local/bin/chezmoi init --source ~/.dotfiles \
+  git@github.com:nandalopes/dotfiles.git
+
 # Defaults:
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
@@ -18,29 +30,20 @@ curl -sfL https://git.io/chezmoi | sh
 
 ~/.local/bin/chezmoi apply -v
 ```
-### Install
 
-With wget:  
-`
-wget 'https://git.io/chezmoi' -O - | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
-`
+## Completions
 
-With curl:  
-`
-curl -sfL 'https://git.io/chezmoi' | LOG_LEVEL=3 BINDIR=$HOME/.local/bin sh
-`
+### ZSH completions
 
-### Completions
-
-**ZSH completions**
-`
+```zsh
 $HOME/.local/bin/chezmoi completion  zsh --output
   $HOME/.local/share/zsh/site-functions/_chezmoi
-`
+```
 
-**BASH completions**
-`
+### BASH completions
+
+```bash
 $HOME/.local/bin/chezmoi completion bash --output
-  $HOME/.local/share/bash-completion/completions/chezmoi
-`
+  $HOME/.local/share/bash-completion/completions/chezmoi.bash
+```
 

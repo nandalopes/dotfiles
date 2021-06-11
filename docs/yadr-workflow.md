@@ -18,15 +18,12 @@
 - prompt powerlevel10k
 - theme gruvbox
 - acesso ao system clipboard
-- gvim tamanho padrao
+- gvim tamanho padrão
 - asdf-vm
 
 ```sh
-gco main
-gplr
 gco mine
-
-git rebase main
+gri main
 # OR
 git merge --no-ff --no-commit main
 ```
@@ -38,3 +35,4 @@ mine + ssh keys + asdf master + modo expandido
 # work
 
 mine + ssh keys
+

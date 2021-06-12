@@ -132,7 +132,7 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 {{ if gt .chezmoi.osRelease.versionID "20.04" }}
   # Downgrade to focal
   separaTitulo 1 "editing ppas to focal..."
-  for list in /etc/apt/sources.list.d/alexlarsson*.list;
+  for list in /etc/apt/sources.list.d/*flatpak*.list;
   do
     sed 's/{{- .chezmoi.osRelease.versionCodename -}}/focal/g' $list | \
     sort -u | sudo tee $list

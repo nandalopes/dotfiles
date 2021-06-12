@@ -22,7 +22,6 @@ git checkout "$(git describe --abbrev=0 --tags)"
 ### Global
 
 - direnv system
-- tmux system
 
 ### Projetos
 
@@ -47,11 +46,6 @@ sudo make install PREFIX=/usr/local
 mkdir -p ~/.asdf/installs/direnv/system/{bin,env}
 ln -nfs /usr/local/bin/direnv ~/.asdf/installs/direnv/system/bin/direnv
 ```
-
-### [tmux](https://github.com/aphecetche/asdf-tmux.git)
-
-`mkdir -p ~/.asdf/installs/tmux/system/bin
-ln -nfs /usr/local/bin/tmux ~/.asdf/installs/tmux/system/bin/tmux`
 
 ### [golang](https://github.com/kennyp/asdf-golang.git)
 
@@ -100,10 +94,4 @@ sudo apt install -y libreadline-dev zlib1g-dev libncurses-dev libgdbm-dev
 ### [rust](https://github.com/code-lever/asdf-rust.git)
 
 - bukubrow-host compilation support
-
-### [tmux](https://github.com/aphecetche/asdf-tmux.git)
-
-- dotfiles-yadr tests
-- `sudo apt install -y autoconf automake pkg-config libevent-dev libncurses-dev
-  bison`
 

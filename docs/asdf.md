@@ -94,4 +94,5 @@ sudo apt install -y libreadline-dev zlib1g-dev libncurses-dev libgdbm-dev
 ### [rust](https://github.com/code-lever/asdf-rust.git)
 
 - bukubrow-host compilation support
+- ripgrep compilation support
 

@@ -140,19 +140,19 @@ sudo chmod 0644 /etc/apt/sources.list.d/* /usr/local/share/keyrings/*
 {{- end }}
 {{ if gt .chezmoi.osRelease.versionID "20.10" }}
   # Downgrade to groovy
-  separaTitulo 1 "editing ppas to groovy..."
-  for list in \
-/etc/apt/sources.list.d/{appimagelauncher,phoerious,papirus,obsproject,sunderme}*.list;
-  do
-    sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
-    sort -u | sudo tee $list
-  done
-  for list in \
-    /etc/apt/sources.list.d/github.sources ;
-  do
-    sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
-    sudo tee $list
-  done
+  #   separaTitulo 1 "editing ppas to groovy..."
+  #   for list in \
+  # /etc/apt/sources.list.d/*{keepassxc,texstudio}*.list;
+  #   do
+  #     sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
+  #     sort -u | sudo tee $list
+  #   done
+  # for list in \
+  #   /etc/apt/sources.list.d/github.sources ;
+  # do
+  #   sed 's/{{- .chezmoi.osRelease.versionCodename -}}/groovy/g' $list | \
+  #   sudo tee $list
+  # done
 {{- end }}
 
 

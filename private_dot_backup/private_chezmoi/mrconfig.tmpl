@@ -63,7 +63,9 @@ post_update = git describe --abbrev=0 --tags
 [fzf]
 checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
 update = git pull --rebase --tags
-install = make install
+install =
+  make install
+  ./install --xdg --no-fish --no-update-rc
 post_update = git describe --abbrev=0 --tags
 
 [bukubrow-host]

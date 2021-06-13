@@ -100,6 +100,16 @@ install =
     ln -nfs "$PWD/target/release/delta" "${1:-$HOME/.local/bin}/delta"
 post_update = git describe --abbrev=0 --tags
 
+[bat]
+checkout = git clone 'https://github.com/sharkdp/bat.git' 'bat'
+update = git pull --rebase --tags
+Clean = cargo clean
+make = cargo build --release --jobs 4
+install =
+  [ -f 'target/release/bat' ] && \
+    ln -nfs "$PWD/target/release/bat" "${1:-$HOME/.local/bin}/bat"
+post_update = git describe --abbrev=0 --tags
+
 [funcoeszz]
 order = 69
 checkout = git clone 'https://github.com/funcoeszz/funcoeszz.git' 'funcoeszz'

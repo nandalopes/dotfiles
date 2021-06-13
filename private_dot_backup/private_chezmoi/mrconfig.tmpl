@@ -75,7 +75,9 @@ update = git pull --rebase --tags
 Clean = cargo clean
 make = cargo build --release
 install =
-  cp -v target/release/bukubrow ${1:- {{- .my_bin_dir -}} }/bukubrow
+  [ -f 'target/release/bukubrow' ] && \
+    ln -nfs "$PWD/target/release/bukubrow" \
+    "${1:- {{- .my_bin_dir -}} }/bukubrow"
   ${1:- {{- .my_bin_dir -}} }/bukubrow --install-firefox --install-chrome
 
 [ripgrep]

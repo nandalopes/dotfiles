@@ -31,21 +31,17 @@ upgradeDriver =
 ##### Programas #####
 [chezmoi]
 checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
-update = git pull --rebase
+update = git pull --rebase --tags
 make = make build-linux
 installChez =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
+post_update = git describe --abbrev=0 --tags
 
 [direnv]
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
-update = git pull --rebase
+update = git pull --rebase --tags
 installsudo = sudo make install PREFIX=/usr/local
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
+post_update = git describe --abbrev=0 --tags
 post_make = chmod a+rX -R .
 
 [pass]
@@ -54,6 +50,7 @@ installsudo = sudo make install PREFIX=/usr/local
 
 [tmux]
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
+update = git pull --rebase --tags
 installsudo = sudo make install
 make =
   git checkout ${1:-$(git describe --abbrev=0 --tags)}
@@ -61,22 +58,18 @@ make =
   ./configure --prefix=${2:-/usr/local}
   make -j4
 pre_update = git checkout master
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
+post_update = git describe --abbrev=0 --tags
 
 [fzf]
 checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
-update = git pull --rebase
+update = git pull --rebase --tags
 install = make install
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
+post_update = git describe --abbrev=0 --tags
 
 [bukubrow-host]
 checkout =
   git clone 'https://github.com/samhh/bukubrow-host.git' 'bukubrow-host'
-update = git pull --rebase
+update = git pull --rebase --tags
 Clean = cargo clean
 make = cargo build --release
 install =
@@ -85,7 +78,7 @@ install =
 
 [ripgrep]
 checkout = git clone 'https://github.com/BurntSushi/ripgrep.git' 'ripgrep'
-update = git pull --rebase
+update = git pull --rebase --tags
 Clean = cargo clean
 make =
   cargo build --release --jobs 4
@@ -93,6 +86,7 @@ make =
 install =
   [ -f 'target/release/rg' ] && \
     ln -nfs "$PWD/target/release/rg" "${1:-$HOME/.local/bin}/rg"
+post_update = git describe --abbrev=0 --tags
 
 [funcoeszz]
 order = 69
@@ -105,6 +99,7 @@ post_install = git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
 [git-cola]
 order = 79
 checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
+update = git pull --rebase --tags
 make = make build doc
 install = make install install-doc
 testCola =
@@ -174,7 +169,6 @@ makesudo =
 [iperf3]
 skip = lazy || (test $(whoami) != nanda)
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
-update = git pull --rebase
 installsudo = make install || sudo make install
 make =
   if [ -z $1 ]; then
@@ -189,14 +183,12 @@ post_make = chmod a+rX -R .
 checkout =
   git clone --recurse-submodules -j8 -- \
       'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
-update = git pull --rebase
+update = git pull --rebase --tags
 make =
   yarn install
   yarn run sync
   yarn run release-linux --linux AppImage --x64
-post_update =
-  git fetch --tags
-  git describe --abbrev=0 --tags
+post_update = git describe --abbrev=0 --tags
 
 
 ##### Old Ruby Devel #####

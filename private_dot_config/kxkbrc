@@ -1,0 +1,17 @@
+[$Version]
+update_info=kxkb_variants.upd:split-variants
+
+[Layout]
+DisplayNames=
+LayoutList=br
+LayoutLoopCount=-1
+Model=pc105
+Options=caps:escape_shifted_capslock,terminate:ctrl_alt_bksp,nbsp:level3n,caps:escape_shifted_capslock,terminate:ctrl_alt_bksp,nbsp:level3n,lv5:rwin_switch_lock
+ResetOldOptions=true
+ShowFlag=false
+ShowLabel=true
+ShowLayoutIndicator=true
+ShowSingle=false
+SwitchMode=Global
+Use=true
+VariantList=

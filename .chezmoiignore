@@ -6,17 +6,16 @@ docs
 zfiles
 
   {{- if ge .chezmoi.osRelease.versionID "21.04" }}
-**/redshift*
+**/*redshift*
   {{- else }}
-**/gammastep*
+**/*gammastep*
   {{- end }}
 
   {{- if ne .chezmoi.hostname "home-PC-N" }}
 .config/kxkbrc
 .config/spectaclerc
 .config/user-dirs.locale
-Desktop/Home.desktop
-Desktop/trash.desktop
+Desktop/*.desktop
   {{- else }}
 **/*xprofile
     {{- if eq .chezmoi.username "nanda" }}

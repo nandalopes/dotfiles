@@ -164,8 +164,8 @@ alias tmux-mhori='tmux select-layout main-horizontal'
 
 ## KDE only
 ## https://askubuntu.com/a/481738
-alias piti_do_plasma='kquitapp5 plasmashell || \
-  killall plasmashell && kstart5 plasmashell'
+alias piti_do_plasma='(kquitapp5 plasmashell || killall plasmashell) \
+  && kstart5 plasmashell'
 
 ## Diversos
 alias vou_dormir='sleep 55m && systemctl poweroff'

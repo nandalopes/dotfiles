@@ -1,0 +1,11 @@
+# Add 'sprig' type.
+--type-add
+sprig:*.tmpl
+
+# Chezmoi files
+--type-add
+chezmoi:.chezmoi*
+
+# Using glob patterns to include/exclude files or folders
+--glob
+!git/*

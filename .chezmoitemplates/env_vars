@@ -13,3 +13,6 @@ fi
 
 # export DEVILBOX_PATH="$HOME/Projects/www/devilbox"
 export PASSWORD_STORE_CLIP_TIME=30
+
+# set ripgrep aditional configuration
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgreprc"

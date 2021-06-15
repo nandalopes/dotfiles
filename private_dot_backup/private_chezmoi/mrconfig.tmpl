@@ -124,6 +124,15 @@ make = cargo build --release --jobs 4
 install =
   [ -f 'target/release/bat' ] && \
     ln -nfs "$MR_REPO/target/release/bat" "${1:-$HOME/.local/bin}/bat"
+  # manpage
+  mkdir -p "${1:-$HOME/.local}/share/man/man1"
+  mv -vf \
+    `find $MR_REPO/target -name bat.1 -print0 | xargs -0 ls -t | head -n1` \
+    "${1:-$HOME/.local}/share/man/man1/bat.1"
+  # completions
+  mv -vf \
+    `find $MR_REPO/target -name bat.zsh -print0 | xargs -0 ls -t | head -n1` \
+    "${1:-$HOME/.local}/share/zsh/site-functions/_bat"
 post_update = git describe --abbrev=0 --tags
 
 [funcoeszz]

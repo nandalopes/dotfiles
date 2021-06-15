@@ -1,5 +1,6 @@
 vlc-
 gimp*-
+
   {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
 firefox-
 thunderbird-

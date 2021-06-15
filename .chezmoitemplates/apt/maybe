@@ -4,6 +4,8 @@ debhelper
 deborphan
   {{- if eq .chezmoi.hostname "home-PC-N" "netha-A14CR" }}
 default-jdk
+  {{- else }}
+ripgrep
   {{- end }}
 default-jre
 diceware

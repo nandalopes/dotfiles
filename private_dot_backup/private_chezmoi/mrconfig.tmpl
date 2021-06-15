@@ -239,6 +239,12 @@ post_update = git describe --abbrev=0 --tags
 
 
 ##### Old Ruby Devel #####
+[ruby-build]
+checkout = git clone 'https://github.com/rbenv/ruby-build.git' 'ruby-build'
+make = true
+#installsudo = sudo PREFIX=/usr/local ./install.sh
+install = PREFIX=$HOME/.local ./install.sh
+
 [OpenSSL_1_0]
 order = 99
 checkout =

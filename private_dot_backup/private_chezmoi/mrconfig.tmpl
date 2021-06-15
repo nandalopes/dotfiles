@@ -89,6 +89,16 @@ make =
 install =
   [ -f 'target/release/rg' ] && \
     ln -nfs "$MR_REPO/target/release/rg" "${1:-$HOME/.local}/bin/rg"
+  # manpage
+  mkdir -p "${1:-$HOME/.local}/share/man/man1"
+  mv -vf \
+    `find $MR_REPO/target -name rg.1 -print0 | xargs -0 ls -t | head -n1` \
+    "${1:-$HOME/.local}/share/man/man1/rg.1"
+  # completions
+  cp -vlf "$MR_REPO/complete/_rg" "${1:-$HOME/.local}/share/zsh/site-functions/_rg"
+  mv -vf \
+    `find $MR_REPO/target -name rg.bash -print0 | xargs -0 ls -t | head -n1` \
+    "${1:-$HOME/.local}/share/bash-completion/completions/rg.bash"
 post_update = git describe --abbrev=0 --tags
 
 [git-delta]

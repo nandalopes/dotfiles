@@ -1,0 +1,2075 @@
+'\" t
+.\"     Title: rg
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.12
+.\"      Date: 2021-06-15
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "RG" "1" "2021-06-15" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+rg \- recursively search the current directory for lines matching a pattern
+.SH "SYNOPSIS"
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fIPATTERN\fP [\fIPATH\fP...]
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-e\fP \fIPATTERN\fP... [\fIPATH\fP...]
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-f\fP \fIPATTERNFILE\fP... [\fIPATH\fP...]
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-\-files\fP [\fIPATH\fP...]
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-\-type\-list\fP
+.sp
+\fBcommand\fP | \fBrg\fP [\fIOPTIONS\fP] \fIPATTERN\fP
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-\-help\fP
+.sp
+\fBrg\fP [\fIOPTIONS\fP] \fB\-\-version\fP
+.SH "DESCRIPTION"
+.sp
+ripgrep (rg) recursively searches the current directory for a regex pattern.
+By default, ripgrep will respect your .gitignore and automatically skip hidden
+files/directories and binary files.
+.sp
+ripgrep\(cqs default regex engine uses finite automata and guarantees linear
+time searching. Because of this, features like backreferences and arbitrary
+look\-around are not supported. However, if ripgrep is built with PCRE2, then
+the \fB\-\-pcre2\fP flag can be used to enable backreferences and look\-around.
+.sp
+ripgrep supports configuration files. Set \fBRIPGREP_CONFIG_PATH\fP to a
+configuration file. The file can specify one shell argument per line. Lines
+starting with \fB#\fP are ignored. For more details, see the man page or the
+\fBREADME\fP.
+.sp
+ripgrep will automatically detect if stdin exists and search stdin for a regex
+pattern, e.g. \fBls | rg foo\fP. In some environments, stdin may exist when it
+shouldn\(cqt. To turn off stdin detection explicitly specify the directory to
+search, e.g. \fBrg foo ./\fP.
+.sp
+Tip: to disable all smart filtering and make ripgrep behave a bit more like
+classical grep, use \fBrg \-uuu\fP.
+.SH "REGEX SYNTAX"
+.sp
+ripgrep uses Rust\(cqs regex engine by default, which documents its syntax:
+.URL "https://docs.rs/regex/*/regex/#syntax" "" ""
+.sp
+ripgrep uses byte\-oriented regexes, which has some additional documentation:
+.URL "https://docs.rs/regex/*/regex/bytes/index.html#syntax" "" ""
+.sp
+To a first approximation, ripgrep uses Perl\-like regexes without look\-around or
+backreferences. This makes them very similar to the "extended" (ERE) regular
+expressions supported by \fBegrep\fP, but with a few additional features like
+Unicode character classes.
+.sp
+If you\(cqre using ripgrep with the \fB\-\-pcre2\fP flag, then please consult
+.URL "https://www.pcre.org" "" " "
+or the PCRE2 man pages for documentation on the supported
+syntax.
+.SH "POSITIONAL ARGUMENTS"
+.sp
+\fIPATTERN\fP
+.RS 4
+A regular expression used for searching. To match a pattern beginning with a
+dash, use the \-e/\-\-regexp option.
+.RE
+.sp
+\fIPATH\fP
+.RS 4
+A file or directory to search. Directories are searched recursively. File
+paths specified explicitly on the command line override glob and ignore
+rules.
+.RE
+.SH "OPTIONS"
+.sp
+Note that many options can be disabled via flags. In some cases, those flags
+are not listed in a first class way below. For example, the \fB\-\-column\fP
+flag (listed below) enables column numbers in ripgrep\(cqs output, but the
+\fB\-\-no\-column\fP flag (not listed below) disables them. The reverse can also
+exist. For example, the \fB\-\-no\-ignore\fP flag (listed below) disables ripgrep\(cqs
+\fBgitignore\fP logic, but the \fB\-\-ignore\fP flag (not listed below) enables it. These
+flags are useful for overriding a ripgrep configuration file on the command
+line. Each flag\(cqs documentation notes whether an inverted flag exists. In all
+cases, the flag specified last takes precedence.
+.sp
+\fB\-A, \-\-after\-context\fP \fINUM\fP
+.RS 4
+Show NUM lines after each match.
+.sp
+This overrides the \-\-context and \-\-passthru flags.
+.RE
+.sp
+\fB\-\-auto\-hybrid\-regex\fP
+.RS 4
+DEPRECATED. Use \-\-engine instead.
+.sp
+When this flag is used, ripgrep will dynamically choose between supported regex
+engines depending on the features used in a pattern. When ripgrep chooses a
+regex engine, it applies that choice for every regex provided to ripgrep (e.g.,
+via multiple \-e/\-\-regexp or \-f/\-\-file flags).
+.sp
+As an example of how this flag might behave, ripgrep will attempt to use
+its default finite automata based regex engine whenever the pattern can be
+successfully compiled with that regex engine. If PCRE2 is enabled and if the
+pattern given could not be compiled with the default regex engine, then PCRE2
+will be automatically used for searching. If PCRE2 isn\(cqt available, then this
+flag has no effect because there is only one regex engine to choose from.
+.sp
+In the future, ripgrep may adjust its heuristics for how it decides which
+regex engine to use. In general, the heuristics will be limited to a static
+analysis of the patterns, and not to any specific runtime behavior observed
+while searching files.
+.sp
+The primary downside of using this flag is that it may not always be obvious
+which regex engine ripgrep uses, and thus, the match semantics or performance
+profile of ripgrep may subtly and unexpectedly change. However, in many cases,
+all regex engines will agree on what constitutes a match and it can be nice
+to transparently support more advanced regex features like look\-around and
+backreferences without explicitly needing to enable them.
+.sp
+This flag can be disabled with \-\-no\-auto\-hybrid\-regex.
+.RE
+.sp
+\fB\-B, \-\-before\-context\fP \fINUM\fP
+.RS 4
+Show NUM lines before each match.
+.sp
+This overrides the \-\-context and \-\-passthru flags.
+.RE
+.sp
+\fB\-\-binary\fP
+.RS 4
+Enabling this flag will cause ripgrep to search binary files. By default,
+ripgrep attempts to automatically skip binary files in order to improve the
+relevance of results and make the search faster.
+.sp
+Binary files are heuristically detected based on whether they contain a NUL
+byte or not. By default (without this flag set), once a NUL byte is seen,
+ripgrep will stop searching the file. Usually, NUL bytes occur in the beginning
+of most binary files. If a NUL byte occurs after a match, then ripgrep will
+still stop searching the rest of the file, but a warning will be printed.
+.sp
+In contrast, when this flag is provided, ripgrep will continue searching a file
+even if a NUL byte is found. In particular, if a NUL byte is found then ripgrep
+will continue searching until either a match is found or the end of the file is
+reached, whichever comes sooner. If a match is found, then ripgrep will stop
+and print a warning saying that the search stopped prematurely.
+.sp
+If you want ripgrep to search a file without any special NUL byte handling at
+all (and potentially print binary data to stdout), then you should use the
+\fI\-a/\-\-text\fP flag.
+.sp
+The \fI\-\-binary\fP flag is a flag for controlling ripgrep\(cqs automatic filtering
+mechanism. As such, it does not need to be used when searching a file
+explicitly or when searching stdin. That is, it is only applicable when
+recursively searching a directory.
+.sp
+Note that when the \fI\-u/\-\-unrestricted\fP flag is provided for a third time, then
+this flag is automatically enabled.
+.sp
+This flag can be disabled with \fI\-\-no\-binary\fP. It overrides the \fI\-a/\-\-text\fP
+flag.
+.RE
+.sp
+\fB\-\-block\-buffered\fP
+.RS 4
+When enabled, ripgrep will use block buffering. That is, whenever a matching
+line is found, it will be written to an in\-memory buffer and will not be
+written to stdout until the buffer reaches a certain size. This is the default
+when ripgrep\(cqs stdout is redirected to a pipeline or a file. When ripgrep\(cqs
+stdout is connected to a terminal, line buffering will be used. Forcing block
+buffering can be useful when dumping a large amount of contents to a terminal.
+.sp
+Forceful block buffering can be disabled with \-\-no\-block\-buffered. Note that
+using \-\-no\-block\-buffered causes ripgrep to revert to its default behavior of
+automatically detecting the buffering strategy. To force line buffering, use
+the \-\-line\-buffered flag.
+.RE
+.sp
+\fB\-b, \-\-byte\-offset\fP
+.RS 4
+Print the 0\-based byte offset within the input file before each line of output.
+If \-o (\-\-only\-matching) is specified, print the offset of the matching part
+itself.
+.sp
+If ripgrep does transcoding, then the byte offset is in terms of the the result
+of transcoding and not the original data. This applies similarly to another
+transformation on the source, such as decompression or a \-\-pre filter. Note
+that when the PCRE2 regex engine is used, then UTF\-8 transcoding is done by
+default.
+.RE
+.sp
+\fB\-s, \-\-case\-sensitive\fP
+.RS 4
+Search case sensitively.
+.sp
+This overrides the \-i/\-\-ignore\-case and \-S/\-\-smart\-case flags.
+.RE
+.sp
+\fB\-\-color\fP \fIWHEN\fP
+.RS 4
+This flag controls when to use colors. The default setting is \fIauto\fP, which
+means ripgrep will try to guess when to use colors. For example, if ripgrep is
+printing to a terminal, then it will use colors, but if it is redirected to a
+file or a pipe, then it will suppress color output. ripgrep will suppress color
+output in some other circumstances as well. For example, if the TERM
+environment variable is not set or set to \fIdumb\fP, then ripgrep will not use
+colors.
+.sp
+The possible values for this flag are:
+.sp
+.if n .RS 4
+.nf
+.fam C
+never    Colors will never be used.
+auto     The default. ripgrep tries to be smart.
+always   Colors will always be used regardless of where output is sent.
+ansi     Like \(aqalways\(aq, but emits ANSI escapes (even in a Windows console).
+.fam
+.fi
+.if n .RE
+.sp
+When the \-\-vimgrep flag is given to ripgrep, then the default value for the
+\-\-color flag changes to \fInever\fP.
+.RE
+.sp
+\fB\-\-colors\fP \fICOLOR_SPEC\fP ...
+.RS 4
+This flag specifies color settings for use in the output. This flag may be
+provided multiple times. Settings are applied iteratively. Colors are limited
+to one of eight choices: red, blue, green, cyan, magenta, yellow, white and
+black. Styles are limited to nobold, bold, nointense, intense, nounderline
+or underline.
+.sp
+The format of the flag is \fI{type}:{attribute}:{value}\fP. \fI{type}\fP should be
+one of path, line, column or match. \fI{attribute}\fP can be fg, bg or style.
+\fI{value}\fP is either a color (for fg and bg) or a text style. A special format,
+\fI{type}:none\fP, will clear all color settings for \fI{type}\fP.
+.sp
+For example, the following command will change the match color to magenta and
+the background color for line numbers to yellow:
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-colors \(aqmatch:fg:magenta\(aq \-\-colors \(aqline:bg:yellow\(aq foo.
+.fam
+.fi
+.if n .RE
+.sp
+Extended colors can be used for \fI{value}\fP when the terminal supports ANSI color
+sequences. These are specified as either \fIx\fP (256\-color) or \fIx,x,x\fP (24\-bit
+truecolor) where x is a number between 0 and 255 inclusive. x may be given as
+a normal decimal number or a hexadecimal number, which is prefixed by \f(CR0x\fP.
+.sp
+For example, the following command will change the match background color to
+that represented by the rgb value (0,128,255):
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-colors \(aqmatch:bg:0,128,255\(aq
+.fam
+.fi
+.if n .RE
+.sp
+or, equivalently,
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-colors \(aqmatch:bg:0x0,0x80,0xFF\(aq
+.fam
+.fi
+.if n .RE
+.sp
+Note that the the intense and nointense style flags will have no effect when
+used alongside these extended color codes.
+.RE
+.sp
+\fB\-\-column\fP
+.RS 4
+Show column numbers (1\-based). This only shows the column numbers for the first
+match on each line. This does not try to account for Unicode. One byte is equal
+to one column. This implies \-\-line\-number.
+.sp
+This flag can be disabled with \-\-no\-column.
+.RE
+.sp
+\fB\-C, \-\-context\fP \fINUM\fP
+.RS 4
+Show NUM lines before and after each match. This is equivalent to providing
+both the \-B/\-\-before\-context and \-A/\-\-after\-context flags with the same value.
+.sp
+This overrides both the \-B/\-\-before\-context and \-A/\-\-after\-context flags,
+in addition to the \-\-passthru flag.
+.RE
+.sp
+\fB\-\-context\-separator\fP \fISEPARATOR\fP
+.RS 4
+The string used to separate non\-contiguous context lines in the output. This
+is only used when one of the context flags is used (\-A, \-B or \-C). Escape
+sequences like \(rsx7F or \(rst may be used. The default value is \-\-.
+.sp
+When the context separator is set to an empty string, then a line break
+is still inserted. To completely disable context separators, use the
+\-\-no\-context\-separator flag.
+.RE
+.sp
+\fB\-c, \-\-count\fP
+.RS 4
+This flag suppresses normal output and shows the number of lines that match
+the given patterns for each file searched. Each file containing a match has its
+path and count printed on each line. Note that this reports the number of lines
+that match and not the total number of matches, unless \-U/\-\-multiline is
+enabled. In multiline mode, \-\-count is equivalent to \-\-count\-matches.
+.sp
+If only one file is given to ripgrep, then only the count is printed if there
+is a match. The \-\-with\-filename flag can be used to force printing the file
+path in this case. If you need a count to be printed regardless of whether
+there is a match, then use \-\-include\-zero.
+.sp
+This overrides the \-\-count\-matches flag. Note that when \-\-count is combined
+with \-\-only\-matching, then ripgrep behaves as if \-\-count\-matches was given.
+.RE
+.sp
+\fB\-\-count\-matches\fP
+.RS 4
+This flag suppresses normal output and shows the number of individual
+matches of the given patterns for each file searched. Each file
+containing matches has its path and match count printed on each line.
+Note that this reports the total number of individual matches and not
+the number of lines that match.
+.sp
+If only one file is given to ripgrep, then only the count is printed if there
+is a match. The \-\-with\-filename flag can be used to force printing the file
+path in this case.
+.sp
+This overrides the \-\-count flag. Note that when \-\-count is combined with
+\-\-only\-matching, then ripgrep behaves as if \-\-count\-matches was given.
+.RE
+.sp
+\fB\-\-crlf\fP
+.RS 4
+When enabled, ripgrep will treat CRLF (\fI\(rsr\(rsn\fP) as a line terminator instead
+of just \fI\(rsn\fP.
+.sp
+Principally, this permits \fI$\fP in regex patterns to match just before CRLF
+instead of just before LF. The underlying regex engine may not support this
+natively, so ripgrep will translate all instances of \fI$\fP to \fI(?:\(rsr??$)\fP. This
+may produce slightly different than desired match offsets. It is intended as a
+work\-around until the regex engine supports this natively.
+.sp
+CRLF support can be disabled with \-\-no\-crlf.
+.RE
+.sp
+\fB\-\-debug\fP
+.RS 4
+Show debug messages. Please use this when filing a bug report.
+.sp
+The \-\-debug flag is generally useful for figuring out why ripgrep skipped
+searching a particular file. The debug messages should mention all files
+skipped and why they were skipped.
+.sp
+To get even more debug output, use the \-\-trace flag, which implies \-\-debug
+along with additional trace data. With \-\-trace, the output could be quite
+large and is generally more useful for development.
+.RE
+.sp
+\fB\-\-dfa\-size\-limit\fP \fINUM+SUFFIX?\fP
+.RS 4
+The upper size limit of the regex DFA. The default limit is 10M. This should
+only be changed on very large regex inputs where the (slower) fallback regex
+engine may otherwise be used if the limit is reached.
+.sp
+The argument accepts the same size suffixes as allowed in with the
+\-\-max\-filesize flag.
+.RE
+.sp
+\fB\-E, \-\-encoding\fP \fIENCODING\fP
+.RS 4
+Specify the text encoding that ripgrep will use on all files searched. The
+default value is \fIauto\fP, which will cause ripgrep to do a best effort automatic
+detection of encoding on a per\-file basis. Automatic detection in this case
+only applies to files that begin with a UTF\-8 or UTF\-16 byte\-order mark (BOM).
+No other automatic detection is performed. One can also specify \fInone\fP which
+will then completely disable BOM sniffing and always result in searching the
+raw bytes, including a BOM if it\(cqs present, regardless of its encoding.
+.sp
+Other supported values can be found in the list of labels here:
+.URL "https://encoding.spec.whatwg.org/#concept\-encoding\-get" "" ""
+.sp
+For more details on encoding and how ripgrep deals with it, see GUIDE.md.
+.sp
+This flag can be disabled with \-\-no\-encoding.
+.RE
+.sp
+\fB\-\-engine\fP \fIENGINE\fP
+.RS 4
+Specify which regular expression engine to use. When you choose a regex engine,
+it applies that choice for every regex provided to ripgrep (e.g., via multiple
+\-e/\-\-regexp or \-f/\-\-file flags).
+.sp
+Accepted values are \fIdefault\fP, \fIpcre2\fP, or \fIauto\fP.
+.sp
+The default value is \fIdefault\fP, which is the fastest and should be good for
+most use cases. The \fIpcre2\fP engine is generally useful when you want to use
+features such as look\-around or backreferences. \fIauto\fP will dynamically choose
+between supported regex engines depending on the features used in a pattern on
+a best effort basis.
+.sp
+Note that the \fIpcre2\fP engine is an optional ripgrep feature. If PCRE2 wasn\(cqt
+included in your build of ripgrep, then using this flag will result in ripgrep
+printing an error message and exiting.
+.sp
+This overrides previous uses of \-\-pcre2 and \-\-auto\-hybrid\-regex flags.
+.RE
+.sp
+\fB\-\-field\-context\-separator\fP \fISEPARATOR\fP
+.RS 4
+Set the field context separator, which is used to delimit file paths, line
+numbers, columns and the context itself, when printing contextual lines. The
+separator may be any number of bytes, including zero. Escape sequences like
+\(rsx7F or \(rst may be used. The default value is \-.
+.RE
+.sp
+\fB\-\-field\-match\-separator\fP \fISEPARATOR\fP
+.RS 4
+Set the field match separator, which is used to delimit file paths, line
+numbers, columns and the match itself. The separator may be any number of
+bytes, including zero. Escape sequences like \(rsx7F or \(rst may be used. The
+default value is \-.
+.RE
+.sp
+\fB\-f, \-\-file\fP \fIPATTERNFILE\fP ...
+.RS 4
+Search for patterns from the given file, with one pattern per line. When this
+flag is used multiple times or in combination with the \-e/\-\-regexp flag,
+then all patterns provided are searched. Empty pattern lines will match all
+input lines, and the newline is not counted as part of the pattern.
+.sp
+A line is printed if and only if it matches at least one of the patterns.
+.RE
+.sp
+\fB\-\-files\fP
+.RS 4
+Print each file that would be searched without actually performing the search.
+This is useful to determine whether a particular file is being searched or not.
+.RE
+.sp
+\fB\-l, \-\-files\-with\-matches\fP
+.RS 4
+Print the paths with at least one match and suppress match contents.
+.sp
+This overrides \-\-files\-without\-match.
+.RE
+.sp
+\fB\-\-files\-without\-match\fP
+.RS 4
+Print the paths that contain zero matches and suppress match contents. This
+inverts/negates the \-\-files\-with\-matches flag.
+.sp
+This overrides \-\-files\-with\-matches.
+.RE
+.sp
+\fB\-F, \-\-fixed\-strings\fP
+.RS 4
+Treat the pattern as a literal string instead of a regular expression. When
+this flag is used, special regular expression meta characters such as .(){}*+
+do not need to be escaped.
+.sp
+This flag can be disabled with \-\-no\-fixed\-strings.
+.RE
+.sp
+\fB\-L, \-\-follow\fP
+.RS 4
+When this flag is enabled, ripgrep will follow symbolic links while traversing
+directories. This is disabled by default. Note that ripgrep will check for
+symbolic link loops and report errors if it finds one.
+.sp
+This flag can be disabled with \-\-no\-follow.
+.RE
+.sp
+\fB\-g, \-\-glob\fP \fIGLOB\fP ...
+.RS 4
+Include or exclude files and directories for searching that match the given
+glob. This always overrides any other ignore logic. Multiple glob flags may be
+used. Globbing rules match .gitignore globs. Precede a glob with a ! to exclude
+it. If multiple globs match a file or directory, the glob given later in the
+command line takes precedence.
+.sp
+As an extension, globs support specifying alternatives: \fB\-g ab{c,d}\fP is
+equivalet to \fB\-g abc \-g abd\fP. Empty alternatives like \fB\-g ab{,c}\fP are not
+currently supported. Note that this syntax extension is also currently enabled
+in gitignore files, even though this syntax isn\(cqt supported by git itself.
+ripgrep may disable this syntax extension in gitignore files, but it will
+always remain available via the \-g/\-\-glob flag.
+.sp
+When this flag is set, every file and directory is applied to it to test for
+a match. So for example, if you only want to search in a particular directory
+\fIfoo\fP, then \fB\-g foo\fP is incorrect because \fIfoo/bar\fP does not match the glob
+\fIfoo\fP. Instead, you should use \fB\-g \(aqfoo/**\(aq\fP.
+.RE
+.sp
+\fB\-\-glob\-case\-insensitive\fP
+.RS 4
+Process glob patterns given with the \-g/\-\-glob flag case insensitively. This
+effectively treats \-\-glob as \-\-iglob.
+.sp
+This flag can be disabled with the \-\-no\-glob\-case\-insensitive flag.
+.RE
+.sp
+\fB\-\-heading\fP
+.RS 4
+This flag prints the file path above clusters of matches from each file instead
+of printing the file path as a prefix for each matched line. This is the
+default mode when printing to a terminal.
+.sp
+This overrides the \-\-no\-heading flag.
+.RE
+.sp
+\fB\-., \-\-hidden\fP
+.RS 4
+Search hidden files and directories. By default, hidden files and directories
+are skipped. Note that if a hidden file or a directory is whitelisted in an
+ignore file, then it will be searched even if this flag isn\(cqt provided.
+.sp
+A file or directory is considered hidden if its base name starts with a dot
+character (\fI.\fP). On operating systems which support a \f(CRhidden\fP file attribute,
+like Windows, files with this attribute are also considered hidden.
+.sp
+This flag can be disabled with \-\-no\-hidden.
+.RE
+.sp
+\fB\-\-iglob\fP \fIGLOB\fP ...
+.RS 4
+Include or exclude files and directories for searching that match the given
+glob. This always overrides any other ignore logic. Multiple glob flags may be
+used. Globbing rules match .gitignore globs. Precede a glob with a ! to exclude
+it. Globs are matched case insensitively.
+.RE
+.sp
+\fB\-i, \-\-ignore\-case\fP
+.RS 4
+When this flag is provided, the given patterns will be searched case
+insensitively. The case insensitivity rules used by ripgrep conform to
+Unicode\(cqs "simple" case folding rules.
+.sp
+This flag overrides \-s/\-\-case\-sensitive and \-S/\-\-smart\-case.
+.RE
+.sp
+\fB\-\-ignore\-file\fP \fIPATH\fP ...
+.RS 4
+Specifies a path to one or more .gitignore format rules files. These patterns
+are applied after the patterns found in .gitignore and .ignore are applied
+and are matched relative to the current working directory. Multiple additional
+ignore files can be specified by using the \-\-ignore\-file flag several times.
+When specifying multiple ignore files, earlier files have lower precedence
+than later files.
+.sp
+If you are looking for a way to include or exclude files and directories
+directly on the command line, then used \-g instead.
+.RE
+.sp
+\fB\-\-ignore\-file\-case\-insensitive\fP
+.RS 4
+Process ignore files (.gitignore, .ignore, etc.) case insensitively. Note that
+this comes with a performance penalty and is most useful on case insensitive
+file systems (such as Windows).
+.sp
+This flag can be disabled with the \-\-no\-ignore\-file\-case\-insensitive flag.
+.RE
+.sp
+\fB\-\-include\-zero\fP
+.RS 4
+When used with \-\-count or \-\-count\-matches, print the number of matches for
+each file even if there were zero matches. This is disabled by default but can
+be enabled to make ripgrep behave more like grep.
+.RE
+.sp
+\fB\-v, \-\-invert\-match\fP
+.RS 4
+Invert matching. Show lines that do not match the given patterns.
+.RE
+.sp
+\fB\-\-json\fP
+.RS 4
+Enable printing results in a JSON Lines format.
+.sp
+When this flag is provided, ripgrep will emit a sequence of messages, each
+encoded as a JSON object, where there are five different message types:
+.sp
+\fBbegin\fP \- A message that indicates a file is being searched and contains at
+least one match.
+.sp
+\fBend\fP \- A message the indicates a file is done being searched. This message
+also include summary statistics about the search for a particular file.
+.sp
+\fBmatch\fP \- A message that indicates a match was found. This includes the text
+and offsets of the match.
+.sp
+\fBcontext\fP \- A message that indicates a contextual line was found. This
+includes the text of the line, along with any match information if the search
+was inverted.
+.sp
+\fBsummary\fP \- The final message emitted by ripgrep that contains summary
+statistics about the search across all files.
+.sp
+Since file paths or the contents of files are not guaranteed to be valid UTF\-8
+and JSON itself must be representable by a Unicode encoding, ripgrep will emit
+all data elements as objects with one of two keys: \fItext\fP or \fIbytes\fP. \fItext\fP is
+a normal JSON string when the data is valid UTF\-8 while \fIbytes\fP is the base64
+encoded contents of the data.
+.sp
+The JSON Lines format is only supported for showing search results. It cannot
+be used with other flags that emit other types of output, such as \-\-files,
+\-\-files\-with\-matches, \-\-files\-without\-match, \-\-count or \-\-count\-matches.
+ripgrep will report an error if any of the aforementioned flags are used in
+concert with \-\-json.
+.sp
+Other flags that control aspects of the standard output such as
+\-\-only\-matching, \-\-heading, \-\-replace, \-\-max\-columns, etc., have no effect
+when \-\-json is set.
+.sp
+A more complete description of the JSON format used can be found here:
+.URL "https://docs.rs/grep\-printer/*/grep_printer/struct.JSON.html" "" ""
+.sp
+The JSON Lines format can be disabled with \-\-no\-json.
+.RE
+.sp
+\fB\-\-line\-buffered\fP
+.RS 4
+When enabled, ripgrep will use line buffering. That is, whenever a matching
+line is found, it will be flushed to stdout immediately. This is the default
+when ripgrep\(cqs stdout is connected to a terminal, but otherwise, ripgrep will
+use block buffering, which is typically faster. This flag forces ripgrep to
+use line buffering even if it would otherwise use block buffering. This is
+typically useful in shell pipelines, e.g.,
+\fItail \-f something.log | rg foo \-\-line\-buffered | rg bar\fP.
+.sp
+Forceful line buffering can be disabled with \-\-no\-line\-buffered. Note that
+using \-\-no\-line\-buffered causes ripgrep to revert to its default behavior of
+automatically detecting the buffering strategy. To force block buffering, use
+the \-\-block\-buffered flag.
+.RE
+.sp
+\fB\-n, \-\-line\-number\fP
+.RS 4
+Show line numbers (1\-based). This is enabled by default when searching in a
+terminal.
+.RE
+.sp
+\fB\-x, \-\-line\-regexp\fP
+.RS 4
+Only show matches surrounded by line boundaries. This is equivalent to putting
+^...$ around all of the search patterns. In other words, this only prints lines
+where the entire line participates in a match.
+.sp
+This overrides the \-\-word\-regexp flag.
+.RE
+.sp
+\fB\-M, \-\-max\-columns\fP \fINUM\fP
+.RS 4
+Don\(cqt print lines longer than this limit in bytes. Longer lines are omitted,
+and only the number of matches in that line is printed.
+.sp
+When this flag is omitted or is set to 0, then it has no effect.
+.RE
+.sp
+\fB\-\-max\-columns\-preview\fP
+.RS 4
+When the \fI\-\-max\-columns\fP flag is used, ripgrep will by default completely
+replace any line that is too long with a message indicating that a matching
+line was removed. When this flag is combined with \fI\-\-max\-columns\fP, a preview
+of the line (corresponding to the limit size) is shown instead, where the part
+of the line exceeding the limit is not shown.
+.sp
+If the \fI\-\-max\-columns\fP flag is not set, then this has no effect.
+.sp
+This flag can be disabled with \fI\-\-no\-max\-columns\-preview\fP.
+.RE
+.sp
+\fB\-m, \-\-max\-count\fP \fINUM\fP
+.RS 4
+Limit the number of matching lines per file searched to NUM.
+.RE
+.sp
+\fB\-\-max\-depth\fP \fINUM\fP
+.RS 4
+Limit the depth of directory traversal to NUM levels beyond the paths given. A
+value of zero only searches the explicitly given paths themselves.
+.sp
+For example, \fIrg \-\-max\-depth 0 dir/\fP is a no\-op because dir/ will not be
+descended into. \fIrg \-\-max\-depth 1 dir/\fP will search only the direct children of
+\fIdir\fP.
+.RE
+.sp
+\fB\-\-max\-filesize\fP \fINUM+SUFFIX?\fP
+.RS 4
+Ignore files larger than NUM in size. This does not apply to directories.
+.sp
+The input format accepts suffixes of K, M or G which correspond to kilobytes,
+megabytes and gigabytes, respectively. If no suffix is provided the input is
+treated as bytes.
+.sp
+Examples: \-\-max\-filesize 50K or \-\-max\-filesize 80M
+.RE
+.sp
+\fB\-\-mmap\fP
+.RS 4
+Search using memory maps when possible. This is enabled by default when ripgrep
+thinks it will be faster.
+.sp
+Memory map searching doesn\(cqt currently support all options, so if an
+incompatible option (e.g., \-\-context) is given with \-\-mmap, then memory maps
+will not be used.
+.sp
+Note that ripgrep may abort unexpectedly when \-\-mmap if it searches a file that
+is simultaneously truncated.
+.sp
+This flag overrides \-\-no\-mmap.
+.RE
+.sp
+\fB\-U, \-\-multiline\fP
+.RS 4
+Enable matching across multiple lines.
+.sp
+When multiline mode is enabled, ripgrep will lift the restriction that a match
+cannot include a line terminator. For example, when multiline mode is not
+enabled (the default), then the regex \fI\(rsp{any}\fP will match any Unicode
+codepoint other than \fI\(rsn\fP. Similarly, the regex \fI\(rsn\fP is explicitly forbidden,
+and if you try to use it, ripgrep will return an error. However, when multiline
+mode is enabled, \fI\(rsp{any}\fP will match any Unicode codepoint, including \fI\(rsn\fP,
+and regexes like \fI\(rsn\fP are permitted.
+.sp
+An important caveat is that multiline mode does not change the match semantics
+of \fI.\fP. Namely, in most regex matchers, a \fI.\fP will by default match any
+character other than \fI\(rsn\fP, and this is true in ripgrep as well. In order to
+make \fI.\fP match \fI\(rsn\fP, you must enable the "dot all" flag inside the regex.
+For example, both \fI(?s).\fP and \fI(?s:.)\fP have the same semantics, where \fI.\fP will
+match any character, including \fI\(rsn\fP. Alternatively, the \fI\-\-multiline\-dotall\fP
+flag may be passed to make the "dot all" behavior the default. This flag only
+applies when multiline search is enabled.
+.sp
+There is no limit on the number of the lines that a single match can span.
+.sp
+\fBWARNING\fP: Because of how the underlying regex engine works, multiline
+searches may be slower than normal line\-oriented searches, and they may also
+use more memory. In particular, when multiline mode is enabled, ripgrep
+requires that each file it searches is laid out contiguously in memory
+(either by reading it onto the heap or by memory\-mapping it). Things that
+cannot be memory\-mapped (such as stdin) will be consumed until EOF before
+searching can begin. In general, ripgrep will only do these things when
+necessary. Specifically, if the \-\-multiline flag is provided but the regex
+does not contain patterns that would match \fI\(rsn\fP characters, then ripgrep
+will automatically avoid reading each file into memory before searching it.
+Nevertheless, if you only care about matches spanning at most one line, then it
+is always better to disable multiline mode.
+.sp
+This flag can be disabled with \-\-no\-multiline.
+.RE
+.sp
+\fB\-\-multiline\-dotall\fP
+.RS 4
+This flag enables "dot all" in your regex pattern, which causes \fI.\fP to match
+newlines when multiline searching is enabled. This flag has no effect if
+multiline searching isn\(cqt enabled with the \-\-multiline flag.
+.sp
+Normally, a \fI.\fP will match any character except newlines. While this behavior
+typically isn\(cqt relevant for line\-oriented matching (since matches can span at
+most one line), this can be useful when searching with the \-U/\-\-multiline flag.
+By default, the multiline mode runs without this flag.
+.sp
+This flag is generally intended to be used in an alias or your ripgrep config
+file if you prefer "dot all" semantics by default. Note that regardless of
+whether this flag is used, "dot all" semantics can still be controlled via
+inline flags in the regex pattern itself, e.g., \fI(?s:.)\fP always enables "dot
+all" whereas \fI(?\-s:.)\fP always disables "dot all".
+.sp
+This flag can be disabled with \-\-no\-multiline\-dotall.
+.RE
+.sp
+\fB\-\-no\-config\fP
+.RS 4
+Never read configuration files. When this flag is present, ripgrep will not
+respect the RIPGREP_CONFIG_PATH environment variable.
+.sp
+If ripgrep ever grows a feature to automatically read configuration files in
+pre\-defined locations, then this flag will also disable that behavior as well.
+.RE
+.sp
+\fB\-I, \-\-no\-filename\fP
+.RS 4
+Never print the file path with the matched lines. This is the default when
+ripgrep is explicitly instructed to search one file or stdin.
+.sp
+This flag overrides \-\-with\-filename.
+.RE
+.sp
+\fB\-\-no\-heading\fP
+.RS 4
+Don\(cqt group matches by each file. If \-\-no\-heading is provided in addition to
+the \-H/\-\-with\-filename flag, then file paths will be printed as a prefix for
+every matched line. This is the default mode when not printing to a terminal.
+.sp
+This overrides the \-\-heading flag.
+.RE
+.sp
+\fB\-\-no\-ignore\fP
+.RS 4
+Don\(cqt respect ignore files (.gitignore, .ignore, etc.). This implies
+\-\-no\-ignore\-dot, \-\-no\-ignore\-exclude, \-\-no\-ignore\-global, no\-ignore\-parent and
+\-\-no\-ignore\-vcs.
+.sp
+This does \fBnot\fP imply \-\-no\-ignore\-files, since \-\-ignore\-file is specified
+explicitly as a command line argument.
+.sp
+When given only once, the \-u flag is identical in behavior to \-\-no\-ignore and
+can be considered an alias. However, subsequent \-u flags have additional
+effects; see \-\-unrestricted.
+.sp
+This flag can be disabled with the \-\-ignore flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-dot\fP
+.RS 4
+Don\(cqt respect .ignore files.
+.sp
+This does \fBnot\fP affect whether ripgrep will ignore files and directories
+whose names begin with a dot. For that, see the \-./\-\-hidden flag.
+.sp
+This flag can be disabled with the \-\-ignore\-dot flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-exclude\fP
+.RS 4
+Don\(cqt respect ignore files that are manually configured for the repository
+such as git\(cqs \fI.git/info/exclude\fP.
+.sp
+This flag can be disabled with the \-\-ignore\-exclude flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-files\fP
+.RS 4
+When set, any \-\-ignore\-file flags, even ones that come after this flag, are
+ignored.
+.sp
+This flag can be disabled with the \-\-ignore\-files flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-global\fP
+.RS 4
+Don\(cqt respect ignore files that come from "global" sources such as git\(cqs
+\f(CRcore.excludesFile\fP configuration option (which defaults to
+\f(CR$HOME/.config/git/ignore\fP).
+.sp
+This flag can be disabled with the \-\-ignore\-global flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-messages\fP
+.RS 4
+Suppresses all error messages related to parsing ignore files such as .ignore
+or .gitignore.
+.sp
+This flag can be disabled with the \-\-ignore\-messages flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-parent\fP
+.RS 4
+Don\(cqt respect ignore files (.gitignore, .ignore, etc.) in parent directories.
+.sp
+This flag can be disabled with the \-\-ignore\-parent flag.
+.RE
+.sp
+\fB\-\-no\-ignore\-vcs\fP
+.RS 4
+Don\(cqt respect version control ignore files (.gitignore, etc.). This implies
+\-\-no\-ignore\-parent for VCS files. Note that .ignore files will continue to be
+respected.
+.sp
+This flag can be disabled with the \-\-ignore\-vcs flag.
+.RE
+.sp
+\fB\-N, \-\-no\-line\-number\fP
+.RS 4
+Suppress line numbers. This is enabled by default when not searching in a
+terminal.
+.RE
+.sp
+\fB\-\-no\-messages\fP
+.RS 4
+Suppress all error messages related to opening and reading files. Error
+messages related to the syntax of the pattern given are still shown.
+.sp
+This flag can be disabled with the \-\-messages flag.
+.RE
+.sp
+\fB\-\-no\-mmap\fP
+.RS 4
+Never use memory maps, even when they might be faster.
+.sp
+This flag overrides \-\-mmap.
+.RE
+.sp
+\fB\-\-no\-pcre2\-unicode\fP
+.RS 4
+DEPRECATED. Use \-\-no\-unicode instead.
+.sp
+This flag is now an alias for \-\-no\-unicode. And \-\-pcre2\-unicode is an alias
+for \-\-unicode.
+.RE
+.sp
+\fB\-\-no\-require\-git\fP
+.RS 4
+By default, ripgrep will only respect global gitignore rules, .gitignore rules
+and local exclude rules if ripgrep detects that you are searching inside a
+git repository. This flag allows you to relax this restriction such that
+ripgrep will respect all git related ignore rules regardless of whether you\(cqre
+searching in a git repository or not.
+.sp
+This flag can be disabled with \-\-require\-git.
+.RE
+.sp
+\fB\-\-no\-unicode\fP
+.RS 4
+By default, ripgrep will enable "Unicode mode" in all of its regexes. This
+has a number of consequences:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI.\fP will only match valid UTF\-8 encoded scalar values.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Classes like \fI\(rsw\fP, \fI\(rss\fP, \fI\(rsd\fP are all Unicode aware and much bigger
+than their ASCII only versions.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Case insensitive matching will use Unicode case folding.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+A large array of classes like \fI\(rsp{Emoji}\fP are available.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Word boundaries (\fI\(rsb\fP and \fI\(rsB\fP) use the Unicode definition of a word
+character.
+.sp
+In some cases it can be desirable to turn these things off. The \-\-no\-unicode
+flag will do exactly that.
+.sp
+For PCRE2 specifically, Unicode mode represents a critical trade off in the
+user experience of ripgrep. In particular, unlike the default regex engine,
+PCRE2 does not support the ability to search possibly invalid UTF\-8 with
+Unicode features enabled. Instead, PCRE2 \fBrequires\fP that everything it searches
+when Unicode mode is enabled is valid UTF\-8. (Or valid UTF\-16/UTF\-32, but for
+the purposes of ripgrep, we only discuss UTF\-8.) This means that if you have
+PCRE2\(cqs Unicode mode enabled and you attempt to search invalid UTF\-8, then
+the search for that file will halt and print an error. For this reason, when
+PCRE2\(cqs Unicode mode is enabled, ripgrep will automatically "fix" invalid
+UTF\-8 sequences by replacing them with the Unicode replacement codepoint. This
+penalty does not occur when using the default regex engine.
+.sp
+If you would rather see the encoding errors surfaced by PCRE2 when Unicode mode
+is enabled, then pass the \-\-no\-encoding flag to disable all transcoding.
+.sp
+The \-\-no\-unicode flag can be disabled with \-\-unicode. Note that
+\-\-no\-pcre2\-unicode and \-\-pcre2\-unicode are aliases for \-\-no\-unicode and
+\-\-unicode, respectively.
+.RE
+.RE
+.sp
+\fB\-0, \-\-null\fP
+.RS 4
+Whenever a file path is printed, follow it with a NUL byte. This includes
+printing file paths before matches, and when printing a list of matching files
+such as with \-\-count, \-\-files\-with\-matches and \-\-files. This option is useful
+for use with xargs.
+.RE
+.sp
+\fB\-\-null\-data\fP
+.RS 4
+Enabling this option causes ripgrep to use NUL as a line terminator instead of
+the default of \fI\(rsn\fP.
+.sp
+This is useful when searching large binary files that would otherwise have very
+long lines if \fI\(rsn\fP were used as the line terminator. In particular, ripgrep
+requires that, at a minimum, each line must fit into memory. Using NUL instead
+can be a useful stopgap to keep memory requirements low and avoid OOM (out of
+memory) conditions.
+.sp
+This is also useful for processing NUL delimited data, such as that emitted
+when using ripgrep\(cqs \-0/\-\-null flag or find\(cqs \-\-print0 flag.
+.sp
+Using this flag implies \-a/\-\-text.
+.RE
+.sp
+\fB\-\-one\-file\-system\fP
+.RS 4
+When enabled, ripgrep will not cross file system boundaries relative to where
+the search started from.
+.sp
+Note that this applies to each path argument given to ripgrep. For example, in
+the command \fIrg \-\-one\-file\-system /foo/bar /quux/baz\fP, ripgrep will search both
+\fI/foo/bar\fP and \fI/quux/baz\fP even if they are on different file systems, but will
+not cross a file system boundary when traversing each path\(cqs directory tree.
+.sp
+This is similar to find\(cqs \fI\-xdev\fP or \fI\-mount\fP flag.
+.sp
+This flag can be disabled with \-\-no\-one\-file\-system.
+.RE
+.sp
+\fB\-o, \-\-only\-matching\fP
+.RS 4
+Print only the matched (non\-empty) parts of a matching line, with each such
+part on a separate output line.
+.RE
+.sp
+\fB\-\-passthru\fP
+.RS 4
+Print both matching and non\-matching lines.
+.sp
+Another way to achieve a similar effect is by modifying your pattern to match
+the empty string. For example, if you are searching using \fIrg foo\fP then using
+\fIrg "^|foo"\fP instead will emit every line in every file searched, but only
+occurrences of \fIfoo\fP will be highlighted. This flag enables the same behavior
+without needing to modify the pattern.
+.sp
+This overrides the \-\-context, \-\-after\-context and \-\-before\-context flags.
+.RE
+.sp
+\fB\-\-path\-separator\fP \fISEPARATOR\fP
+.RS 4
+Set the path separator to use when printing file paths. This defaults to your
+platform\(cqs path separator, which is / on Unix and \(rs on Windows. This flag is
+intended for overriding the default when the environment demands it (e.g.,
+cygwin). A path separator is limited to a single byte.
+.RE
+.sp
+\fB\-P, \-\-pcre2\fP
+.RS 4
+When this flag is present, ripgrep will use the PCRE2 regex engine instead of
+its default regex engine.
+.sp
+This is generally useful when you want to use features such as look\-around
+or backreferences.
+.sp
+Note that PCRE2 is an optional ripgrep feature. If PCRE2 wasn\(cqt included in
+your build of ripgrep, then using this flag will result in ripgrep printing
+an error message and exiting. PCRE2 may also have worse user experience in
+some cases, since it has fewer introspection APIs than ripgrep\(cqs default regex
+engine. For example, if you use a \fI\(rsn\fP in a PCRE2 regex without the
+\fI\-U/\-\-multiline\fP flag, then ripgrep will silently fail to match anything
+instead of reporting an error immediately (like it does with the default
+regex engine).
+.sp
+Related flags: \-\-no\-pcre2\-unicode
+.sp
+This flag can be disabled with \-\-no\-pcre2.
+.RE
+.sp
+\fB\-\-pcre2\-version\fP
+.RS 4
+When this flag is present, ripgrep will print the version of PCRE2 in use,
+along with other information, and then exit. If PCRE2 is not available, then
+ripgrep will print an error message and exit with an error code.
+.RE
+.sp
+\fB\-\-pre\fP \fICOMMAND\fP
+.RS 4
+For each input FILE, search the standard output of COMMAND FILE rather than the
+contents of FILE. This option expects the COMMAND program to either be an
+absolute path or to be available in your PATH. Either an empty string COMMAND
+or the \fI\-\-no\-pre\fP flag will disable this behavior.
+.sp
+.if n .RS 4
+.nf
+.fam C
+WARNING: When this flag is set, ripgrep will unconditionally spawn a
+process for every file that is searched. Therefore, this can incur an
+unnecessarily large performance penalty if you don\(aqt otherwise need the
+flexibility offered by this flag. One possible mitigation to this is to use
+the \(aq\-\-pre\-glob\(aq flag to limit which files a preprocessor is run with.
+.fam
+.fi
+.if n .RE
+.sp
+A preprocessor is not run when ripgrep is searching stdin.
+.sp
+When searching over sets of files that may require one of several decoders
+as preprocessors, COMMAND should be a wrapper program or script which first
+classifies FILE based on magic numbers/content or based on the FILE name and
+then dispatches to an appropriate preprocessor. Each COMMAND also has its
+standard input connected to FILE for convenience.
+.sp
+For example, a shell script for COMMAND might look like:
+.sp
+.if n .RS 4
+.nf
+.fam C
+case "$1" in
+*.pdf)
+    exec pdftotext "$1" \-
+    ;;
+*)
+    case $(file "$1") in
+    *Zstandard*)
+        exec pzstd \-cdq
+        ;;
+    *)
+        exec cat
+        ;;
+    esac
+    ;;
+esac
+.fam
+.fi
+.if n .RE
+.sp
+The above script uses \f(CRpdftotext\fP to convert a PDF file to plain text. For
+all other files, the script uses the \f(CRfile\fP utility to sniff the type of the
+file based on its contents. If it is a compressed file in the Zstandard format,
+then \f(CRpzstd\fP is used to decompress the contents to stdout.
+.sp
+This overrides the \-z/\-\-search\-zip flag.
+.RE
+.sp
+\fB\-\-pre\-glob\fP \fIGLOB\fP ...
+.RS 4
+This flag works in conjunction with the \-\-pre flag. Namely, when one or more
+\-\-pre\-glob flags are given, then only files that match the given set of globs
+will be handed to the command specified by the \-\-pre flag. Any non\-matching
+files will be searched without using the preprocessor command.
+.sp
+This flag is useful when searching many files with the \-\-pre flag. Namely,
+it permits the ability to avoid process overhead for files that don\(cqt need
+preprocessing. For example, given the following shell script, \fIpre\-pdftotext\fP:
+.sp
+.if n .RS 4
+.nf
+.fam C
+#!/bin/sh
+.fam
+.fi
+.if n .RE
+.sp
+.if n .RS 4
+.nf
+.fam C
+pdftotext "$1" \-
+.fam
+.fi
+.if n .RE
+.sp
+then it is possible to use \fI\-\-pre pre\-pdftotext \-\-pre\-glob \(aq*.pdf\fP\(aq to make
+it so ripgrep only executes the \fIpre\-pdftotext\fP command on files with a \fI.pdf\fP
+extension.
+.sp
+Multiple \-\-pre\-glob flags may be used. Globbing rules match .gitignore globs.
+Precede a glob with a ! to exclude it.
+.sp
+This flag has no effect if the \-\-pre flag is not used.
+.RE
+.sp
+\fB\-p, \-\-pretty\fP
+.RS 4
+This is a convenience alias for \fI\-\-color always \-\-heading \-\-line\-number\fP. This
+flag is useful when you still want pretty output even if you\(cqre piping ripgrep
+to another program or file. For example: \fIrg \-p foo | less \-R\fP.
+.RE
+.sp
+\fB\-q, \-\-quiet\fP
+.RS 4
+Do not print anything to stdout. If a match is found in a file, then ripgrep
+will stop searching. This is useful when ripgrep is used only for its exit
+code (which will be an error if no matches are found).
+.sp
+When \-\-files is used, then ripgrep will stop finding files after finding the
+first file that matches all ignore rules.
+.RE
+.sp
+\fB\-\-regex\-size\-limit\fP \fINUM+SUFFIX?\fP
+.RS 4
+The upper size limit of the compiled regex. The default limit is 10M.
+.sp
+The argument accepts the same size suffixes as allowed in the \-\-max\-filesize
+flag.
+.RE
+.sp
+\fB\-e, \-\-regexp\fP \fIPATTERN\fP ...
+.RS 4
+A pattern to search for. This option can be provided multiple times, where
+all patterns given are searched. Lines matching at least one of the provided
+patterns are printed. This flag can also be used when searching for patterns
+that start with a dash.
+.sp
+For example, to search for the literal \fI\-foo\fP, you can use this flag:
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-e \-foo
+.fam
+.fi
+.if n .RE
+.sp
+You can also use the special \fI\-\-\fP delimiter to indicate that no more flags
+will be provided. Namely, the following is equivalent to the above:
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\- \-foo
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fB\-r, \-\-replace\fP \fIREPLACEMENT_TEXT\fP
+.RS 4
+Replace every match with the text given when printing results. Neither this
+flag nor any other ripgrep flag will modify your files.
+.sp
+Capture group indices (e.g., $5) and names (e.g., $foo) are supported in the
+replacement string. Capture group indices are numbered based on the position of
+the opening parenthesis of the group, where the leftmost such group is $1. The
+special $0 group corresponds to the entire match.
+.sp
+In shells such as Bash and zsh, you should wrap the pattern in single quotes
+instead of double quotes. Otherwise, capture group indices will be replaced by
+expanded shell variables which will most likely be empty.
+.sp
+To write a literal \fI$\fP, use \fI$$\fP.
+.sp
+Note that the replacement by default replaces each match, and NOT the entire
+line. To replace the entire line, you should match the entire line.
+.sp
+This flag can be used with the \-o/\-\-only\-matching flag.
+.RE
+.sp
+\fB\-z, \-\-search\-zip\fP
+.RS 4
+Search in compressed files. Currently gzip, bzip2, xz, LZ4, LZMA, Brotli and
+Zstd files are supported. This option expects the decompression binaries to be
+available in your PATH.
+.sp
+This flag can be disabled with \-\-no\-search\-zip.
+.RE
+.sp
+\fB\-S, \-\-smart\-case\fP
+.RS 4
+Searches case insensitively if the pattern is all lowercase. Search case
+sensitively otherwise.
+.sp
+A pattern is considered all lowercase if both of the following rules hold:
+.sp
+First, the pattern contains at least one literal character. For example, \fIa\(rsw\fP
+contains a literal (\fIa\fP) but just \fI\(rsw\fP does not.
+.sp
+Second, of the literals in the pattern, none of them are considered to be
+uppercase according to Unicode. For example, \fIfoo\(rspL\fP has no uppercase
+literals but \fIFoo\(rspL\fP does.
+.sp
+This overrides the \-s/\-\-case\-sensitive and \-i/\-\-ignore\-case flags.
+.RE
+.sp
+\fB\-\-sort\fP \fISORTBY\fP
+.RS 4
+This flag enables sorting of results in ascending order. The possible values
+for this flag are:
+.sp
+.if n .RS 4
+.nf
+.fam C
+none      (Default) Do not sort results. Fastest. Can be multi\-threaded.
+path      Sort by file path. Always single\-threaded.
+modified  Sort by the last modified time on a file. Always single\-threaded.
+accessed  Sort by the last accessed time on a file. Always single\-threaded.
+created   Sort by the creation time on a file. Always single\-threaded.
+.fam
+.fi
+.if n .RE
+.sp
+If the chosen (manually or by\-default) sorting criteria isn\(cqt available on your
+system (for example, creation time is not available on ext4 file systems), then
+ripgrep will attempt to detect this, print an error and exit without searching.
+.sp
+To sort results in reverse or descending order, use the \-\-sortr flag. Also,
+this flag overrides \-\-sortr.
+.sp
+Note that sorting results currently always forces ripgrep to abandon
+parallelism and run in a single thread.
+.RE
+.sp
+\fB\-\-sortr\fP \fISORTBY\fP
+.RS 4
+This flag enables sorting of results in descending order. The possible values
+for this flag are:
+.sp
+.if n .RS 4
+.nf
+.fam C
+none      (Default) Do not sort results. Fastest. Can be multi\-threaded.
+path      Sort by file path. Always single\-threaded.
+modified  Sort by the last modified time on a file. Always single\-threaded.
+accessed  Sort by the last accessed time on a file. Always single\-threaded.
+created   Sort by the creation time on a file. Always single\-threaded.
+.fam
+.fi
+.if n .RE
+.sp
+If the chosen (manually or by\-default) sorting criteria isn\(cqt available on your
+system (for example, creation time is not available on ext4 file systems), then
+ripgrep will attempt to detect this, print an error and exit without searching.
+.sp
+To sort results in ascending order, use the \-\-sort flag. Also, this flag
+overrides \-\-sort.
+.sp
+Note that sorting results currently always forces ripgrep to abandon
+parallelism and run in a single thread.
+.RE
+.sp
+\fB\-\-stats\fP
+.RS 4
+Print aggregate statistics about this ripgrep search. When this flag is
+present, ripgrep will print the following stats to stdout at the end of the
+search: number of matched lines, number of files with matches, number of files
+searched, and the time taken for the entire search to complete.
+.sp
+This set of aggregate statistics may expand over time.
+.sp
+Note that this flag has no effect if \-\-files, \-\-files\-with\-matches or
+\-\-files\-without\-match is passed.
+.sp
+This flag can be disabled with \-\-no\-stats.
+.RE
+.sp
+\fB\-a, \-\-text\fP
+.RS 4
+Search binary files as if they were text. When this flag is present, ripgrep\(cqs
+binary file detection is disabled. This means that when a binary file is
+searched, its contents may be printed if there is a match. This may cause
+escape codes to be printed that alter the behavior of your terminal.
+.sp
+When binary file detection is enabled it is imperfect. In general, it uses
+a simple heuristic. If a NUL byte is seen during search, then the file is
+considered binary and search stops (unless this flag is present).
+Alternatively, if the \fI\-\-binary\fP flag is used, then ripgrep will only quit
+when it sees a NUL byte after it sees a match (or searches the entire file).
+.sp
+This flag can be disabled with \fI\-\-no\-text\fP. It overrides the \fI\-\-binary\fP flag.
+.RE
+.sp
+\fB\-j, \-\-threads\fP \fINUM\fP
+.RS 4
+The approximate number of threads to use. A value of 0 (which is the default)
+causes ripgrep to choose the thread count using heuristics.
+.RE
+.sp
+\fB\-\-trim\fP
+.RS 4
+When set, all ASCII whitespace at the beginning of each line printed will be
+trimmed.
+.sp
+This flag can be disabled with \-\-no\-trim.
+.RE
+.sp
+\fB\-t, \-\-type\fP \fITYPE\fP ...
+.RS 4
+Only search files matching TYPE. Multiple type flags may be provided. Use the
+\-\-type\-list flag to list all available types.
+.sp
+This flag supports the special value \fIall\fP, which will behave as if \-\-type
+was provided for every file type supported by ripgrep (including any custom
+file types). The end result is that \fI\-\-type all\fP causes ripgrep to search in
+"whitelist" mode, where it will only search files it recognizes via its type
+definitions.
+.RE
+.sp
+\fB\-\-type\-add\fP \fITYPE_SPEC\fP ...
+.RS 4
+Add a new glob for a particular file type. Only one glob can be added at a
+time. Multiple \-\-type\-add flags can be provided. Unless \-\-type\-clear is used,
+globs are added to any existing globs defined inside of ripgrep.
+.sp
+Note that this MUST be passed to every invocation of ripgrep. Type settings are
+NOT persisted. See CONFIGURATION FILES for a workaround.
+.sp
+Example:
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-type\-add \(aqfoo:*.foo\(aq \-tfoo PATTERN.
+.fam
+.fi
+.if n .RE
+.sp
+\-\-type\-add can also be used to include rules from other types with the special
+include directive. The include directive permits specifying one or more other
+type names (separated by a comma) that have been defined and its rules will
+automatically be imported into the type specified. For example, to create a
+type called src that matches C++, Python and Markdown files, one can use:
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-type\-add \(aqsrc:include:cpp,py,md\(aq
+.fam
+.fi
+.if n .RE
+.sp
+Additional glob rules can still be added to the src type by using the
+\-\-type\-add flag again:
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-type\-add \(aqsrc:include:cpp,py,md\(aq \-\-type\-add \(aqsrc:*.foo\(aq
+.fam
+.fi
+.if n .RE
+.sp
+Note that type names must consist only of Unicode letters or numbers.
+Punctuation characters are not allowed.
+.RE
+.sp
+\fB\-\-type\-clear\fP \fITYPE\fP ...
+.RS 4
+Clear the file type globs previously defined for TYPE. This only clears the
+default type definitions that are found inside of ripgrep.
+.sp
+Note that this MUST be passed to every invocation of ripgrep. Type settings are
+NOT persisted. See CONFIGURATION FILES for a workaround.
+.RE
+.sp
+\fB\-\-type\-list\fP
+.RS 4
+Show all supported file types and their corresponding globs.
+.RE
+.sp
+\fB\-T, \-\-type\-not\fP \fITYPE\fP ...
+.RS 4
+Do not search files matching TYPE. Multiple type\-not flags may be provided. Use
+the \-\-type\-list flag to list all available types.
+.RE
+.sp
+\fB\-u, \-\-unrestricted\fP ...
+.RS 4
+Reduce the level of "smart" searching. A single \-u won\(cqt respect .gitignore
+(etc.) files (\-\-no\-ignore). Two \-u flags will additionally search hidden files
+and directories (\-./\-\-hidden). Three \-u flags will additionally search binary
+files (\-\-binary).
+.sp
+\fIrg \-uuu\fP is roughly equivalent to \fIgrep \-r\fP.
+.RE
+.sp
+\fB\-\-vimgrep\fP
+.RS 4
+Show results with every match on its own line, including line numbers and
+column numbers. With this option, a line with more than one match will be
+printed more than once.
+.RE
+.sp
+\fB\-H, \-\-with\-filename\fP
+.RS 4
+Display the file path for matches. This is the default when more than one
+file is searched. If \-\-heading is enabled (the default when printing to a
+terminal), the file path will be shown above clusters of matches from each
+file; otherwise, the file name will be shown as a prefix for each matched line.
+.sp
+This flag overrides \-\-no\-filename.
+.RE
+.sp
+\fB\-w, \-\-word\-regexp\fP
+.RS 4
+Only show matches surrounded by word boundaries. This is roughly equivalent to
+putting \(rsb before and after all of the search patterns.
+.sp
+This overrides the \-\-line\-regexp flag.
+.RE
+.SH "EXIT STATUS"
+.sp
+If ripgrep finds a match, then the exit status of the program is 0. If no match
+could be found, then the exit status is 1. If an error occurred, then the exit
+status is always 2 unless ripgrep was run with the \fB\-\-quiet\fP flag and a match
+was found. In summary:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\f(CR0\fP exit status occurs only when at least one match was found, and if
+no error occurred, unless \fB\-\-quiet\fP was given.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\f(CR1\fP exit status occurs only when no match was found and no error occurred.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\f(CR2\fP exit status occurs when an error occurred. This is true for both
+catastrophic errors (e.g., a regex syntax error) and for soft errors (e.g.,
+unable to read a file).
+.RE
+.SH "AUTOMATIC FILTERING"
+.sp
+TL;DR \- To disable automatic filtering, use \fIrg \-uuu\fP.
+.sp
+One of ripgrep\(cqs most important features is its automatic smart filtering.
+It is the most apparent differentiating feature between ripgrep and other tools
+like \fIgrep\fP. As such, its behavior may be surprising to users that aren\(cqt
+expecting it.
+.sp
+ripgrep does four types of filtering automatically:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 1." 4.2
+.\}
+Files and directories that match ignore rules are not searched.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 2." 4.2
+.\}
+Hidden files and directories are not searched.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 3.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 3." 4.2
+.\}
+Binary files (files with a \fINUL\fP byte) are not searched.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 4.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 4." 4.2
+.\}
+Symbolic links are not followed.
+.RE
+.sp
+The first type of filtering is the most sophisticated. ripgrep will attempt to
+respect your gitignore rules as faithfully as possible. In particular, this
+includes the following:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any global rules, e.g., in \fI$HOME/.config/git/ignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any rules in \fI.gitignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any local rules, e.g., in \fI.git/info/exclude\fP.
+.RE
+.sp
+In some cases, ripgrep and git will not always be in sync in terms of which
+files are ignored. For example, a file that is ignored via \fI.gitignore\fP but is
+tracked by git would not be searched by ripgrep even though git tracks it. This
+is unlikely to ever be fixed. Instead, you should either make sure your exclude
+rules match the files you track precisely, or otherwise use \fIgit grep\fP for
+search.
+.sp
+Additional ignore rules can be provided outside of a git context:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any rules in \fI.ignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any rules in \fI.rgignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Any rules in files specified with the \fI\-\-ignore\-file\fP flag.
+.RE
+.sp
+The precedence of ignore rules is as follows, with later items overriding
+earlier items:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Files given by \fI\-\-ignore\-file\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Global gitignore rules, e.g., from \fI$HOME/.config/git/ignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Local rules from \fI.git/info/exclude\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Rules from \fI.gitignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Rules from \fI.ignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Rules from \fI.rgignore\fP.
+.RE
+.sp
+So for example, if \fIfoo\fP were in a \fI.gitignore\fP and \fI!foo\fP were in an
+\fI.rgignore\fP, then \fIfoo\fP would not be ignored since \fI.rgignore\fP takes precedence
+over \fI.gitignore\fP.
+.sp
+Each of the types of filtering can be configured via command line flags:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+There are several flags starting with \fI\-\-no\-ignore\fP that toggle which,
+if any, ignore rules are respected. \fI\-\-no\-ignore\fP by itself will disable
+all of them.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-./\-\-hidden\fP will force ripgrep to search hidden files and directories.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-\-binary\fP will force ripgrep to search binary files.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-L/\-\-follow\fP will force ripgrep to follow symlinks.
+.RE
+.sp
+As a special short hand, the \f(CR\-u\fP flag can be specified up to three times. Each
+additional time incrementally decreases filtering:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-u\fP is equivalent to \fI\-\-no\-ignore\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-uu\fP is equivalent to \fI\-\-no\-ignore \-\-hidden\fP.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fI\-uuu\fP is equivalent to \fI\-\-no\-ignore \-\-hidden \-\-binary\fP.
+.RE
+.sp
+In particular, \fIrg \-uuu\fP should search the same exact content as \fIgrep \-r\fP.
+.SH "CONFIGURATION FILES"
+.sp
+ripgrep supports reading configuration files that change ripgrep\(cqs default
+behavior. The format of the configuration file is an "rc" style and is very
+simple. It is defined by two rules:
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 1.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 1." 4.2
+.\}
+Every line is a shell argument, after trimming whitespace.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04' 2.\h'+01'\c
+.\}
+.el \{\
+.  sp -1
+.  IP " 2." 4.2
+.\}
+Lines starting with \fB#\fP (optionally preceded by any amount of
+whitespace) are ignored.
+.RE
+.sp
+ripgrep will look for a single configuration file if and only if the
+\fBRIPGREP_CONFIG_PATH\fP environment variable is set and is non\-empty. ripgrep
+will parse shell arguments from this file on startup and will behave as if
+the arguments in this file were prepended to any explicit arguments given to
+ripgrep on the command line. Note though that the \fIrg\fP command you run must
+still be valid. That is, it must always contain at least one pattern at the
+command line, even if the configuration file uses the \fI\-e/\-\-regexp\fP flag.
+.sp
+For example, if your ripgreprc file contained a single line:
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-smart\-case
+.fam
+.fi
+.if n .RE
+.sp
+then the following command
+.sp
+.if n .RS 4
+.nf
+.fam C
+RIPGREP_CONFIG_PATH=wherever/.ripgreprc rg foo
+.fam
+.fi
+.if n .RE
+.sp
+would behave identically to the following command
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-smart\-case foo
+.fam
+.fi
+.if n .RE
+.sp
+another example is adding types
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-type\-add
+web:*.{html,css,js}*
+.fam
+.fi
+.if n .RE
+.sp
+would behave identically to the following command
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-type\-add \(aqweb:*.{html,css,js}*\(aq foo
+.fam
+.fi
+.if n .RE
+.sp
+same with using globs
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-glob=!.git
+.fam
+.fi
+.if n .RE
+.sp
+or
+.sp
+.if n .RS 4
+.nf
+.fam C
+\-\-glob
+!.git
+.fam
+.fi
+.if n .RE
+.sp
+would behave identically to the following command
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-glob \(aq!.git\(aq foo
+.fam
+.fi
+.if n .RE
+.sp
+ripgrep also provides a flag, \fB\-\-no\-config\fP, that when present will suppress
+any and all support for configuration. This includes any future support
+for auto\-loading configuration files from pre\-determined paths.
+.sp
+Conflicts between configuration files and explicit arguments are handled
+exactly like conflicts in the same command line invocation. That is,
+this command:
+.sp
+.if n .RS 4
+.nf
+.fam C
+RIPGREP_CONFIG_PATH=wherever/.ripgreprc rg foo \-\-case\-sensitive
+.fam
+.fi
+.if n .RE
+.sp
+is exactly equivalent to
+.sp
+.if n .RS 4
+.nf
+.fam C
+rg \-\-smart\-case foo \-\-case\-sensitive
+.fam
+.fi
+.if n .RE
+.sp
+in which case, the \fB\-\-case\-sensitive\fP flag would override the \fB\-\-smart\-case\fP
+flag.
+.SH "SHELL COMPLETION"
+.sp
+Shell completion files are included in the release tarball for Bash, Fish, Zsh
+and PowerShell.
+.sp
+For \fBbash\fP, move \fBrg.bash\fP to \fB$XDG_CONFIG_HOME/bash_completion\fP
+or \fB/etc/bash_completion.d/\fP.
+.sp
+For \fBfish\fP, move \fBrg.fish\fP to \fB$HOME/.config/fish/completions\fP.
+.sp
+For \fBzsh\fP, move \fB_rg\fP to one of your \fB$fpath\fP directories.
+.SH "CAVEATS"
+.sp
+ripgrep may abort unexpectedly when using default settings if it searches a
+file that is simultaneously truncated. This behavior can be avoided by passing
+the \fB\-\-no\-mmap\fP flag which will forcefully disable the use of memory maps in
+all cases.
+.sp
+ripgrep may use a large amount of memory depending on a few factors. Firstly,
+if ripgrep uses parallelism for search (the default), then the entire output
+for each individual file is buffered into memory in order to prevent
+interleaving matches in the output. To avoid this, you can disable parallelism
+with the \fB\-j1\fP flag. Secondly, ripgrep always needs to have at least a single
+line in memory in order to execute a search. A file with a very long line can
+thus cause ripgrep to use a lot of memory. Generally, this only occurs when
+searching binary data with the \fB\-a\fP flag enabled. (When the \fB\-a\fP flag isn\(cqt
+enabled, ripgrep will replace all NUL bytes with line terminators, which
+typically prevents exorbitant memory usage.) Thirdly, when ripgrep searches
+a large file using a memory map, the process will report its resident memory
+usage as the size of the file. However, this does not mean ripgrep actually
+needed to use that much memory; the operating system will generally handle this
+for you.
+.SH "VERSION"
+.sp
+13.0.0 (rev e33d6e73f5)
+.SH "HOMEPAGE"
+.sp
+.URL "https://github.com/BurntSushi/ripgrep" "" ""
+.sp
+Please report bugs and feature requests in the issue tracker. Please do your
+best to provide a reproducible test case for bugs. This should include the
+corpus being searched, the \fBrg\fP command, the actual output and the expected
+output. Please also include the output of running the same \fBrg\fP command but
+with the \fB\-\-debug\fP flag.
+.SH "AUTHORS"
+.sp
+Andrew Gallant <\c
+.MTO "jamslam\(atgmail.com" "" ">"

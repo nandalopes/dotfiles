@@ -109,6 +109,11 @@ make = cargo build --release --jobs 4
 install =
   [ -f 'target/release/delta' ] && \
     ln -nfs "$MR_REPO/target/release/delta" "${1:-$HOME/.local/bin}/delta"
+  # completions
+  ln -nfs "$MR_REPO/etc/completion/completion.zsh" \
+    "${1:-$HOME/.local}/share/zsh/site-functions/_delta"
+  ln -nfs "$MR_REPO/etc/completion/completion.bash" \
+    "${1:-$HOME/.local}/share/bash-completion/completions/delta.bash"
 post_update = git describe --abbrev=0 --tags
 
 [bat]

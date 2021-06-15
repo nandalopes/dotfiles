@@ -76,7 +76,7 @@ Clean = cargo clean
 make = cargo build --release
 install =
   [ -f 'target/release/bukubrow' ] && \
-    ln -nfs "$PWD/target/release/bukubrow" \
+    ln -nfs "$MR_REPO/target/release/bukubrow" \
     "${1:- {{- .my_bin_dir -}} }/bukubrow"
   ${1:- {{- .my_bin_dir -}} }/bukubrow --install-firefox --install-chrome
 
@@ -89,7 +89,7 @@ make =
   cargo doc   --release --jobs 4
 install =
   [ -f 'target/release/rg' ] && \
-    ln -nfs "$PWD/target/release/rg" "${1:-$HOME/.local/bin}/rg"
+    ln -nfs "$MR_REPO/target/release/rg" "${1:-$HOME/.local}/bin/rg"
 post_update = git describe --abbrev=0 --tags
 
 [git-delta]
@@ -99,7 +99,7 @@ Clean = cargo clean
 make = cargo build --release --jobs 4
 install =
   [ -f 'target/release/delta' ] && \
-    ln -nfs "$PWD/target/release/delta" "${1:-$HOME/.local/bin}/delta"
+    ln -nfs "$MR_REPO/target/release/delta" "${1:-$HOME/.local/bin}/delta"
 post_update = git describe --abbrev=0 --tags
 
 [bat]
@@ -109,7 +109,7 @@ Clean = cargo clean
 make = cargo build --release --jobs 4
 install =
   [ -f 'target/release/bat' ] && \
-    ln -nfs "$PWD/target/release/bat" "${1:-$HOME/.local/bin}/bat"
+    ln -nfs "$MR_REPO/target/release/bat" "${1:-$HOME/.local/bin}/bat"
 post_update = git describe --abbrev=0 --tags
 
 [funcoeszz]

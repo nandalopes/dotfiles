@@ -6,6 +6,7 @@ gh
 git
 git-gui
 git-lfs
+git-secrets
 keepassxc
 obs-studio
 papirus-icon-theme

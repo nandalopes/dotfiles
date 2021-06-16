@@ -12,8 +12,10 @@
   helper = cache --timeout=36000
 [init]
   defaultBranch = main
+[commit]
+  template = ~/.config/git/templates/commit_message.txt
 [gui]
-  editor = gvim -f -p
+  editor = vim -f -p
   fontdiff = -family \"FiraCode Nerd Font Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
   expandtab = false
   tabsize = 4
@@ -34,5 +36,3 @@
   # guitool = gvimdiff
 [mergetool "nvimdiff"]
   cmd="nvim -c 'Gvdiffsplit!' $MERGED"     # use fugitive.vim for 3-way merge
-[protocol "keybase"]
-  allow = always

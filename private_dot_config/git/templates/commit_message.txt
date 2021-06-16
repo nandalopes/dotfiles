@@ -1,0 +1,29 @@
+
+# # Format
+#
+# <type>(<scope>): <subject>
+#
+# <body>
+#
+# <footer>
+#
+# ## Type
+#
+# * feat (feature)
+# * fix (bug fix)
+# * docs (documentation)
+# * style (formatting, missing semicolons, …)
+# * refactor
+# * test (when adding missing tests)
+# * chore (maintain)
+#
+# # Rules
+#
+# * HEADER Max. 50 characters, imperative ("change", not "changed"),
+#          no capitalised first letter, no dot at the end.
+# * BODY   Motivation for change, contrast with prev. behavior,
+#          imperative present tense.
+# * FOOTER Information about "BREAKING CHANGE", reference GitHub issues
+#          using #<id>
+#
+# see https://www.conventionalcommits.org

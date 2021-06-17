@@ -214,6 +214,7 @@ checkout =
   git clone --branch=OpenSSL_1_0_2-stable -j8 -- \
       'https://github.com/openssl/openssl.git' 'OpenSSL_1_0'
 installSSL = make install || sudo make install
+make = true
 makeSSL =
   ./config --prefix=${1:-/opt/OpenSSL/OpenSSL_1_0_2} --no-shared
   make -j4

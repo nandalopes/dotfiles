@@ -1,0 +1,57 @@
+# -*- mode: sh -*-
+
+[.asdf]
+checkout =
+  git clone --shallow-since=2020-03-01 -j8 -- \
+      'https://github.com/asdf-vm/asdf.git' '.asdf'
+order = 9
+pre_checkout =
+  rm -rf .asdf/installs/direnv
+  rmdir -p .asdf/installs
+  if [ -d .asdf ]; then
+    mv .asdf{,-bkp}
+  fi
+post_checkout =
+  ASDF_DIR="$HOME/.asdf"
+  PATH="$ASDF_DIR/bin:$PATH"
+    . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
+  for plug in direnv nodejs yarn golang ruby
+      {{- if (regexMatch "nanda$" .chezmoi.username) }} neovim vim rust
+      {{- else }} php
+      {{- end -}}
+    ; do
+    asdf plugin add $plug
+  done
+  mkdir -p ~/.asdf/installs/direnv/system/bin
+  ln -nfs \
+    `direnv status | head -1 | cut -d' ' -f4` \
+    ~/.asdf/installs/direnv/system/bin/direnv
+  asdf reshim
+
+[Projects/www/devilbox]
+skip = lazy || third_party_skipper $MR_ACTION
+checkout =
+  git clone --shallow-since=2015 -j8 -- \
+      'https://github.com/cytopia/devilbox' 'devilbox'
+update = gplr
+post_checkout =
+  cd 'devilbox'
+  git config core.sharedRepository group
+
+[ {{- .my_bin_dir -}} /fzf]
+skip = lazy || third_party_skipper $MR_ACTION
+checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
+update = gplrt
+install =
+  make install
+  ./install --xdg --no-fish --no-update-rc
+post_update = git_last_tag
+
+[ {{- .my_bin_dir -}} /funcoeszz]
+order = 69
+checkout = git clone 'https://github.com/funcoeszz/funcoeszz.git' 'funcoeszz'
+install =
+  ln -nfs $MR_REPO/funcoeszz $HOME/.local/bin/funcoeszz
+  LC_ALL=C ./funcoeszz zzzz --zshrc --bashrc
+post_install = git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
+

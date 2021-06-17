@@ -1,0 +1,14 @@
+[zfiles/look_and_feel/sweet-folders]
+checkout =
+  git clone 'https://github.com/EliverLara/Sweet-folders.git' 'sweet-folders'
+skip = lazy
+pre_update = git checkout master
+post_update = gtk-update-icon-cache ~/.local/share/icons/Sweet-*
+
+[zfiles/look_and_feel/candy-icons]
+checkout =
+  git clone 'https://github.com/EliverLara/candy-icons.git' 'candy-icons'
+skip = lazy
+pre_update = git checkout master
+post_update = gtk-update-icon-cache ~/.local/share/icons/candy-icons
+

@@ -1,0 +1,43 @@
+# -*- mode: sh -*-
+
+[Projects/dotfiles-yadr]
+skip = lazy
+checkout =
+  git clone -j8 '~/.yadr' 'dotfiles-yadr'
+post_checkout =
+  cd 'dotfiles-yadr'
+  git_add_remote fork     'https://github.com/nandalopes/dotfiles-yadr.git'
+  git_add_remote upstream 'https://github.com/skwp/dotfiles.git'
+  cfg_rcv_warn
+  cfg_shared
+
+[Projects/dotfiles]
+skip = lazy
+checkout =
+    {{- if .has_keybase }}
+  git clone 'keybase://private/nandalopes/dotfiles' 'dotfiles'
+    {{- else }}
+  git clone 'nanda@vizinha.loc:Projects/dotfiles' 'dotfiles'
+    {{- end }}
+post_checkout =
+  cd 'dotfiles'
+  cfg_rcv_warn
+  cfg_shared
+    {{- if .has_keybase }}
+  keybase git lfs-config dotfiles
+    {{- else }}
+  git lfs install --local
+    {{- end }}
+
+[Projects/webdev/yadr-gh-pages]
+skip = lazy
+checkout =
+  git clone --branch=gh-pages -- \
+      'https://github.com/nandalopes/dotfiles-yadr.git' 'yadr-gh-pages'
+post_checkout =
+  cfg_shared
+  git remote set-branches origin 'gh-pages main mine'
+  git remote add upstream 'https://github.com/skwp/dotfiles.git' \
+      --track=gh-pages --track=master
+post_update = git remote update
+

@@ -1,7 +1,6 @@
 session_name: webdev
 environment:
   DIRENV_LOG_FORMAT: ''
-suppress_history: false
 options:
   automatic-rename: false
 windows:
@@ -21,10 +20,10 @@ windows:
     panes:
       - shell_command:
         - for p in */ ; do
-        -   tmux splitw -t 2.1 -dc "${PWD}/${p}" "tree -I 'vendor|node_modules';
-            ${SHELL}"
+        -   tmux splitw -t 1.1 -dc "${PWD}/${p}" \
+            "tree -I 'vendor|node_modules'; ${SHELL}"
         - done
-        - tmux selectl -t 2 main-vertical
-        - tmux selectp -t 2.2
+        - tmux selectl -t 1.1 main-vertical
+        - tmux selectp -t 1.2
         - htop --user=$USER
         focus: true

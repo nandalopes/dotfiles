@@ -4,6 +4,7 @@ environment:
 start_directory: $HOME/Projects/www/data
 options:
   automatic-rename: false
+suppress_history: false
 windows:
   - window_name: devilbox $USER
     layout: main-vertical
@@ -25,6 +26,7 @@ windows:
         - fi
         focus: true
   - window_name: public_html
+    suppress_history: true
     focus: true
     panes:
       - shell_command:

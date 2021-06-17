@@ -1,0 +1,23 @@
+# -*- mode: sh -*-
+
+##### DRIVERS #####
+[ {{- .my_bin_dir -}} /8812au]
+skip = lazy
+checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
+update = gplr
+installDriver = sudo ./install-driver.sh
+uninstallDriver = sudo ./remove-driver.sh
+upgradeDriver =
+  sudo ./remove-driver.sh
+  sudo ./install-driver.sh
+
+[ {{- .my_bin_dir -}} /88x2bu]
+skip = lazy
+checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
+update = gplr
+installDriver = sudo ./install-driver.sh
+uninstallDriver = sudo ./remove-driver.sh
+upgradeDriver =
+  sudo ./remove-driver.sh
+  sudo ./install-driver.sh
+

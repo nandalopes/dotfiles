@@ -1,0 +1,17 @@
+# -*- mode: sh -*-
+
+cargo_build() {
+  cargo build --release --jobs 4 $@
+}
+
+cargo_clean() {
+  cargo clean
+}
+
+has_makefile() {
+  if missing_file Makefile && missing_file GNUmakefile ; then
+    return 1
+  else
+    return 0
+  fi
+}

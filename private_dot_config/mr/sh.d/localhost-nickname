@@ -1,0 +1,13 @@
+# -*- mode: sh -*-
+
+read_localhost_nickname () {
+    if [ -n "$localhost_nickname" ]; then
+        return 0 # already got it
+    fi
+    HOST_NAME_FILE=$HOME/.localhost-nickname
+    [ -f "$HOST_NAME_FILE" ] && localhost_nickname="$(cat $HOST_NAME_FILE)"
+    if [ -z "$localhost_nickname" ]; then
+        echo "Put host nickname in $HOST_NAME_FILE" >&2
+        exit 1
+    fi
+}

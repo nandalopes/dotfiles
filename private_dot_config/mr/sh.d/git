@@ -1,0 +1,138 @@
+# -*- mode: sh -*-
+
+# Generic git helper functions.
+
+cfg_rcv_warn() {
+    git config receive.denyCurrentBranch   warn
+    git config receive.denyNonFastforwards false
+}
+
+cfg_shared() {
+    git config core.sharedRepository group
+}
+
+ff_only() {
+    git pull --ff-only
+}
+
+git_submodules() {
+    git submodule update --init --recursive
+}
+
+git_bundleall() {
+    git bundle create ${1:-$HOME/Sync/system/repos}/$(basename \
+        $(git rev-parse --show-toplevel) \
+    ).gitrepo.$(date +%+4Y%m%d-%H%M) \
+    --all
+}
+
+gplr() {
+    git pull --rebase
+}
+
+gplrt() {
+    git pull --rebase --tags
+}
+
+git_last_tag () {
+    git describe --abbrev=0 --tags
+}
+
+is_branch_present () {
+    local branch="$1"
+    git rev-parse "$branch" >/dev/null 2>&1
+}
+
+ensure_remote_tracked_locally () {
+    # Return true (0) iff managed to ensure the remote is tracked locally
+    local remote="$1"
+    local upstream="$2"
+    #
+    if ! is_branch_present "$upstream"; then
+        info "$upstream is not tracked locally; fetching from $remote ..."
+        ggf "$remote" || return 1
+    else
+        info "Already tracking $upstream"
+    fi
+    return 0
+}
+
+fetch_and_switch_upstream_to () {
+    # Return true (0) iff the switch was made
+    local remote="$1"
+    local upstream="$remote/$remote_branch"
+    #
+    ensure_remote_tracked_locally "$remote" "$upstream" || return 1
+    ggsup "$upstream"
+}
+
+configure_upstream () {
+    # Return true (0) iff the upstream was configured
+    local remote="$1"
+    #
+    if [ -z `git config "remote.$remote.url"` ]; then
+        mr remotes
+    else
+        echo "$remote remote already set up"
+        return 0
+    fi
+    if [ -z `git config "remote.$remote.url"` ]; then
+        error "'mr remotes' failed to configure $remote remote; cannot proceed."
+        return 1
+    fi
+    return 0
+}
+
+configure_upstream_and_switch_to () {
+    # Return true (0) iff the switch was made
+    local remote="$1"
+    #
+    configure_upstream "$remote" || return 1
+    fetch_and_switch_upstream_to "$remote"
+}
+
+is_remote_in_use () {
+    # Return true (0) iff the given remote is "in use", i.e.
+    # there is a local branch tracking it.
+    remote="$1"
+    git config --list | grep -q "^branch\..*\.remote=$remote\$"
+}
+
+remove_remote () {
+    remote="$1"
+
+    if git remote rm $remote; then
+        info "Removed $remote remote"
+        return 0
+    else
+        error "Failed to remove $remote remote."
+        return 1
+    fi
+}
+
+clean_unused_remote_matching_URL () {
+    # Removes any unused remote with a URL matching the given extended regexp.
+    # Returns true (0) iff a remote was successfully removed, or there
+    # was no need to remove a remote.
+    remote="$1"
+    eregexp="$2"
+
+    if is_remote_in_use "$remote"; then
+        using_branches=$( perl -lne "/^branch\.(.*)\.remote=$remote/ && print \$1" )
+        warning "$remote is still in use by the following local branches:"
+        warning "$using_branches"
+        return 1
+    fi
+
+    remote_url=`git config "remote.$remote.url"`
+    if [ -z "$remote_url" ]; then
+        return 0 # wasn't there in the first place
+    fi
+
+    if ! echo "$remote_url" | grep -Eq "$eregexp"; then
+        info "Not removing $remote remote with URL $remote_url (!~ /$eregexp/)"
+        return 0
+    fi
+
+    remove_remote $remote
+}

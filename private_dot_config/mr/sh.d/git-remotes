@@ -1,0 +1,140 @@
+# -*- mode: sh -*-
+
+# Utilities for ensuring that a git repository has the right remotes
+# set.  Particularly handy when several machines need to be set up as
+# mutual peers, in which case it automatically avoids adding a remote
+# pointing to the local machine.  For this to work, the
+# localhost-nickname module is also required (you can find this in the
+# same directory of the git repository where you found this module).
+#
+# Sample usage from within an .mrconfig file:
+#
+#   [repo]
+#   checkout = git clone ...
+#   remotes = git_add_remotes "
+#       remote1  git@github.com:$MY_GITHUB_USERNAME/$MR_NAME.git
+#       mydomain ssh://foo@REMOTE.com/path/to/git/repo
+#       ...
+#       "
+#
+# or even
+#
+#   [repo]
+#   checkout = git clone ...
+#   fixups = git_add_remotes "..."
+
+git_add_new_remote () {
+    remote="$1"
+    url="$2"
+    if git remote add "$remote" "$url"; then
+        echo "+ Added remote $remote -> $url"
+        return 0
+    else
+        error "! Failed to add remote $remote"
+        return 1
+    fi
+}
+
+git_set_remote () {
+    remote="$1"
+    url="$2"
+    existing_url="$3"
+    if git remote set-url "$remote" "$url"; then
+        info "+ Repointed remote $remote -> $url (was $existing_url)"
+        return 0
+    else
+        error "! Failed to repoint remote $remote"
+        return 1
+    fi
+}
+
+# git_add_remote REMOTE-NAME URL
+git_add_remote () {
+    remote="$1"
+    url="$2"
+    existing_url=$( git config "remote.$remote.url" ) || true
+    if [ -n "$existing_url" ]; then
+        if [ "$url" = "$existing_url" ]; then
+            #info ". Remote $remote already points to $url"
+            return
+        fi
+
+        if [ -n "$MR_OVERWRITE_REMOTES" ]; then
+            git_set_remote "$remote" "$url" "$existing_url"
+            return
+        else
+            warning "! Remote $remote already points to $existing_url not $url"
+            warning "! Use MR_OVERWRITE_REMOTES=y to rewrite URL."
+            return
+        fi
+    fi
+
+    git_add_new_remote "$remote" "$url"
+}
+
+# git_add_remotes REMOTES
+#
+# REMOTES is a multi-line string where each line is
+#
+#   REMOTE URL [EXCEPTION]
+#
+# Invokes git_add_remote for each line,
+# substituting 'REMOTE' for REMOTE in URL,
+# except for lines where localhost nickname equals EXCEPTION
+git_add_remotes () {
+    cd "$MR_REPO"
+    read_localhost_nickname
+    # Needs to be exported to while-read subshell
+    export LOCALHOST_NICKNAME="$localhost_nickname"
+    echo "$*" | while read remote url exception; do
+        if [ -z "$remote$url" ]; then
+            # presumably got a blank line
+            continue
+        fi
+        url=$( echo "$url" | sed "s/REMOTE/$remote/g" )
+
+        if [ -z "$exception" ]; then
+            exception="$remote"
+        fi
+        if [ "$LOCALHOST_NICKNAME" = "$exception" ]; then
+            #info "Won't add remote $url for $exception"
+            continue
+        fi
+
+        git_add_remote "$remote" "$url"
+    done
+}
+
+# git_rm_remote REMOTE-NAME
+git_rm_remote () {
+    remote="$1"
+    if git config remote."$remote".url >/dev/null; then
+        if git remote remove "$remote"; then
+            echo "- Removed remote $remote"
+        else
+            echo >&2 "WARNING: Failed to remove remote $remote"
+        fi
+    else
+        echo ". $remote remote was already removed"
+    fi
+}
+
+# git_rm_remotes REMOTES
+#
+# REMOTES is a multi-line string with one remote per line.
+# Invokes git_rm_remote for each line.
+git_rm_remotes () {
+    cd "$MR_REPO"
+    read_localhost_nickname
+    # Needs to be exported to while-read subshell
+    export LOCALHOST_NICKNAME="$localhost_nickname"
+    echo "$*" | while read remote; do
+        if [ -z "$remote$url" ]; then
+            # presumably got a blank line
+            continue
+        fi
+
+        git_rm_remote "$remote"
+    done
+}
+

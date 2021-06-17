@@ -1,91 +1,55 @@
-
-[DEFAULT]
-skip = lazy || ( [ "$1" = update ] && ! hours_since "$1" 2 )
-make = make
-Clean = make clean
-
-[ALIAS]
-up = update
-
-
-##### DRIVERS #####
-[8812au]
-checkout = git clone 'https://github.com/morrownr/8812au.git' '8812au'
-update = git pull --rebase
-installDriver = sudo ./install-driver.sh
-uninstallDriver = sudo ./remove-driver.sh
-upgradeDriver =
-  sudo ./remove-driver.sh
-  sudo ./install-driver.sh
-
-[88x2bu]
-checkout = git clone 'https://github.com/morrownr/88x2bu.git' '88x2bu'
-update = git pull --rebase
-installDriver = sudo ./install-driver.sh
-uninstallDriver = sudo ./remove-driver.sh
-upgradeDriver =
-  sudo ./remove-driver.sh
-  sudo ./install-driver.sh
-
+# -*- mode: sh -*-
 
 ##### Programas #####
-[chezmoi]
+[ {{- .my_bin_dir -}} /chezmoi]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/twpayne/chezmoi.git' 'chezmoi'
-update = git pull --rebase --tags
+update = gplrt
 make = make build-linux
 installChez =
   GOOS=linux GOARCH=amd64 go build -a -o ${1:-$HOME/.local/bin}/chezmoi .
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
-[direnv]
+[ {{- .my_bin_dir -}} /direnv]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone -j8 'https://github.com/direnv/direnv.git' 'direnv'
-update = git pull --rebase --tags
+update = gplrt
 installsudo = sudo make install PREFIX=/usr/local
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 post_make = chmod a+rX -R .
 
-[pass]
-checkout = git clone 'git://git.zx2c4.com/password-store' 'pass'
-installsudo = sudo make install PREFIX=/usr/local
-
-[tmux]
+[ {{- .my_bin_dir -}} /tmux]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone -j8 'https://github.com/tmux/tmux.git' 'tmux'
-update = git pull --rebase --tags
+update = gplrt
 installsudo = sudo make install
 make =
-  git checkout ${1:-$(git describe --abbrev=0 --tags)}
+  git checkout ${1:-$(git_last_tag)}
   sh autogen.sh
   ./configure --prefix=${2:-/usr/local}
   make -j4
 pre_update = git checkout master
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
-[fzf]
-checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
-update = git pull --rebase --tags
-install =
-  make install
-  ./install --xdg --no-fish --no-update-rc
-post_update = git describe --abbrev=0 --tags
-
-[bukubrow-host]
+[ {{- .my_bin_dir -}} /bukubrow-host]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout =
   git clone 'https://github.com/samhh/bukubrow-host.git' 'bukubrow-host'
-update = git pull --rebase --tags
-Clean = cargo clean
-make = cargo build --release
+update = gplrt
+Clean = cargo_clean
+make = cargo_build
 install =
   [ -f 'target/release/bukubrow' ] && \
     ln -nfs "$MR_REPO/target/release/bukubrow" \
     "${1:- {{- .my_bin_dir -}} }/bukubrow"
   ${1:- {{- .my_bin_dir -}} }/bukubrow --install-firefox --install-chrome
 
-[ripgrep]
+[ {{- .my_bin_dir -}} /ripgrep]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/BurntSushi/ripgrep.git' 'ripgrep'
-update = git pull --rebase --tags
-Clean = cargo clean
-make =
-  cargo build --release --jobs 4 --features 'pcre2'
+update = gplrt
+Clean = cargo_clean
+make = cargo_build --features 'pcre2'
 install =
   [ -f 'target/release/rg' ] && \
     ln -nfs "$MR_REPO/target/release/rg" "${1:-$HOME/.local}/bin/rg"
@@ -99,28 +63,30 @@ install =
   mv -vf \
     `find $MR_REPO/target -name rg.bash -print0 | xargs -0 ls -t | head -n1` \
     "${1:-$HOME/.local}/share/bash-completion/completions/rg.bash"
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
-[git-delta]
-checkout = git clone 'https://github.com/dandavison/delta.git' 'git-delta'
-update = git pull --rebase --tags
-Clean = cargo clean
-make = cargo build --release --jobs 4
+[ {{- .my_bin_dir -}} /delta]
+skip = lazy || third_party_skipper $MR_ACTION
+checkout = git clone 'https://github.com/dandavison/delta.git' 'delta'
+update = gplrt
+Clean = cargo_clean
+make = cargo_build
 install =
   [ -f 'target/release/delta' ] && \
     ln -nfs "$MR_REPO/target/release/delta" "${1:-$HOME/.local/bin}/delta"
   # completions
-  ln -nfs "$MR_REPO/etc/completion/completion.zsh" \
+  cp -vlf "$MR_REPO/etc/completion/completion.zsh" \
     "${1:-$HOME/.local}/share/zsh/site-functions/_delta"
-  ln -nfs "$MR_REPO/etc/completion/completion.bash" \
+  cp -vlf "$MR_REPO/etc/completion/completion.bash" \
     "${1:-$HOME/.local}/share/bash-completion/completions/delta.bash"
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
-[bat]
+[ {{- .my_bin_dir -}} /bat]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/sharkdp/bat.git' 'bat'
-update = git pull --rebase --tags
-Clean = cargo clean
-make = cargo build --release --jobs 4
+update = gplrt
+Clean = cargo_clean
+make = cargo_build
 install =
   [ -f 'target/release/bat' ] && \
     ln -nfs "$MR_REPO/target/release/bat" "${1:-$HOME/.local/bin}/bat"
@@ -133,20 +99,13 @@ install =
   mv -vf \
     `find $MR_REPO/target -name bat.zsh -print0 | xargs -0 ls -t | head -n1` \
     "${1:-$HOME/.local}/share/zsh/site-functions/_bat"
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
-[funcoeszz]
-order = 69
-checkout = git clone 'https://github.com/funcoeszz/funcoeszz.git' 'funcoeszz'
-install =
-  ln -nfs $MR_REPO/funcoeszz $HOME/.local/bin/funcoeszz
-  LC_ALL=C ./funcoeszz zzzz --zshrc --bashrc
-post_install = git -C ~/.yadr checkout -f -- zsh/prezto-override/zshrc
-
-[git-cola]
+[ {{- .my_bin_dir -}} /git-cola]
+skip = lazy || third_party_skipper $MR_ACTION
 order = 79
 checkout = git clone 'https://github.com/git-cola/git-cola.git' 'git-cola'
-update = git pull --rebase --tags
+update = gplrt
 make = make build doc
 install = make install install-doc
 testCola =
@@ -156,9 +115,9 @@ testCola =
 lib =
   case $MR_ACTION in
     make|install)
-      echo 'PYTHON = python3'      | tee    ./config.mak
-      echo 'prefix =' $HOME/.local | tee -a ./config.mak
-      echo 'NO_PRIVATE_LIBS = 1'   | tee -a ./config.mak
+      echo 'PYTHON = python3'      | tee    $MR_REPO/config.mak
+      echo 'prefix =' $HOME/.local | tee -a $MR_REPO/config.mak
+      echo 'NO_PRIVATE_LIBS = 1'   | tee -a $MR_REPO/config.mak
       ;;
     *)
   esac
@@ -173,11 +132,12 @@ pre_testCola =
   fi
   true
 post_checkout =
-  cd 'git-cola'
-  git remote add fork 'https://github.com/nandalopes/git-cola.git'
-  git config core.sharedRepository group
+  cd "$MR_REPO"
+  git_add_new_remote fork 'https://github.com/nandalopes/git-cola.git'
+  cfg_shared
 
-[dupeguru]
+[ {{- .my_bin_dir -}} /dupeguru]
+skip = lazy || third_party_skipper $MR_ACTION
 order = 89
 checkout =
   git clone --depth=50 -j8 -- \
@@ -193,10 +153,10 @@ post_make =
   mv -v build/dupeguru*.deb build/dupeguru.deb
   mv -v build/dupeguru-dbgsym*.ddeb build/dupeguru-dbgsym.ddeb
 
-[gammastep]
-skip = lazy || (test `whoami` != nanda)
+[ {{- .my_bin_dir -}} /gammastep]
+skip = lazy || (test `whoami` =~ nanda$) || third_party_skipper $MR_ACTION
 checkout = git clone 'https://gitlab.com/chinstrap/gammastep.git' 'gammastep'
-update = git pull --rebase
+update = gplr
 Clean =
   make clean
   git clean -df
@@ -213,8 +173,8 @@ makesudo =
   fi
   make
 
-[iperf3]
-skip = lazy || (test $(whoami) != nanda)
+[ {{- .my_bin_dir -}} /iperf3]
+skip = lazy || (test `whoami` =~ nanda$) || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/esnet/iperf.git' 'iperf3'
 installsudo = make install || sudo make install
 make =
@@ -226,26 +186,29 @@ make =
   make
 post_make = chmod a+rX -R .
 
-[drawio-desktop]
+[ {{- .my_bin_dir -}} /drawio-desktop]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout =
   git clone --recurse-submodules -j8 -- \
       'https://github.com/jgraph/drawio-desktop.git' 'drawio-desktop'
-update = git pull --rebase --tags
+update = gplrt
 make =
   yarn install
   yarn run sync
   yarn run release-linux --linux AppImage --x64
-post_update = git describe --abbrev=0 --tags
+post_update = git_last_tag
 
 
 ##### Old Ruby Devel #####
-[ruby-build]
+[ {{- .my_bin_dir -}} /ruby-build]
+skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/rbenv/ruby-build.git' 'ruby-build'
 make = true
 #installsudo = sudo PREFIX=/usr/local ./install.sh
 install = PREFIX=$HOME/.local ./install.sh
 
-[OpenSSL_1_0]
+[ {{- .my_bin_dir -}} /OpenSSL_1_0]
+skip = lazy || third_party_skipper $MR_ACTION
 order = 99
 checkout =
   git clone --branch=OpenSSL_1_0_2-stable -j8 -- \

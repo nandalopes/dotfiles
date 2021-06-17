@@ -1,0 +1,70 @@
+# -*- mode: sh -*-
+
+[.yadr]
+checkout =
+  git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
+      'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
+install = ASK=true rake install
+order = 7
+post_checkout =
+  cd "$MR_REPO"
+  # remotes
+  git_add_new_remote local \
+      'nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
+  git_add_new_remote upstream 'https://github.com/skwp/dotfiles.git'
+  git_add_new_remote lfilho   'https://github.com/lfilho/dotfiles.git'
+  git_add_new_remote akita    'https://github.com/akitaonrails/dotfiles.git'
+  git_add_new_remote vovin    'https://github.com/vovinacci/dotfiles-1.git'
+  # config
+  cfg_rcv_warn
+  cfg_shared
+  git config remotes.up 'upstream lfilho akita vovin'
+
+[.zprezto]
+checkout = true
+order = 3
+update = ff_only && git_submodules
+pre_update = git checkout master
+
+[${XDG_CONFIG_HOME:-.config}/gitstatus]
+checkout =
+  if missing_dir ~/.yadr ; then
+    git clone --depth=1 'https://github.com/romkatv/gitstatus.git' 'gitstatus'
+  else
+    ln -nfs \
+      ~/.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus \
+      'gitstatus'
+  fi
+order = 9
+update =
+  if ! [ -s "$MR_REPO" ]; then
+    git pull
+  fi
+fetch =
+  if ! [ -s "$MR_REPO" ]; then
+    git fetch
+  fi
+post_status = git_last_tag
+make =
+  ./build -w -s -d docker
+  sudo chown $USER:$USER -R usrbin deps
+
+[.dotfiles]
+checkout = git clone 'git@gitlab.com:nandalopes/dotfiles.git' '.dotfiles'
+# this loads ./.mrconfig
+chain = true
+order = 9
+post_checkout =
+  cd "$MR_REPO"
+  cfg_rcv_warn
+  git_add_new_remote local  'vizinha.loc:.dotfiles'
+  git_add_new_remote github 'git@github.com:nandalopes/dotfiles.git'
+
+# alias folders
+
+[bin/dotfiles-yadr]
+checkout = ln -nfs ~/.yadr 'dotfiles-yadr'
+
+[bin/dotfiles-chezmoi]
+checkout = ln -nfs `chezmoi source-path` 'dotfiles-chezmoi'
+

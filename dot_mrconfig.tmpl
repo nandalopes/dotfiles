@@ -100,7 +100,7 @@ install =
   PATH="$ASDF_DIR/bin:$PATH"
     . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
   for plug in direnv nodejs yarn golang ruby
-      {{- if eq .chezmoi.username "nanda" }} neovim vim rust
+      {{- if (regexMatch "nanda$" .chezmoi.username) }} neovim vim rust
       {{- else }} php
       {{- end -}}
     ; do

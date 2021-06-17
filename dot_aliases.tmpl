@@ -109,7 +109,7 @@ alias   cfg_mpv='2>/dev/null gvim ~/.config/mpv/mpv.{conf,profile.conf}'
 alias  upg_apt='sudo apt update && sudo apt upgrade -y'
 alias upg_flat='flatpak -y update'
 alias  upg_pip='pip3 install --user --upgrade buku poku thefuck
-    {{- if eq .chezmoi.username "nanda" }} \
+    {{- if (regexMatch "nanda$" .chezmoi.username) }} \
   && sudo -H pip3 install --upgrade --upgrade-strategy=eager \
      pynvim tmuxp ranger-fm youtube-dl wakatime \
   && {{ .my_bin_dir -}}/venv/bin/pip3 install --upgrade docker-compose

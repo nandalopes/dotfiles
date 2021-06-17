@@ -1,0 +1,40 @@
+# -*- mode: sh -*-
+
+# These should be called from within an include context.
+
+include_files () {
+    for f in "$@"; do
+        _ignore_lib "$f" && continue
+        echo "# INCLUDED FROM: $f"
+        cat "$f"
+        echo # Needed in case file isn't terminated with a newline
+    done
+}
+
+load_libraries () {
+    for f in "$@"; do
+        _ignore_lib "$f" && continue
+        echo "lib = . $f"
+    done
+}
+
+include_lib_dirs () {
+    for d in "$@"; do
+        if [ -d "$d" ]; then
+            include_files "$d"/*
+        else
+            echo "$d missing" >&2
+        fi
+    done
+}
+
+########################################################################
+# Private helpers
+
+_ignore_lib () {
+    case "${1##*/}" in
+        *.orig|*~|README*|\#*\#) return 0 ;;
+    esac
+    return 1
+}
+

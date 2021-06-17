@@ -1,110 +1,12 @@
+# -*- mode: sh -*-
 
 [DEFAULT]
-bundleall =
-  git bundle create ${1:-$HOME/Sync/system/repos}/$(basename \
-      $(git rev-parse --show-toplevel) \
-  ).gitrepo.$(date +%+4Y%m%d-%H%M) \
-  --all
-make = make
-Clean = make clean
-
-[ALIAS]
-up = update
-
-
-[.yadr]
-checkout =
-  git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
-      'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
-install = ASK=true rake install
-order = 7
-post_checkout =
-  cd '.yadr'
-  # remotes
-  git remote add local \
-      'nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
-  git remote add upstream 'https://github.com/skwp/dotfiles.git'
-  git remote add lfilho   'https://github.com/lfilho/dotfiles.git'
-  git remote add akita    'https://github.com/akitaonrails/dotfiles.git'
-  git remote add vovin    'https://github.com/vovinacci/dotfiles-1.git'
-  # config
-  git config receive.denyCurrentBranch   warn
-  git config receive.denyNonFastforwards false
-  git config remotes.up                  'upstream lfilho akita vovin'
-
-[.zprezto]
-checkout = true
-order = 3
-update =
-  git pull --ff-only
-  git submodule update --init --recursive
-pre_update = git checkout master
-
-[${XDG_CONFIG_HOME:-.config}/gitstatus]
-checkout =
-  if [ -d ~/.yadr ]; then
-    ln -nfs \
-      ~/.yadr/zsh/prezto/modules/prompt/external/powerlevel10k/gitstatus \
-      'gitstatus'
-  else
-    git clone --depth=1 'https://github.com/romkatv/gitstatus.git' 'gitstatus'
+include =
+  if [ -e ~/.config/mr/library-loaders ]; then
+    # mr-config already checked out
+    . ~/.config/mr/library-loaders
+    load_libraries ~/.config/mr/sh.d/*
+    include_lib_dirs ~/.config/mr/lib.d
+    include_lib_dirs ~/.config/mr/groups.d
   fi
-order = 9
-update =
-  if [ -s "$MR_REPO" ]; then
-    true
-  else
-    git pull
-  fi
-fetch =
-  if [ -s "$MR_REPO" ]; then
-    true
-  else
-    git fetch
-  fi
-status =
-  git status
-  git describe --abbrev=0 --tags
-make =
-  ./build -w -s -d docker
-  sudo chown $USER:$USER -R usrbin deps
-
-[bin/chezmoi-dotfiles]
-checkout = ln -nfs $(chezmoi source-path) 'chezmoi-dotfiles'
-order = 9
-post_checkout =
-  cd 'chezmoi-dotfiles'
-  git config receive.denyCurrentBranch warn
-
-[.asdf]
-checkout =
-  git clone --shallow-since=2020-03-01 -j8 -- \
-      'https://github.com/asdf-vm/asdf.git' '.asdf'
-order = 9
-install =
-  ASDF_DIR="$HOME/.asdf"
-  PATH="$ASDF_DIR/bin:$PATH"
-    . $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
-  for plug in direnv nodejs yarn golang ruby
-      {{- if (regexMatch "nanda$" .chezmoi.username) }} neovim vim rust
-      {{- else }} php
-      {{- end -}}
-    ; do
-    asdf plugin add $plug
-  done
-  asdf reshim
-pre_checkout =
-  rm -rf .asdf/installs/direnv
-  rmdir -p .asdf/installs
-
-
-[Projects/www/devilbox]
-skip = lazy
-checkout =
-  git clone --shallow-since=2015 -j8 -- \
-      'https://github.com/cytopia/devilbox' 'devilbox'
-update = git pull --rebase
-post_checkout =
-  cd 'devilbox'
-  git config core.sharedRepository group
 

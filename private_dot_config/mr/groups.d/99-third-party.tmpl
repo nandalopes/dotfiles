@@ -203,7 +203,6 @@ post_update = git_last_tag
 [ {{- .my_bin_dir -}} /ruby-build]
 skip = lazy || third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/rbenv/ruby-build.git' 'ruby-build'
-make = true
 #installsudo = sudo PREFIX=/usr/local ./install.sh
 install = PREFIX=$HOME/.local ./install.sh
 

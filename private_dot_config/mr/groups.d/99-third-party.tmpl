@@ -54,15 +54,20 @@ install =
   [ -f 'target/release/rg' ] && \
     ln -nfs "$MR_REPO/target/release/rg" "${1:-$HOME/.local}/bin/rg"
   # manpage
-  mkdir -p "${1:-$HOME/.local}/share/man/man1"
-  mv -vf \
-    `find $MR_REPO/target -name rg.1 -print0 | xargs -0 ls -t | head -n1` \
-    "${1:-$HOME/.local}/share/man/man1/rg.1"
+  if [ `find $MR_REPO/target -name rg.1 -print0` ]; then
+    mkdir -p "${1:-$HOME/.local}/share/man/man1"
+    mv -vf \
+      `find $MR_REPO/target -name rg.1 -print0 | xargs -0 ls -t | head -n1` \
+      "${1:-$HOME/.local}/share/man/man1/rg.1"
+  fi
   # completions
-  cp -vlf "$MR_REPO/complete/_rg" "${1:-$HOME/.local}/share/zsh/site-functions/_rg"
-  mv -vf \
-    `find $MR_REPO/target -name rg.bash -print0 | xargs -0 ls -t | head -n1` \
-    "${1:-$HOME/.local}/share/bash-completion/completions/rg.bash"
+  cp -vlf \
+    "$MR_REPO/complete/_rg" "${1:-$HOME/.local}/share/zsh/site-functions/_rg"
+  if [ `find $MR_REPO/target -name rg.bash -print0` ]; then
+    mv -vf \
+      `find $MR_REPO/target -name rg.bash -print0 | xargs -0 ls -t | head -n1` \
+      "${1:-$HOME/.local}/share/bash-completion/completions/rg.bash"
+  fi
 post_update = git_last_tag
 
 [ {{- .my_bin_dir -}} /delta]
@@ -92,13 +97,17 @@ install =
     ln -nfs "$MR_REPO/target/release/bat" "${1:-$HOME/.local/bin}/bat"
   # manpage
   mkdir -p "${1:-$HOME/.local}/share/man/man1"
-  mv -vf \
+  if [ `find $MR_REPO/target -name bat.1 -print0` ]; then
+    mv -vf \
     `find $MR_REPO/target -name bat.1 -print0 | xargs -0 ls -t | head -n1` \
     "${1:-$HOME/.local}/share/man/man1/bat.1"
+  fi
   # completions
-  mv -vf \
+  if [ `find $MR_REPO/target -name bat.zsh -print0` ]; then
+    mv -vf \
     `find $MR_REPO/target -name bat.zsh -print0 | xargs -0 ls -t | head -n1` \
     "${1:-$HOME/.local}/share/zsh/site-functions/_bat"
+  fi
 post_update = git_last_tag
 
 [ {{- .my_bin_dir -}} /git-cola]

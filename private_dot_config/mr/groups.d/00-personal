@@ -6,19 +6,23 @@ checkout =
       'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
 install = ASK=true rake install
 order = 7
+lib =
+  print_remote_list() {
+    echo "local    nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git"
+    echo "upstream https://github.com/skwp/dotfiles.git"
+    echo "lfilho   https://github.com/lfilho/dotfiles.git"
+    echo "akita    https://github.com/akitaonrails/dotfiles.git"
+    echo "vovin    https://github.com/vovinacci/dotfiles-1.git"
+    echo "vizinha  vizinha.loc:.yadr"
+  }
 post_checkout =
   cd "$MR_REPO"
   # remotes
-  git_add_new_remote local \
-      'nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git'
-  git_add_new_remote upstream 'https://github.com/skwp/dotfiles.git'
-  git_add_new_remote lfilho   'https://github.com/lfilho/dotfiles.git'
-  git_add_new_remote akita    'https://github.com/akitaonrails/dotfiles.git'
-  git_add_new_remote vovin    'https://github.com/vovinacci/dotfiles-1.git'
+  git_add_remotes "`print_remote_list`"
+  git config remotes.up 'upstream lfilho akita vovin'
   # config
   cfg_rcv_warn
   cfg_shared
-  git config remotes.up 'upstream lfilho akita vovin'
 
 [.zprezto]
 checkout = true
@@ -57,14 +61,8 @@ order = 9
 post_checkout =
   cd "$MR_REPO"
   cfg_rcv_warn
-  git_add_new_remote local  'vizinha.loc:.dotfiles'
-  git_add_new_remote github 'git@github.com:nandalopes/dotfiles.git'
-
-# alias folders
-
-[bin/dotfiles-yadr]
-checkout = ln -nfs ~/.yadr 'dotfiles-yadr'
-
-[bin/dotfiles-chezmoi]
-checkout = ln -nfs `chezmoi source-path` 'dotfiles-chezmoi'
+  git_add_remotes "
+    vizinha vizinha.loc:.dotfiles
+    github  git@github.com:nandalopes/dotfiles.git
+  "
 

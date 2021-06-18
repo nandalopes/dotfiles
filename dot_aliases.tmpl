@@ -171,12 +171,12 @@ alias piti_do_plasma='(kquitapp5 plasmashell || killall plasmashell) \
   && kstart5 plasmashell'
 
 ## Diversos
-alias vou_dormir='sleep 55m && systemctl poweroff'
+alias vou_dormir='sleep 55m && systemctl poweroff -i'
 
   {{- else }}
 
 ## Diversos
-alias vou_dormir='sleep 35m && systemctl suspend'
+alias vou_dormir='sleep 35m && systemctl suspend -i'
 
   {{- end }}
 

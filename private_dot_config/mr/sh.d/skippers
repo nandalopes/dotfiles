@@ -9,7 +9,7 @@ default_skipper() { return 1; }
 third_party_skipper() {
     case $1 in
         update|fetch)
-            hours_since $1 2
+            ! hours_since $1 2
         ;;
         *)
             return 1

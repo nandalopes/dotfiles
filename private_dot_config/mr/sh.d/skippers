@@ -7,7 +7,14 @@ debug_skippers () {
 default_skipper() { return 1; }
 
 third_party_skipper() {
-  ( [ "$1" = update ] || [ "$1" = fetch ] ) && ! [ hours_since "$1" 2 ]
+    case $1 in
+        update|fetch)
+            hours_since $1 2
+        ;;
+        *)
+            return 1
+        ;;
+    esac
 }
 
 missing_exe () {

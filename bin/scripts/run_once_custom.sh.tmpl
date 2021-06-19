@@ -22,8 +22,4 @@ sudo install -m 0644 -o root -g root -v \
   /.backup/chezmoi/network/resolved.conf \
   /etc/systemd/resolved.conf
 
-separaTitulo 1 "Install mrconfig bin..."
-ln -nfs {{ .chezmoi.homeDir }}/.backup/chezmoi/mrconfig \
-  {{ .my_bin_dir }}/.mrconfig
-
 exit 0

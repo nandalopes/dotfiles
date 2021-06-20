@@ -1,5 +1,24 @@
 # -*- mode: sh -*-
 
+[Projects/repos/dotfiles.git]
+skip = lazy
+checkout =
+  git clone --mirror -- \
+      'git@gitlab.com:nandalopes/dotfiles.git' 'dotfiles.git'
+update = git remote update
+status = git branch --verbose
+head =
+  git symbolic-ref HEAD refs/heads/${1:-main}
+  git branch --show-current
+post_checkout =
+  cd "$MR_REPO"
+  # remotes
+  git_add_remote github 'https://github.com/nandalopes/dotfiles.git'
+  # config
+  cfg_lfs_local
+  cfg_rcv_warn
+  cfg_shared
+
 [Projects/repos/dotfiles-yadr.git]
 skip = lazy
 checkout =
@@ -11,10 +30,11 @@ head =
   git symbolic-ref HEAD refs/heads/${1:-mine}
   git branch --show-current
 post_checkout =
-  cd 'dotfiles-yadr.git'
+  cd "$MR_REPO"
   # remotes
   git_add_remote upstream 'https://github.com/skwp/dotfiles.git'
   # config
+  cfg_lfs_local
   cfg_rcv_warn
   cfg_shared
   # new branchs

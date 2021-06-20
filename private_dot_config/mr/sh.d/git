@@ -11,6 +11,12 @@ cfg_shared() {
     git config core.sharedRepository group
 }
 
+cfg_lfs_local() {
+    if which "git-lfs" >/dev/null 2>&1; then
+        git lfs install --local
+    fi
+}
+
 ff_only() {
     git pull --ff-only
 }
@@ -21,8 +27,8 @@ git_submodules() {
 
 git_bundleall() {
     # b=$(git rev-parse --show-toplevel)
-    f=${1:-${MR_REPO##*/}}
-    d=${2:-$HOME/Sync/system/repos}
+    local f=${1:-${MR_REPO##*/}}
+    local d=${2:-$HOME/Sync/system/repos}
     git bundle create $d/${f##.}.gitrepo.$(date +%+4Y%m%d-%H%M) --all
 }
 

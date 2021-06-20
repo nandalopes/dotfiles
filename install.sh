@@ -23,4 +23,4 @@ fi
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "Running chezmoi init"
 # exec: replace current process with chezmoi init
-exec "$chezmoi" init --apply "--source=$script_dir"
+exec "$chezmoi" init --apply -x encrypted "--source=$script_dir"

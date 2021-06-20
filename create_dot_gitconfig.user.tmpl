@@ -15,7 +15,7 @@
   defaultBranch = main
   templateDir = ~/.config/git/templates/git-secrets
 [secrets]
-  providers = /home/nanda/.config/git/.forbidden-patterns
+  providers = {{ .chezmoi.homeDir }}/.config/git/.forbidden-patterns
   providers = git secrets --aws-provider
   patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
   patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?

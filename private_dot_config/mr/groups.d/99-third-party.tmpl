@@ -1,4 +1,4 @@
-# -*- mode: sh -*-
+# vim:fileencoding=utf-8:ft=conf
 
 ##### Programas #####
 [ {{- .my_bin_dir -}} /chezmoi]
@@ -124,9 +124,9 @@ testCola =
 lib =
   case $MR_ACTION in
     make|install)
-      echo 'PYTHON = python3'      | tee    $MR_REPO/config.mak
-      echo 'prefix =' $HOME/.local | tee -a $MR_REPO/config.mak
-      echo 'NO_PRIVATE_LIBS = 1'   | tee -a $MR_REPO/config.mak
+      echo 'PYTHON = python3'      | tee    "$MR_REPO/config.mak"
+      echo 'prefix =' $HOME/.local | tee -a "$MR_REPO/config.mak"
+      echo 'NO_PRIVATE_LIBS = 1'   | tee -a "$MR_REPO/config.mak"
       ;;
     *)
   esac

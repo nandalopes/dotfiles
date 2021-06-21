@@ -3,7 +3,8 @@
 Managed with [chezmoi](https://chezmoi.io/).
 
 This repo has been built for my own benefit, however feel free to sneak in and
-steal anything that would improve your own productivity.
+steal anything that would improve your own productivity.  
+You can find my vimfiles and complete zsh setup at <https://nandalopes.github.io/dotfiles-yadr/>.
 
 [![wakatime](https://wakatime.com/badge/github/nandalopes/dotfiles.svg)](https://wakatime.com/badge/github/nandalopes/dotfiles)
 

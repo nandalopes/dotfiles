@@ -1,0 +1,11 @@
+session_name: 2-panes
+suppress_history: false
+options:
+  automatic-rename: false
+windows:
+  - window_name: generic
+    layout: even-horizontal
+    focus: true
+    panes:
+      - pane
+      - pane

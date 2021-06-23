@@ -61,6 +61,15 @@ fbo() {
   buku --open ${ids[@]}
 }
 
+# buku open in default text browser
+fbwww() {
+  # save newline separated string into an array
+  ids=( $(get_buku_ids) )
+  [[ -z $ids ]] && return 0 # return if has no bookmark selected
+  echo www-browser '$(' buku --print ${ids[@]} --format 10 ')'
+  www-browser $( buku --format 10 --print ${ids[@]} )
+}
+
 # buku update
 fbu() {
   # save newline separated string into an array

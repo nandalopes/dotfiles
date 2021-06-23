@@ -96,6 +96,10 @@ fbw() {
 ftmux() {
   tprofiles=( $(find ${XDG_CONFIG_HOME:-$HOME/.config}/tmuxp -type f \
     -printf "%P\n" | cut -d\. -f1 | fzf --multi --query="$1") )
-  tmuxp load "${tprofiles[@]}"
+  if [ -z "$tprofiles" ]; then
+    tmuxp ls
+  else
+    tmuxp load "${tprofiles[@]}"
+  fi
 }
 

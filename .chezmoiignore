@@ -22,3 +22,7 @@ Desktop/*.desktop
 Projects/www/ask_devilbox.sh
     {{- end }}
   {{- end }}
+
+  {{- if not (eq .chezmoi.hostname "home-PC-N" "netha-A14CR" "home-PC-H81") }}
+**/kitty*
+  {{- end }}

@@ -1,0 +1,16 @@
+### FuncoesZZ
+# Instalacao das Funcoes ZZ (www.funcoeszz.net)
+export  ZZOFF=""  # desligue funcoes indesejadas
+export ZZPATH=" {{- .my_bin_dir -}} /funcoeszz/funcoeszz"  # script
+export  ZZDIR=" {{- .my_bin_dir -}} /funcoeszz/zz"         # pasta zz/
+
+### Tilix path
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+  source /etc/profile.d/vte*.sh
+fi
+
+### The Fuck config
+if [ -x "$(command -v thefuck)"  ]; then
+  eval $(thefuck --alias "{{ .thefuck -}}")
+fi
+

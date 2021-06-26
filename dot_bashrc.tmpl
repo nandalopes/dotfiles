@@ -121,10 +121,9 @@ if ! shopt -oq posix; then
 fi
 
 ### append shell dependant files
-{{ with dict "shell" "bash" | merge . -}}
-  {{ template "shell_specific" . }}
-  {{- $_ := unset . "shell" -}}
-{{- end }}
+{{ template "shell/general" . }}
+{{ template "shell/specific" "bash" }}
+{{ template "shell/fzf" "bash" }}
 [ ${ZZPATH:-} ] && source "$ZZPATH"
 
 # enable gitstatus prompt

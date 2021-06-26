@@ -1,0 +1,28 @@
+### ASDF Config
+# . $HOME/.asdf/asdf.sh
+ASDF_DIR="$HOME/.asdf"
+
+# Dont source `~/.asdf/asdf.sh`
+PATH="$ASDF_DIR/bin:$PATH"
+
+source $ASDF_DIR/lib/asdf.sh # just load the asdf wrapper function
+
+##### direnv
+# A shortcut for asdf managed direnv.
+direnv() { asdf exec direnv "$@"; }
+
+# direnv hook {{ . }}
+eval "$(asdf exec direnv hook {{ . -}} )"
+
+
+### Tmuxp autocomplete
+eval "$(_TMUXP_COMPLETE=source_{{ . }} tmuxp)"
+
+
+### Function to check {{ upper . }} load time
+load_shell_time() {
+  local st0=`date -d "$_DOT_{{ upper . }}_PROFILE_0" +"%s.%N"`
+  local st1=`date -d "$_DOT_{{ upper . }}_PROFILE_1" +"%s.%N"`
+
+  date -d "0 $st1 sec - $st0 sec" +%S.%N
+}

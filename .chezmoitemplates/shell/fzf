@@ -1,0 +1,7 @@
+### FZF fuzzy finder
+# fzf/install --no-fish --no-update-rc --completion --xdg
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf. {{- . }} ] && \
+  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf. {{- . }}
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh ] && \
+  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh
+

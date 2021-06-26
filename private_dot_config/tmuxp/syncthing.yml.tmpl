@@ -3,7 +3,7 @@ suppress_history: false
 options:
   automatic-rename: false
 windows:
-  - window_name: sync $USER@$HOST!
+  - window_name: sync {{ .chezmoi.username }}@{{ .chezmoi.hostname }}
     layout: even-horizontal
     options_after:
       synchronize-panes: on

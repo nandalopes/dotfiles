@@ -1,8 +1,11 @@
 #!/bin/sh
 
-{{ template "exit_user.sh" }}
 {{ template "utils.sh" }}
+separaTitulo 3 "Instala arquivos de plugins extra para (neo)vim..."
+cp -vfl ~/.backup/chezmoi/vim-plug  ~/.vim/.local.bundles
+cp -vfl ~/.backup/chezmoi/nvim-plug ~/.config/nvim/.local.vim
 
+{{ template "exit_user.sh" }}
 separaTitulo 3 "Carregando arquivos do /etc/profile.d no zprofile..."
 sudo install -m 0644 -o root -g root -v \
   --target-directory=/etc/zsh/ \

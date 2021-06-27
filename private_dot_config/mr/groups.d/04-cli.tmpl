@@ -39,7 +39,7 @@ post_checkout =
   git config core.sharedRepository group
 
 [ {{- .my_bin_dir -}} /fzf]
-skip = lazy || third_party_skipper $MR_ACTION
+skip = third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/junegunn/fzf.git' 'fzf'
 update = gplrt
 install =
@@ -49,6 +49,7 @@ post_update = git_last_tag
 
 [ {{- .my_bin_dir -}} /funcoeszz]
 order = 69
+skip = third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/funcoeszz/funcoeszz.git' 'funcoeszz'
 install =
   ln -nfs $MR_REPO/funcoeszz $HOME/.local/bin/funcoeszz

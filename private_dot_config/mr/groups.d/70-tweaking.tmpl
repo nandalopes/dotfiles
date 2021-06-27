@@ -5,9 +5,11 @@ skip = lazy
 checkout =
   git clone -j8 '~/.yadr' 'dotfiles-yadr'
 post_checkout =
-  cd 'dotfiles-yadr'
-  git_add_remote fork     'https://github.com/nandalopes/dotfiles-yadr.git'
-  git_add_remote upstream 'https://github.com/skwp/dotfiles.git'
+  cd "$MR_ACTION"
+  git_add_remotes "
+    fork     https://github.com/nandalopes/dotfiles-yadr.git
+    upstream https://github.com/skwp/dotfiles.git
+  "
   cfg_shared
 
 [Projects/dotfiles]
@@ -19,7 +21,7 @@ checkout =
   git clone 'nanda@vizinha.loc:Projects/dotfiles' 'dotfiles'
     {{- end }}
 post_checkout =
-  cd 'dotfiles'
+  cd "$MR_ACTION"
   cfg_rcv_warn
   cfg_shared
     {{- if .has_keybase }}
@@ -34,6 +36,7 @@ checkout =
   git clone --branch=gh-pages -- \
       'https://github.com/nandalopes/dotfiles-yadr.git' 'yadr-gh-pages'
 post_checkout =
+  cd "$MR_ACTION"
   cfg_shared
   git remote set-branches origin 'gh-pages main mine'
   git remote add upstream 'https://github.com/skwp/dotfiles.git' \

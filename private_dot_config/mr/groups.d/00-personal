@@ -5,20 +5,18 @@ checkout =
   git clone --branch=mine --no-single-branch -j8 --recurse-submodules -- \
       'https://github.com/nandalopes/dotfiles-yadr.git' '.yadr'
 install = ASK=true rake install
-order = 7
-lib =
-  print_remote_list() {
-    echo "local    nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git"
-    echo "upstream https://github.com/skwp/dotfiles.git"
-    echo "lfilho   https://github.com/lfilho/dotfiles.git"
-    echo "akita    https://github.com/akitaonrails/dotfiles.git"
-    echo "vovin    https://github.com/vovinacci/dotfiles-1.git"
-    echo "vizinha  vizinha.loc:.yadr"
-  }
+order = 3
 post_checkout =
   cd "$MR_REPO"
   # remotes
-  git_add_remotes "`print_remote_list`"
+  git_add_remotes "
+    local    nanda@vizinha.loc:Projects/repos/dotfiles-yadr.git
+    upstream https://github.com/skwp/dotfiles.git
+    lfilho   https://github.com/lfilho/dotfiles.git
+    akita    https://github.com/akitaonrails/dotfiles.git
+    vovin    https://github.com/vovinacci/dotfiles-1.git
+    vizinha  vizinha.loc:.yadr
+  "
   git config remotes.up 'upstream lfilho akita vovin'
   # config
   cfg_rcv_warn
@@ -26,7 +24,7 @@ post_checkout =
 
 [.zprezto]
 checkout = true
-order = 3
+order = 7
 update = ff_only && git_submodules
 pre_update = git checkout master
 

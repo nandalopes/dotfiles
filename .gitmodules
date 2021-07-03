@@ -1,0 +1,3 @@
+[submodule "vimrc-single-file"]
+  path = dot_vim
+  url = https://github.com/nandalopes/vim-for-server.git

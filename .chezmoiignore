@@ -28,4 +28,6 @@ Projects/www/ask_devilbox.sh
 **/*rg*
 **/*bat*
 **/*delta*
+  {{- else }}
+.vim
   {{- end }}

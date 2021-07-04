@@ -40,8 +40,18 @@ background-transparency-percent=10
 badge-color-set=false
 bold-color-set=false
 cursor-colors-set=false
-default-size-columns=144
-default-size-rows=36
+default-size-columns=
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    144
+  {{- else -}}
+    96
+  {{- end }}
+default-size-rows=
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    36
+  {{- else -}}
+    24
+  {{- end }}
 dim-transparency-percent=10
 font='Hack 10'
 foreground-color='#839496'
@@ -60,8 +70,18 @@ background-transparency-percent=10
 badge-color-set=false
 bold-color-set=false
 cursor-colors-set=false
-default-size-columns=144
-default-size-rows=36
+default-size-columns=
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    144
+  {{- else -}}
+    96
+  {{- end }}
+default-size-rows=
+  {{- if (regexMatch "^home-PC" .chezmoi.hostname) -}}
+    36
+  {{- else -}}
+    24
+  {{- end }}
 dim-transparency-percent=10
 font='FiraCode Nerd Font Mono weight=453 10'
 foreground-color='#EBDBB2'

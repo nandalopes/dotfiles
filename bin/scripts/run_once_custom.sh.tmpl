@@ -2,8 +2,8 @@
 
 {{ template "utils.sh" }}
 separaTitulo 3 "Instala arquivos de plugins extra para (neo)vim..."
-cp -vfl ~/.backup/chezmoi/vim-plug  ~/.vim/.local.bundles
-cp -vfl ~/.backup/chezmoi/nvim-plug ~/.config/nvim/.local.vim
+cp -vf ~/.backup/vim/vim-plug  ~/.vim/.local.bundles
+cp -vf ~/.backup/vim/nvim-plug ~/.config/nvim/.local.vim
 
 {{ template "exit_user.sh" }}
 separaTitulo 3 "Carregando arquivos do /etc/profile.d no zprofile..."

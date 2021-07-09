@@ -9,7 +9,7 @@
 # Docker
 
 ```sh
-virtualenv --system-site-packages --symlink-app-data --clear venv
+virtualenv --system-site-packages --clear venv
 
 ./venv/bin/pip install --upgrade docker-compose
 

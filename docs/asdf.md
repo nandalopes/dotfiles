@@ -50,7 +50,7 @@ ln -nfs /usr/local/bin/direnv ~/.asdf/installs/direnv/system/bin/direnv
 ### [golang](https://github.com/kennyp/asdf-golang.git)
 
 - **direnv compilation support** - version 1.16.x
-- fzf compilation support - version 1.13.x
+- fzf compilation support - version 1.16.x
 
 ### [nodejs](https://github.com/asdf-vm/asdf-nodejs.git)
 

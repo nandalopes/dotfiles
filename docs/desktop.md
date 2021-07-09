@@ -42,11 +42,11 @@ xdg-desktop-menu install --novendor --mode user directory/personal.directory \
 
 ## Editors
 
-| Programa | Caminho no Repo | Arquivos                      |
-| -------- | --------------- | ----------------------------- |
-| Codium   | editors/codium  | extensions.txt, settings.json |
-| Code     | editors/code    | idem                          |
-|          |                 |                               |
+| Programa | Arquivos                      |
+| -------- | ----------------------------- |
+| Codium   | extensions.txt, settings.json |
+| Code     | idem                          |
+|          |                               |
 
 ### Visual Studio Code
 
@@ -54,11 +54,11 @@ Get extensions:
 
 ```sh
 # list-extensions
-code --list-extensions | tee editors/code/extensions.txt
+code --list-extensions   | tee editors/code/extensions.txt
 codium --list-extensions | tee editors/codium/extensions.txt
 
 # install-extension
-xargs -n1 code --install-extension < editors/code/extensions.txt
+xargs -n1 code   --install-extension < editors/code/extensions.txt
 xargs -n1 codium --install-extension < editors/codium/extensions.txt
 ```
 
@@ -66,10 +66,10 @@ OR
 
 ```sh
 mkdir -p ~/.vscode-oss
-cp -r ~/.vscode/extensions ~/.vscode-oss/.
+cp -r ~/.vscode/extensions ~/.vscode-oss/extensions
 
 mkdir -p ~/.config/VSCodium
-cp -r ~/.config/Code/User ~/.config/VSCodium/.
+cp -r ~/.config/Code/User ~/.config/VSCodium/User
 ```
 
 ## System

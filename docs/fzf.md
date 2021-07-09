@@ -1,6 +1,9 @@
 # [fzf](https://github.com/junegunn/fzf)
 
-BUILD dep: go 1.13.x
+On `fzf.sh` I have functions for version manager install/clean, bookmarks cli
+manager, and tmuxp session load.
+
+## Installing
 
 ```sh
 apt install -y fzf
@@ -25,3 +28,6 @@ On file `~/.zsh.after/zz_after.zsh`
 #bindkey '^T' fzf-completion
 #bindkey '^I' $fzf_default_completion
 ```
+
+Building from source require golang 1.16.x
+

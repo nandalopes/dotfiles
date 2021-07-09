@@ -1,9 +1,9 @@
 ```sh
-snap install vlc spotify chromium-ffmpeg
+snap install vlc chromium-ffmpeg
 
-snap install --classic code nvim
+snap install --classic nvim
 
 # maybe
-snap install cyph desktop-habitica nmap
+snap install cyph nmap
 snap connect nmap:network-control
 ```

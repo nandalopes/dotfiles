@@ -1,7 +1,7 @@
 # Reference
 
-  - http://manpages.ubuntu.com/manpages/focal/en/man8/ufw.8.html
-  - http://manpages.ubuntu.com/manpages/bionic/man8/avahi-daemon.8.html
+  - http://manpages.ubuntu.com/manpages/focal/man8/ufw.8.html
+  - http://manpages.ubuntu.com/manpages/focal/man8/avahi-daemon.8.html
   - https://superuser.com/questions/739481/what-might-these-connection-attemps-mean
   - https://ubuntu-mate.community/t/gufw-ufw-firewall-configuration-for-a-usable-desktop/5254
   - https://www.thegeekdiary.com/how-to-configure-multicast-on-an-ip-address-interface/
@@ -53,59 +53,6 @@ following commands:
     # sudo ufw insert 3 allow in from {{ .basic_ipv4 }} proto udp
     # sudo ufw insert 4 allow in from any to {{ .basic_ipv4 }} proto igmp
 
-## show listening
-
-    tcp:
-      220 * (sshd)
-       [ 3] allow log from 10.0.10.0/24 to any app OpenSSH
-       [ 9] allow log from 10.0.10.0/24 to 10.0.10.0/24 proto tcp comment 'syncthing'
-       [19] limit log from any port 80 proto tcp comment 'Site navigation'
-       [20] limit log from any port 443 proto tcp comment 'Site navigation'
-    
-    udp:
-      47637 * (avahi-daemon)
-       [11] allow log from 10.0.10.0/24 app DLNA comment 'UPnP discover'
-       [12] allow log from 10.0.10.0/24 to 10.0.10.0/24 proto udp comment 'UPnP Play'
-    
-      5353 * (avahi-daemon)
-       [10] allow log from 10.0.10.0/24 to any app avahi comment 'Bonjour discover'
-       [11] allow log from 10.0.10.0/24 app DLNA comment 'UPnP discover'
-       [12] allow log from 10.0.10.0/24 to 10.0.10.0/24 proto udp comment 'UPnP Play'
-    
-      631 * (cups-browsed)
-       [11] allow log from 10.0.10.0/24 app DLNA comment 'UPnP discover'
-       [12] allow log from 10.0.10.0/24 to 10.0.10.0/24 proto udp comment 'UPnP Play'
-    
-      68 10.0.10.117 (NetworkManager)
-       [ 1] allow log from 10.0.10.0/24 to any app DHCP
-       [11] allow log from 10.0.10.0/24 app DLNA comment 'UPnP discover'
-       [12] allow log from 10.0.10.0/24 to 10.0.10.0/24 proto udp comment 'UPnP Play'
-    
-    tcp6:
-      1716 * (kdeconnectd)
-       [33] allow log from fe80::/64 to any app KDE_Connect
-       [35] allow log from fe80::/64 to fe80::/64 proto tcp comment 'syncthing'
-       [38] limit log from any port 80 proto tcp comment 'Site navigation'
-       [39] limit log from any port 443 proto tcp comment 'Site navigation'
-    
-      220 * (sshd)
-       [29] allow log from fe80::/64 to any app OpenSSH
-       [35] allow log from fe80::/64 to fe80::/64 proto tcp comment 'syncthing'
-       [38] limit log from any port 80 proto tcp comment 'Site navigation'
-       [39] limit log from any port 443 proto tcp comment 'Site navigation'
-    
-    udp6:
-      1716 * (kdeconnectd)
-       [34] allow log from fe80::/64 to any app KDE_Connect
-       [37] allow log from any app DLNA to ff02::f comment 'UPnP discover ipv6'
-    
-      41599 * (avahi-daemon)
-       [37] allow log from any app DLNA to ff02::f comment 'UPnP discover ipv6'
-    
-      5353 * (avahi-daemon)
-       [36] allow log to ff02::fb app avahi comment 'Bonjour discover'
-       [37] allow log from any app DLNA to ff02::f comment 'UPnP discover ipv6'
-    
 
 # Extra info
 
@@ -114,12 +61,9 @@ following commands:
     ff12::8384 is a MULTICAST address
     ff02::/80
 
-    dig redevirtual.ufba.br 200.128.63.4
-    inetrev 200.128.56.0/21
-    intranet mask: 192.168.177.0/24
-
     sudo ufw show added
 
     sudo ufw show listening
     sudo ufw status numbered
     sudo ufw status verbose
+

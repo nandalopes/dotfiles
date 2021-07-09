@@ -12,7 +12,7 @@ data:
     {{- end -}}
   "
   my_bin_dir: "{{ default "$HOME/bin" $bin | expandenv }}"
-  thefuck: "{{ default "please" $fuck }}"
+  thefuck: "{{ default "fuck" $fuck }}"
   what_gui: "
     {{- if eq .chezmoi.hostname "home-PC-N" -}} qt
     {{- else -}} gtk

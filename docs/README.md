@@ -23,7 +23,7 @@ sh -c "$(wget  -qO- https://git.io/J3BNH)"
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
 # - Base_do_IPv4=10.0.10
-# - thefuck=please
+# - thefuck=fuck
 ```
 
 ## [VIM dotfiles](yadr-workflow.md)

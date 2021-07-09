@@ -24,7 +24,7 @@ curl -fsSL https://git.io/chezmoi | sh
 # - my_bin_dir=$HOME/bin
 # - Keybase=n
 # - Base_do_IPv4=10.0.10
-# - thefuck=please
+# - thefuck=fuck
 
 ~/.local/bin/chezmoi diff
 

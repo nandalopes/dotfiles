@@ -1,8 +1,0 @@
-# jekyll files
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-# bundler files
-.bundle
-vendor/bundle

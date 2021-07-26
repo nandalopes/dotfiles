@@ -48,7 +48,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 
 ## Screenshot
 
-![screenshot vim](https://i.imgur.com/Q0WgIcm.png)
+[![screenshot vim](https://i.imgur.com/Q0WgIcm.png)](https://imgur.com/a/JltO46O)
 
 ## Installation
 

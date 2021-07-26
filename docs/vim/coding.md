@@ -1,3 +1,9 @@
+---
+parent: "Vim - What's included?"
+title: Coding
+nav_order: 3
+---
+
 * tComment - gcc to comment a line, gcp to comment blocks, nuff said
 * rails.vim - syntax highlighting, gf (goto file) enhancements, and lots more. should be required for any rails dev
 * rake.vim - like rails.vim but for non-rails projects. makes `:Rtags` and other commands just work
@@ -11,4 +17,4 @@
 * vim-stylus - support for stylus css language
 * vim-bundler - work with bundled gems
 * fugitive - "a git wrapper so awesome, it should be illegal...". Try `:Gstatus` and hit `-` to toggle files in and out of the index. Git `d` to see a diff. Use `git mergetool` or `gmt` to launch vim as a mergetool. The left buffer is your branch, the right is the incoming change, and in the middle is the working copy. Move to the left or right and use `dp` to put the change into the middle. Learn more: http://vimcasts.org/blog/2011/05/the-fugitive-series/
-* gitv - use `:gitv` for a better git log browser
+* gitv - use `:Gitv` for a better git log browser

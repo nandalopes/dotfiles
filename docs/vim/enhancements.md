@@ -1,3 +1,9 @@
+---
+parent: "Vim - What's included?"
+title: Enhancements
+nav_order: 5
+---
+
 * IndexedSearch - when you do searches will show you "Match 2 of 4" in the status line
 * delimitMate - automatically closes quotes
 * SearchComplete - tab completion in the / search window

@@ -1,3 +1,9 @@
+---
+parent: "Vim - What's included?"
+title: Navigation
+nav_order: 1
+---
+
 * NERDTree - everyone's favorite tree browser
 * NERDTree-tabs - makes NERDTree play nice with MacVim tabs so that it's on every tab
 * ShowMarks - creates a visual gutter to the left of the number column showing you your marks

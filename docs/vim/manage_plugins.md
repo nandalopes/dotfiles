@@ -1,10 +1,16 @@
-YADR comes with a dead simple plugin manager that just uses vundles and submodules, without any fancy config files.
+---
+title: Manage plugins
+parent: "Vim Settings"
+nav_order: 3
+---
+
+YADR comes with a dead simple plugin manager that just uses bundles and submodules, without any fancy config files.
 
 Add a plugin
 
     yav -u https://github.com/airblade/vim-rooter
 
-Delete a plugin 
+Delete a plugin
 
     ydv -u airblade/vim-rooter
 

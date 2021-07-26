@@ -1,0 +1,19 @@
+.fixed-toc {
+  // background-color: darker(50, $sidebar-color);
+  // filter: brightness(80%);
+  // background-color: color.scale( "#{$sidebar-color}", $saturation: -30% );
+
+  @include mq(md) {
+    // background-color: $sidebar-color;
+    // filter: brightness(100%);
+  }
+
+  @include mq(lg) {
+    // background-color: $sidebar-color;
+  }
+}
+
+.nav-toc .nav-list-item > .nav-list {
+  display: block;
+}
+

@@ -16,16 +16,17 @@ h_max: 3
     # Yet Another Dotfile Repo v2.0
     # Now with Chezmoi, Prezto and Vim-Plug!
 
-#### This is a GNU/Linux focused fork of [skwp/dotfiles](https://github.com/skwp/dotfiles).
-
 [![Join the chat at https://gitter.im/skwp/dotfiles](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/skwp/dotfiles?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
 
 #### sh -c "\`curl -fsSL https://raw.githubusercontent.com/nandalopes/dotfiles/main/bin/yadr/install.sh \`"
 
 **Managed with [chezmoi](https://chezmoi.io/).**
 
-This repo has been built for my own benefit, however feel free to sneak in and
-steal anything that would improve your own productivity.
+This repo has been built for my own benefit, however feel free to sneak in and steal anything that would improve your own productivity.
+
+[![wakatime](https://wakatime.com/badge/github/nandalopes/dotfiles.svg)](https://wakatime.com/badge/github/nandalopes/dotfiles)
 
 ## What is YADR?
 
@@ -48,7 +49,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 
 ## Screenshot
 
-[![screenshot vim](https://i.imgur.com/Q0WgIcm.png)](https://imgur.com/a/JltO46O)
+[![screenshot vim](https://i.imgur.com/IhPYpNV.png)](https://imgur.com/a/JltO46O)
 
 ## Installation
 
@@ -76,8 +77,7 @@ You will have to clone the repo and from its root directory, execute the
 Leveraging Chezmoi capabilities
 
 ```bash
-chezmoi init --apply --verbose --source ~/.yadr \
-             --https nandalopes/dotfiles
+chezmoi init --apply --verbose --source ~/.yadr --https nandalopes/dotfiles
 ```
 
 ### _What if I already have a chezmoi dotfiles repo?_
@@ -168,8 +168,7 @@ We've also provided lots of enhancements:
 
 ### Aliases
 
-Lots of things we do every day are done with two or three character
-mnemonic aliases. Please feel free to edit them:
+Lots of things we do every day are done with two or three charactera mnemonic aliases. Please feel free to edit them:
 
 
     ae # alias edit
@@ -221,12 +220,11 @@ A .gemrc is included. Never again type `gem install whatever --no-ri --no-rdoc`.
 `tmux.conf` provides some sane defaults for tmux on Mac OS like a powerful status bar and vim keybindings.
 You can customize the configuration in `~/.tmux.conf.user`.
 
-![screenshot tmux](https://i.imgur.com/5YUnqzg.png)
+![screenshot tmux](https://i.imgur.com/Rlh30kg.png)
 
 ### Vimization of everything
 
-The provided inputrc and editrc will turn your various command line tools like mysql and irb into vim prompts. There's
-also an included Ctrl-R reverse history search feature in editrc, very useful in irb, postgres command line, and etc.
+The provided inputrc and editrc will turn your various command line tools like mysql and irb into vim prompts. There's also an included Ctrl-R reverse history search feature in editrc, very useful in irb, postgres command line, and etc.
 
 ### Github Issues: [ghi gem](https://github.com/stephencelis/ghi)
 
@@ -261,8 +259,8 @@ There you can play around, test commands, aliases, etc.
 
 ### macOS Hacks
 
-The macOS file is a bash script that sets up sensible defaults for devs and power users
-under macOS. Read through it before running it. To use:
+The macOS file is a bash script that sets up sensible defaults for devs and power users under macOS.
+Read through it before running it. To use:
 
     bin/macos
 
@@ -281,6 +279,7 @@ brew install macvim --custom-icons --with-override-system-vim --with-lua --with-
 ```
 
 ### Terminal Vim troubles with Lua?
+
 Installing terminal vim (with lua) with an RVM managed Ruby can cause the neocomplete plugin to segfault. Try uninstalling vim, then installing with system ruby:
 
 ```
@@ -290,7 +289,11 @@ rvm system do brew install vim --with-lua
 
 ### [Pry](https://pryrepl.org/)
 
-Pry offers a much better out of the box IRB experience with colors, tab completion, and lots of other tricks. You can also use it
-as an actual debugger by installing [pry-nav](https://github.com/nixme/pry-nav).
+Pry offers a much better out of the box IRB experience with colors, tab completion, and lots of other tricks.
+You can also use it as an actual debugger by installing [pry-nav](https://github.com/nixme/pry-nav).
 
 [Learn more about YADR's pry customizations and how to install](./pry.md)
+
+## License
+
+MIT

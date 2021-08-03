@@ -16,6 +16,7 @@ h_max: 3
     # Yet Another Dotfile Repo v2.0
     # Now with Chezmoi, Prezto and Vim-Plug!
 
+
 [![Join the chat at https://gitter.im/skwp/dotfiles](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/skwp/dotfiles?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
@@ -202,7 +203,7 @@ YADR provides a config framework to manage not only git repositories, but any ve
 
 You'll have under a `.config/mr` folder:
 
-  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/dot_mrconfig) - uses [`library-loaders`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/library-loaders) to load all the components below:
+  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/dot_mrconfig) - uses [`library_loaders`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/library_loaders) to load all the components below:
     * [`groups.d/`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
     * [`lib.d/`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/lib.d) which contains
       * various shell snippets which get auto-loaded in the context of `mr`'s `lib` parameter

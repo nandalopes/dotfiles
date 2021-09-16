@@ -21,7 +21,7 @@ h_max: 3
 
 This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
 
-#### sh -c "\`curl -fsSL https://raw.githubusercontent.com/nandalopes/dotfiles/main/bin/yadr/install.sh \`"
+#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh \`"
 
 **Managed with [chezmoi](https://chezmoi.io/).**
 
@@ -57,7 +57,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 To get started please run:
 
 ```bash
-sh -c "`curl -fsSL https://raw.githubusercontent.com/nandalopes/dotfiles/mine/bin/yadr/install.sh`"
+sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh`"
 ```
 
 **Note:** YADR will automatically install all of its subcomponents.
@@ -65,7 +65,7 @@ sh -c "`curl -fsSL https://raw.githubusercontent.com/nandalopes/dotfiles/mine/bi
 ### Convenience script
 
 In case of not having `chezmoi` installed - Just firing the
-[`bin/yadr/install.sh`](https://raw.githubusercontent.com/nandalopes/dotfiles/mine/bin/yadr/install.sh)
+[`bin/yadr/install.sh`](https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh)
 after a simple download of it.
 
 ### Manually with `git`
@@ -150,9 +150,9 @@ Upgrading is easy.
 
 Read on to learn what YADR provides!
 
-### [Homebrew](https://brew.sh/)
+### <del>Homebrew</del>
 
-TODO: port homebrew install script to a `run_once_homebrew_install`.
+TODO: port [homebrew](https://brew.sh/) install script to a `run_once_homebrew_install`.
 
 ### ZSH
 
@@ -195,7 +195,7 @@ It is recommended to use this file to set your user info. Alternately, you can s
   * Slightly improved colors for diff
   * `gdmb` (g)it (d)elete (m)erged (b)ranches - Deletes all branches already merged on current branch
 
-### [Myrepos](https://myrepos.branchable.com/) framework configuration
+### Myrepos framework configuration
 
 [Myrepos](https://myrepos.branchable.com/) is a tool to manage all your version control repositories.
 
@@ -214,7 +214,7 @@ You'll have under a `.config/mr` folder:
 
 ### RubyGems
 
-A .gemrc is included. Never again type `gem install whatever --no-ri --no-rdoc`. `--no-ri --no-rdoc` is done by default.
+A `.gemrc` is included. Never again type `gem install whatever --no-ri --no-rdoc`. `--no-ri --no-rdoc` is done by default.
 
 ### Tmux configuration
 
@@ -227,9 +227,9 @@ You can customize the configuration in `~/.tmux.conf.user`.
 
 The provided inputrc and editrc will turn your various command line tools like mysql and irb into vim prompts. There's also an included Ctrl-R reverse history search feature in editrc, very useful in irb, postgres command line, and etc.
 
-### Github Issues: [ghi gem](https://github.com/stephencelis/ghi)
+### Image diffs: [spaceman-diff](https://github.com/holman/spaceman-diff)
 
-We include the `ghi` command. Try `ghi list` and have fun managing issues from command line!
+We include the `spaceman-diff` command. Now you can diff images from the command line.
 
 
 ## Extending and overriding YADR settings

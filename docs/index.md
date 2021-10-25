@@ -124,7 +124,7 @@ Same as iTerm. The native spaces navigation slows everything down for no reason.
 
 ```vim
 let g:yadr_using_unsolarized_terminal = 1
-# in ~/.vimrc.before
+" in ~/.vimrc.before
 ```
 
   * If you want to use an alternate colorcheme like Gruvbox, then do:
@@ -132,7 +132,7 @@ let g:yadr_using_unsolarized_terminal = 1
 ```vim
 let g:yadr_disable_solarized_enhancements = 1
 colorscheme base16-twilight
-# in ~/.vimrc.after
+" in ~/.vimrc.after
 ```
 
 ## Upgrading
@@ -227,9 +227,9 @@ You can customize the configuration in `~/.tmux.conf.user`.
 
 The provided inputrc and editrc will turn your various command line tools like mysql and irb into vim prompts. There's also an included Ctrl-R reverse history search feature in editrc, very useful in irb, postgres command line, and etc.
 
-### Image diffs: [spaceman-diff](https://github.com/holman/spaceman-diff)
+### Image diffs: spaceman-diff
 
-We include the `spaceman-diff` command. Now you can diff images from the command line.
+We include the [`spaceman-diff`](https://github.com/holman/spaceman-diff) command. Now you can diff images from the command line.
 
 
 ## Extending and overriding YADR settings

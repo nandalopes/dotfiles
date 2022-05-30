@@ -21,7 +21,7 @@ h_max: 3
 
 This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
 
-#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh \`"
+#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh \`"
 
 **Managed with [chezmoi](https://chezmoi.io/).**
 
@@ -57,7 +57,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 To get started please run:
 
 ```bash
-sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh`"
+sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh`"
 ```
 
 **Note:** YADR will automatically install all of its subcomponents.
@@ -65,7 +65,7 @@ sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/inst
 ### Convenience script
 
 In case of not having `chezmoi` installed - Just firing the
-[`bin/yadr/install.sh`](https://github.com/nandalopes/dotfiles/raw/main/bin/yadr/install.sh)
+[`root/bin/yadr/install.sh`](https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh)
 after a simple download of it.
 
 ### Manually with `git`
@@ -203,14 +203,14 @@ YADR provides a config framework to manage not only git repositories, but any ve
 
 You'll have under a `.config/mr` folder:
 
-  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/dot_mrconfig) - uses [`library_loaders`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/library_loaders) to load all the components below:
-    * [`groups.d/`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
-    * [`lib.d/`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/lib.d) which contains
+  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/root/dot_mrconfig) - uses [`library_loaders`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/library_loaders) to load all the components below:
+    * [`groups.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
+    * [`lib.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/lib.d) which contains
       * various shell snippets which get auto-loaded in the context of `mr`'s `lib` parameter
       * definitions of various `mr` actions and other `mr` parameters
-    * [`sh.d/`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
-      * [`sh.d/git`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
-      * [`sh.d/git-remotes`](https://github.com/nandalopes/dotfiles/blob/main/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
+    * [`sh.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
+      * [`sh.d/git`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
+      * [`sh.d/git-remotes`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
 
 ### RubyGems
 

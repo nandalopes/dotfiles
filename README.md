@@ -164,6 +164,31 @@ Lots of things we do every day are done with two or three charactera mnemonic al
     ar # alias reload
 
 
+**Dotfiles management aliases**
+
+  * `czh` - chezmoi (h)ome - cd into dotfiles dir
+  * `cza [ file(s) | folder(s) ]` - chezmoi (a)pply - apply *source state* to
+    *destination*.
+    Add `--dry-run` to preview only.
+  * `czA [ file(s) | -r folder(s) ]` - chezmoi (A)dd - add files to *source
+    state*
+  * `czc file(s)` - chezmoi (c)at - show *target state*, acording to *source
+    state*
+  * `cze file(s)` - chezmoi (e)dit - edit a file in *source state* then apply
+    changes.
+    Add `--dry-run` to preview only.
+  * `czE` - chezmoi (E)dit-config - edit `chezmoi.yaml` configuration file
+  * `czf [ file(s) | -r folder(s) ]` - chezmoi (f)orget - remove a file from
+    *source state*
+  * `czg` - chezmoi (g)it - run a git command on dotfiles dir
+  * `czu` - chezmoi (u)pdate - fetch and apply changes.
+    Add `--dry-run` to preview only.
+  * `czd [ file(s) | -r folder(s) ]` - chezmoi (d)iff - compare *destination*
+    and *target state*
+  * `czD` - chezmoi (D)ata - list chezmoi variables, useful for templating
+  * `czm file(s)` - chezmoi (m)erge - three-way merge between *destination*,
+    *source state* and *target state*
+
 ### Git Customizations:
 
 YADR will take over your `~/.gitconfig`, so if you want to store your usernames, please put them into `~/.gitconfig.user`
@@ -191,14 +216,14 @@ YADR provides a config framework to manage not only git repositories, but any ve
 
 You'll have under a `.config/mr` folder:
 
-  * [`.mrconfig`](./root/dot_mrconfig) - uses [`library_loaders`](./root/private_dot_config/mr/library_loaders) to load all the components below:
-    * [`groups.d/`](./root/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
-    * [`lib.d/`](./root/private_dot_config/mr/lib.d) which contains
+  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/root/dot_mrconfig) - uses [`library_loaders`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/library_loaders) to load all the components below:
+    * [`groups.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
+    * [`lib.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/lib.d) which contains
       * various shell snippets which get auto-loaded in the context of `mr`'s `lib` parameter
       * definitions of various `mr` actions and other `mr` parameters
-    * [`sh.d/`](./root/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
-      * [`sh.d/git`](./root/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
-      * [`sh.d/git-remotes`](./root/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
+    * [`sh.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
+      * [`sh.d/git`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
+      * [`sh.d/git-remotes`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
 
 ### RubyGems
 

@@ -27,8 +27,6 @@ This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp
 
 This repo has been built for my own benefit, however feel free to sneak in and steal anything that would improve your own productivity.
 
-[![wakatime](https://wakatime.com/badge/github/nandalopes/dotfiles.svg)](https://wakatime.com/badge/github/nandalopes/dotfiles)
-
 ## What is YADR?
 
 **YADR is an opinionated dotfile repo that will make your heart sing**
@@ -175,6 +173,31 @@ Lots of things we do every day are done with two or three charactera mnemonic al
     ae # alias edit
     ar # alias reload
 
+
+**Dotfiles management aliases**
+
+  * `czh` - chezmoi (h)ome - cd into dotfiles dir
+  * `cza [ file(s) | folder(s) ]` - chezmoi (a)pply - apply *source state* to
+    *destination*.
+    Add `--dry-run` to preview only.
+  * `czA [ file(s) | -r folder(s) ]` - chezmoi (A)dd - add files to *source
+    state*
+  * `czc file(s)` - chezmoi (c)at - show *target state*, acording to *source
+    state*
+  * `cze file(s)` - chezmoi (e)dit - edit a file in *source state* then apply
+    changes.
+    Add `--dry-run` to preview only.
+  * `czE` - chezmoi (E)dit-config - edit `chezmoi.yaml` configuration file
+  * `czf [ file(s) | -r folder(s) ]` - chezmoi (f)orget - remove a file from
+    *source state*
+  * `czg` - chezmoi (g)it - run a git command on dotfiles dir
+  * `czu` - chezmoi (u)pdate - fetch and apply changes.
+    Add `--dry-run` to preview only.
+  * `czd [ file(s) | -r folder(s) ]` - chezmoi (d)iff - compare *destination*
+    and *target state*
+  * `czD` - chezmoi (D)ata - list chezmoi variables, useful for templating
+  * `czm file(s)` - chezmoi (m)erge - three-way merge between *destination*,
+    *source state* and *target state*
 
 ### Git Customizations:
 

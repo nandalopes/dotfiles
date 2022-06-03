@@ -79,7 +79,7 @@ git remote add yadr https://github.com/nandalopes/dotfiles.git
 git fetch yadr
 
 # Merge repos:
-git merge --allow-unrelated-histories yadr/main
+git merge --allow-unrelated-histories yadr/mine
 
 # Verify if there is duplicated source files
 chezmoi verify
@@ -167,27 +167,20 @@ Lots of things we do every day are done with two or three charactera mnemonic al
 **Dotfiles management aliases**
 
   * `czh` - chezmoi (h)ome - cd into dotfiles dir
-  * `cza [ file(s) | folder(s) ]` - chezmoi (a)pply - apply *source state* to
-    *destination*.
+  * `cza [ file(s) | folder(s) ]` - chezmoi (a)pply - apply *source state* to *destination*.
     Add `--dry-run` to preview only.
-  * `czA [ file(s) | -r folder(s) ]` - chezmoi (A)dd - add files to *source
-    state*
-  * `czc file(s)` - chezmoi (c)at - show *target state*, acording to *source
-    state*
-  * `cze file(s)` - chezmoi (e)dit - edit a file in *source state* then apply
-    changes.
+  * `czA [ file(s) | -r folder(s) ]` - chezmoi (A)dd - add files to *source state*
+  * `czc file(s)` - chezmoi (c)at - show *target state*, acording to *source state*
+  * `cze file(s)` - chezmoi (e)dit - edit a file in *source state* then apply changes.
     Add `--dry-run` to preview only.
   * `czE` - chezmoi (E)dit-config - edit `chezmoi.yaml` configuration file
-  * `czf [ file(s) | -r folder(s) ]` - chezmoi (f)orget - remove a file from
-    *source state*
+  * `czf [ file(s) | -r folder(s) ]` - chezmoi (f)orget - remove a file from *source state*
   * `czg` - chezmoi (g)it - run a git command on dotfiles dir
   * `czu` - chezmoi (u)pdate - fetch and apply changes.
     Add `--dry-run` to preview only.
-  * `czd [ file(s) | -r folder(s) ]` - chezmoi (d)iff - compare *destination*
-    and *target state*
+  * `czd [ file(s) | -r folder(s) ]` - chezmoi (d)iff - compare *destination* and *target state*
   * `czD` - chezmoi (D)ata - list chezmoi variables, useful for templating
-  * `czm file(s)` - chezmoi (m)erge - three-way merge between *destination*,
-    *source state* and *target state*
+  * `czm file(s)` - chezmoi (m)erge - three-way merge between *destination*, *source state* and *target state*
 
 ### Git Customizations:
 

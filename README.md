@@ -329,7 +329,7 @@ This is not a comprehensive list. To get deeper knowledge, practice a few of the
   * `,hp` - Html Preview (open in Safari)
   * `Cmd-Shift-A` - align things (type a character/expression to align by, works in visual mode or by itself) (`,A` in Linux)
   * `:ColorToggle` - turn on #abc123 color highlighting (useful for css)
-  * `:Gitv` - Git log browsers
+  * `:GV` - Git log browsers
   * `,hi` - show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]` in your vimrc.after to remap the color. You can see available colors using `:hi`
   * `,gt` - Go Tidy - tidy up your html code (works on a visual selection)
   * `:Wrap` - wrap long lines (e.g. when editing markdown files)

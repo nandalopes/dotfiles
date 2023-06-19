@@ -1,3 +1,8 @@
+---
+title: "Tmux configuration"
+nav_order: 5
+---
+
 # Tmux configuration
 
 `tmux.conf` provides some sane defaults for tmux on Mac OS like a powerful status bar and vim keybindings.

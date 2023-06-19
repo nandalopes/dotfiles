@@ -1,3 +1,8 @@
+---
+title: "Customizing Powerlevel10k"
+nav_order: 4
+---
+
 ### Customizing Powerlevel10k
 
 Run `p10k configure` to access the builtin configuration wizard right from your terminal.

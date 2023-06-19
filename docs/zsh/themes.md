@@ -8,13 +8,13 @@ nav_order: 4
 Run `p10k configure` to access the builtin configuration wizard right from your terminal.
 
 
-    # Wizard options: nerdfont-complete + powerline, small icons, rainbow, unicode,
+    # Wizard options: nerdfont-v3 + powerline, small icons, rainbow, unicode,
     # 24h time, angled separators, sharp heads, flat tails, 2 lines, disconnected,
     # full frame, dark-ornaments, compact, many icons, concise, instant_prompt=verbose.
     # Type `p10k configure` to generate another config.
 
 
-The following settings are overwritten in `zsh/prezto-override/theme.zsh`:
+The following settings are overwritten in `zsh/override/theme.zsh`:
 
   - Transient prompt on same dir
   - Fewer elements on right prompt

@@ -7,16 +7,16 @@ I can't take credit for all of this. The vim files are a combination of
 work by tpope, scrooloose, and many hours of scouring blogs, vimscripts,
 and other places for the cream of the crop of vim awesomeness.
 
- * http://ethanschoonover.com/solarized - a scientifically calibrated color scheme
- * https://github.com/astrails/dotvim
- * https://github.com/carlhuda/janus
- * https://github.com/tpope
- * https://github.com/scrooloose
- * https://github.com/kana
- * https://github.com/sorin-ionescu
- * https://github.com/nelstrom
- * https://github.com/twpayne/chezmoi
- * https://github.com/aspiers/mr-config
+ * <https://ethanschoonover.com/solarized> - a scientifically calibrated color scheme
+ * <https://github.com/astrails/dotvim>
+ * <https://github.com/carlhuda/janus>
+ * <https://github.com/tpope>
+ * <https://github.com/scrooloose>
+ * <https://github.com/kana>
+ * <https://github.com/sorin-ionescu>
+ * <https://github.com/nelstrom>
+ * <https://github.com/twpayne/chezmoi>
+ * <https://github.com/aspiers/mr-config>
 
 And everything that's in the modules included in vim/bundle of course.
 Please explore these people's work.

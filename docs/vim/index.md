@@ -2,9 +2,7 @@
 title: "Vim - What's included?"
 has_children: true
 nav_order: 2
-layout: navtoc
-h_min: 2
-h_max: 4
+layout: default
 ---
 
 # Vim - What's included?

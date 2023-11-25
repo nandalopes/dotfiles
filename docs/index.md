@@ -1,9 +1,7 @@
 ---
 title: Home
 nav_order: 1
-layout: navtoc
-h_min: 2
-h_max: 3
+layout: home
 ---
 
      _     _           _

@@ -3,6 +3,16 @@ title: "Customizing Powerlevel10k"
 nav_order: 4
 ---
 
+<details open markdown="block">
+  <summary>
+    On this page...
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+{: .px-4 .py-2 .bg-grey-lt-000 }
+
 ### Customizing Powerlevel10k
 
 Run `p10k configure` to access the builtin configuration wizard right from your terminal.

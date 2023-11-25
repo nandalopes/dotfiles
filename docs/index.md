@@ -20,10 +20,21 @@ layout: home
 This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
 
 #### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh \`"
+{: .no_toc }
 
 **Managed with [chezmoi](https://chezmoi.io/).**
 
 This repo has been built for my own benefit, however feel free to sneak in and steal anything that would improve your own productivity.
+
+<details markdown="block">
+  <summary>
+    On this page...
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+{: .px-4 .py-2 .bg-grey-lt-000 }
 
 ## What is YADR?
 
@@ -45,6 +56,7 @@ Got questions, concerns, want to hear announcements? Join the [Google Group](htt
 Please use GitHub Issues for pull requests or bug reports only.
 
 ## Screenshot
+{: .no_toc }
 
 [![screenshot vim](https://i.imgur.com/IhPYpNV.png)](https://imgur.com/a/JltO46O)
 
@@ -97,20 +109,31 @@ chezmoi apply --verbose
 ```
 
 ## Wait, you're not done! Do this:
+{: .no_toc }
 
 #### Install Solarized Colors at your terminal of choice
+{: .no_toc }
+
 Change your terminal colors to Solarized. Most terminals on Linux have a solarized colorscheme installed by default.
 
 #### Remap caps-lock to escape with [Karabiner-Elements](https://pqrs.org/osx/karabiner/index.html)
+{: .no_toc }
+
 The escape key is the single most used key in vim.  Old keyboards used to have Escape where Tab is today. Apple keyboards are the worst with their tiny Esc keys. But all this is fixed by remapping Caps to Escape.  If you're hitting a small target in the corner, you are slowing yourself down considerably, and probably damaging your hands with repetitive strain injuries.
 
 #### Set up a system wide hotkey for iTerm (Keys=>Hotkey)
+{: .no_toc }
+
 Recommended Cmd-Escape, which is really Cmd-Capslock.
 
 #### In iTerm, uncheck "Native full screen windows" on General
+{: .no_toc }
+
 This will give you fast full screen windows that are switchable without switching to spaces.
 
 #### in MacVim, uncheck "Prefer native full-screen support" under Advanced settings
+{: .no_toc }
+
 Same as iTerm. The native spaces navigation slows everything down for no reason.
 
 ## If you want to run vim in terminal
@@ -146,7 +169,7 @@ Upgrading is easy.
 
 Read on to learn what YADR provides!
 
-### <del>Homebrew</del>
+### ~~Homebrew~~
 
 TODO: port [homebrew](https://brew.sh/) install script to a `run_once_homebrew_install`.
 
@@ -267,6 +290,7 @@ There you can play around, test commands, aliases, etc.
 
 
 ## Misc
+{: .no_toc }
 
 * [Credits & Thanks](./credits.md)
 * [Some recommended macOS productivity tools](./macos_tools.md)
@@ -310,5 +334,6 @@ You can also use it as an actual debugger by installing [pry-nav](https://github
 [Learn more about YADR's pry customizations and how to install](./pry.md)
 
 ## License
+{: .no_toc }
 
 MIT

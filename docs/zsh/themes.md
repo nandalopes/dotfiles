@@ -1,5 +1,6 @@
 ---
 title: "Customizing Powerlevel10k"
+has_children: true
 nav_order: 4
 ---
 

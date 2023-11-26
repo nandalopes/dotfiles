@@ -65,8 +65,8 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "Fork me on GitHub":
-    - "//github.com/nandalopes/dotfiles"
+  "Fork me on GitLab":
+    - "//gitlab.com/nandalopes/yadr"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: false

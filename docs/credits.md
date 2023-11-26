@@ -31,5 +31,5 @@ Yadr is made possible by many awesome people, too many to list :) But here are a
  * Switch from oh-my-zsh to Presto: @[JeanMertz](https://github.com/JeanMertz)
  * Vundle migration: @[duhanebel](https://github.com/duhanebel)
  * Docker support: @[lfilho](https://github.com/lfilho)
- * Vim-Plug migration: @[nandalopes](https://github.com/nandalopes)
- * Chezmoi migration: @[nandalopes](https://github.com/nandalopes)
+ * Vim-Plug migration: @[nandalopes](https://gitlab.com/nandalopes)
+ * Chezmoi migration: @[nandalopes](https://gitlab.com/nandalopes)

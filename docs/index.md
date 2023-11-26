@@ -19,7 +19,7 @@ layout: home
 
 This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp/dotfiles).
 
-#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh \`"
+#### sh -c "\`curl -fsSL https://gitlab.com/nandalopes/yadr/-/raw/pages/install.sh \`"
 {: .no_toc }
 
 **Managed with [chezmoi](https://chezmoi.io/).**
@@ -65,7 +65,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 To get started please run:
 
 ```bash
-sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh`"
+sh -c "`curl -fsSL https://gitlab.com/nandalopes/yadr/-/raw/pages/install.sh`"
 ```
 
 **Note:** YADR will automatically install all of its subcomponents.
@@ -73,7 +73,7 @@ sh -c "`curl -fsSL https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr
 ### Convenience script
 
 In case of not having `chezmoi` installed - Just firing the
-[`root/bin/yadr/install.sh`](https://github.com/nandalopes/dotfiles/raw/main/root/bin/yadr/install.sh)
+[`install.sh`](https://gitlab.com/nandalopes/yadr/-/raw/pages/install.sh)
 after a simple download of it.
 
 ### Manually with `git`
@@ -86,7 +86,7 @@ You will have to clone the repo and from its root directory, execute the
 Leveraging Chezmoi capabilities
 
 ```bash
-chezmoi init --apply --verbose --source ~/.yadr --https nandalopes/dotfiles
+chezmoi init --apply --verbose --source ~/.yadr --https gitlab.com/nandalopes/yadr
 ```
 
 ### _What if I already have a chezmoi dotfiles repo?_
@@ -95,7 +95,7 @@ If you want to integrate this repo with yours, do this:
 
 ```bash
 chezmoi cd
-git remote add yadr https://github.com/nandalopes/dotfiles.git
+git remote add yadr https://gitlab.com/nandalopes/yadr.git
 git fetch yadr
 
 # Merge repos:
@@ -240,14 +240,14 @@ YADR provides a config framework to manage not only git repositories, but any ve
 
 You'll have under a `.config/mr` folder:
 
-  * [`.mrconfig`](https://github.com/nandalopes/dotfiles/blob/main/root/dot_mrconfig) - uses [`library_loaders`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/library_loaders) to load all the components below:
-    * [`groups.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
-    * [`lib.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/lib.d) which contains
+  * [`.mrconfig`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/dot_mrconfig) - uses [`library_loaders`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/library_loaders) to load all the components below:
+    * [`groups.d/`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/groups.d) - groups of `mr` repo definitions
+    * [`lib.d/`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/lib.d) which contains
       * various shell snippets which get auto-loaded in the context of `mr`'s `lib` parameter
       * definitions of various `mr` actions and other `mr` parameters
-    * [`sh.d/`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
-      * [`sh.d/git`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
-      * [`sh.d/git-remotes`](https://github.com/nandalopes/dotfiles/blob/main/root/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
+    * [`sh.d/`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/sh.d) - various shell helper functions used by the files in `lib.d/`.  Parts of these could be reused by other people, e.g.:
+      * [`sh.d/git`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/sh.d/git) - various generic `git`-related helper functions
+      * [`sh.d/git-remotes`](https://gitlab.com/nandalopes/yadr/-/blob/main/root/private_dot_config/mr/sh.d/git-remotes) - various helper functions relating to management of git remotes
 
 ### RubyGems
 

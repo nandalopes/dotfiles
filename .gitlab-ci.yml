@@ -1,0 +1,44 @@
+image: ruby:latest
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "pages"
+
+variables:
+  JEKYLL_ENV: production
+  LC_ALL: C.UTF-8
+  PAGES_REPO_NWO: "nandalopes/yadr"
+
+default:
+  interruptible: true
+  timeout: 5m
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    fallback_keys:
+      - $CI_DEFAULT_BRANCH
+    paths:
+      - "docs/vendor/bundle"
+  before_script:
+    - cd docs/
+    - gem install bundler
+    - bundle config set --local path "vendor/bundle"
+    - bundle install
+  after_script:
+    - cd ..
+
+test:
+  stage: test
+  script:
+    - bundle exec jekyll build -d ../test
+  artifacts:
+    paths:
+      - test
+
+pages:
+  stage: deploy
+  script:
+    - bundle exec jekyll build -d ../public
+  artifacts:
+    paths:
+      - public
+

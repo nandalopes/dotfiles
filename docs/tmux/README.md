@@ -17,7 +17,7 @@ If you're new to tmux you can read their man page or a more palatable introducti
 
 Then make sure to see the bindings we customize in `tmux.conf` file.
 
-You can also see bind available by typing: <kbd>Ctrl-b</kbd>-<kbd>?</kbd>
+You can also see bind available by typing: <kbd>Ctrl-a</kbd>-<kbd>?</kbd>
 
 # Tmuxp
 

@@ -3,6 +3,16 @@ title: "Tmux configuration"
 nav_order: 5
 ---
 
+<details open markdown="block">
+  <summary>
+    On this page...
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+{: .px-4 .py-2 .bg-grey-lt-000 }
+
 # Tmux configuration
 
 `tmux.conf` provides some sane defaults for tmux on Mac OS like a powerful status bar and vim keybindings.

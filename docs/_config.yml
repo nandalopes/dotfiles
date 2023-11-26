@@ -1,4 +1,4 @@
-remote_theme: just-the-docs/just-the-docs
+theme: just-the-docs
 
 color_scheme: light
 
@@ -13,15 +13,22 @@ exclude:
   - vendor/bundle
 
 plugins:
+  - jekyll-coffeescript
+  - jekyll-default-layout
+  - jekyll-optional-front-matter
+  - jekyll-paginate
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+  - jekyll-relative-links
+
   - jekyll-redirect-from
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-readme-index
 
 
 title: YADR
 description: YADR is an opinionated dotfile repo that will make your heart sing
-baseurl: "/dotfiles"
+baseurl: "/yadr"
 twitter:
   username: NandaL
 

@@ -5,6 +5,10 @@ color_scheme: light
 exclude:
   - Gemfile
   - Gemfile.lock
+  - .Gemfile-github.lock
+  - .Gemfile-gitlab.lock
+  - .envrc
+  - .tool-versions
   - CNAME
   - vendor/bundle
 
@@ -14,11 +18,13 @@ plugins:
   - jekyll-sitemap
   - jekyll-readme-index
 
+
 title: YADR
 description: YADR is an opinionated dotfile repo that will make your heart sing
-# baseurl: "/dotfiles"
+baseurl: "/dotfiles"
 twitter:
   username: NandaL
+
 
 # Enable or disable the site search
 # Supports true (default) or false

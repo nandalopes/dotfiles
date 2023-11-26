@@ -13,7 +13,7 @@ layout: home
 
     # Yet Another Dotfile Repo v2.0
     # Now with Chezmoi, Prezto and Vim-Plug!
-
+{: .lh-0 .p-md-4 }
 
 [![Join the chat at https://gitter.im/skwp/dotfiles](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/skwp/dotfiles?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -34,7 +34,7 @@ This repo has been built for my own benefit, however feel free to sneak in and s
 - TOC
 {:toc}
 </details>
-{: .px-4 .py-2 .bg-grey-lt-000 }
+{: .p-3 .pl-6 .my-3 .bg-grey-lt-000 .lh-tight }
 
 ## What is YADR?
 

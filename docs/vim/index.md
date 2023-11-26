@@ -2,7 +2,6 @@
 title: "Vim - What's included?"
 has_children: true
 nav_order: 2
-layout: default
 ---
 
 <details open markdown="block">

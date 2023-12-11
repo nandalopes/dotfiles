@@ -119,7 +119,7 @@ Change your terminal colors to Solarized. Most terminals on Linux have a solariz
 #### Remap caps-lock to escape with [Karabiner-Elements](https://pqrs.org/osx/karabiner/index.html)
 {: .no_toc }
 
-The escape key is the single most used key in vim.  Old keyboards used to have Escape where Tab is today. Apple keyboards are the worst with their tiny Esc keys. But all this is fixed by remapping Caps to Escape.  If you're hitting a small target in the corner, you are slowing yourself down considerably, and probably damaging your hands with repetitive strain injuries.
+The escape key is the single most used key in vim. Old keyboards used to have Escape where Tab is today. Apple keyboards are the worst with their tiny Esc keys. But all this is fixed by remapping Caps to Escape. If you're hitting a small target in the corner, you are slowing yourself down considerably, and probably damaging your hands with repetitive strain injuries.
 
 #### Set up a system wide hotkey for iTerm (Keys=>Hotkey)
 {: .no_toc }
@@ -137,6 +137,7 @@ This will give you fast full screen windows that are switchable without switchin
 Same as iTerm. The native spaces navigation slows everything down for no reason.
 
 ## If you want to run vim in terminal
+{: .no_toc }
 
   * Make sure you install Solarized colorscheme in your terminal!
   * If you don't want to use solarized terminal, then make sure you do this:
@@ -159,9 +160,7 @@ colorscheme base16-twilight
 Upgrading is easy.
 
 
-      chezmoi cd
-      git pull --rebase
-      chezmoi diff # check updates before apply
+      chezmoi update --verbose --dry-run # check updates before apply
       chezmoi apply --verbose
 
 
@@ -175,7 +174,7 @@ TODO: port [homebrew](https://brew.sh/) install script to a `run_once_homebrew_i
 
 ### ZSH
 
-Think of Zsh as a more awesome bash without having to learn anything new.
+Think of Zsh as a more awesome Bash without having to learn anything new.
 Automatic spell correction for your commands, syntax highlighting, and more.
 We've also provided lots of enhancements:
 
@@ -197,6 +196,7 @@ Lots of things we do every day are done with two or three charactera mnemonic al
 
 **Dotfiles management aliases**
 
+  * `czI` - chezmoi (I)init - re-generate the config file
   * `czh` - chezmoi (h)ome - cd into dotfiles dir
   * `cza [ file(s) | folder(s) ]` - chezmoi (a)pply - apply *source state* to *destination*.
     Add `--dry-run` to preview only.
@@ -213,18 +213,18 @@ Lots of things we do every day are done with two or three charactera mnemonic al
   * `czD` - chezmoi (D)ata - list chezmoi variables, useful for templating
   * `czm file(s)` - chezmoi (m)erge - three-way merge between *destination*, *source state* and *target state*
 
-### Git Customizations:
+### Git Customizations
 
 YADR will take over your `~/.gitconfig`, so if you want to store your usernames, please put them into `~/.gitconfig.user`
 
 It is recommended to use this file to set your user info. Alternately, you can set the appropriate environment variables in your `~/.secrets`.
 
-  * `git l` or `gl`- a much more usable git log
-  * `git b` or `gb`- a list of branches with summary of last commit
+  * `git l` or `gl` - a much more usable git log
+  * `git b` or `gb` - a list of branches with summary of last commit
   * `git r` - a list of remotes with info
-  * `git t` or `gt`- a list of tags with info
-  * `git nb` or `gnb`- a (n)ew (b)ranch - like checkout -b
-  * `git cp` or `gcp`- cherry-pick -x (showing what was cherrypicked)
+  * `git t` or `gt` - a list of tags with info
+  * `git nb` or `gnb` - a (n)ew (b)ranch - like checkout -b
+  * `git cp` or `gcp` - cherry-pick -x (showing what was cherrypicked)
   * `git simple` - a clean format for creating changelogs
   * `git recent-branches` - if you forgot what you've been working on
   * `git unstage` / `guns` (remove from index) and `git uncommit` / `gunc` (revert to the time prior to the last commit - dangerous if already pushed) aliases
@@ -255,7 +255,7 @@ A `.gemrc` is included. Never again type `gem install whatever --no-ri --no-rdoc
 
 ### Tmux configuration
 
-`tmux.conf` provides some sane defaults for tmux on Mac OS like a powerful status bar and vim keybindings.
+`tmux.conf` provides some sane defaults for tmux like a powerful status bar and vim keybindings.
 You can customize the configuration in `~/.tmux.conf.user`.
 
 ![screenshot tmux](https://i.imgur.com/Rlh30kg.png)
@@ -268,6 +268,13 @@ The provided inputrc and editrc will turn your various command line tools like m
 
 We include the [`spaceman-diff`](https://github.com/holman/spaceman-diff) command. Now you can diff images from the command line.
 
+## Vim - What's included?
+
+  * [Navigation - NERDTree, EasyMotion and more](./vim/navigation.md)
+  * [Text Objects - manipulate ruby blocks, and more](./vim/textobjects.md)
+  * [Code manipulation - rails support, comments, snippets, highlighting](./vim/coding.md)
+  * [Utils - indents, paste buffer management, lots more](./vim/utils.md)
+  * [General enhancements that don't add new commands](./vim/enhancements.md)
 
 ## Extending and overriding YADR settings
 
@@ -281,16 +288,14 @@ We can use Docker to test some changes in a **Linux** Container.
 
 Assuming your host system has Docker & Docker Compose properly installed, run:
 
-    docker-compose run dotfiles
+    docker compose run dotfiles
 
 This will build the container image if it never built it before (which may take a while -- future times will be faster) and then run a `zsh` session inside that container for you.
 There you can play around, test commands, aliases, etc.
 
 *Warning*: this repo is primarily Linux oriented. So any support for macOS can only be done with the help of the community.
 
-
 ## Misc
-{: .no_toc }
 
 * [Credits & Thanks](./credits.md)
 * [Some recommended macOS productivity tools](./macos_tools.md)
@@ -310,6 +315,7 @@ These hacks are Lion-centric. May not work for other OS'es. My favorite mods inc
   * Display the ~/Library folder in finder (hidden in Lion)
 
 ### Macvim troubles with Lua?
+
 ```
 brew uninstall macvim
 brew remove macvim

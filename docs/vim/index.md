@@ -14,15 +14,13 @@ nav_order: 2
 </details>
 {: .px-4 .py-2 .bg-grey-lt-000 }
 
-# Vim - What's included?
+## Vim - What's included?
 {: .no_toc }
 
-A list of some of the most useful commands that YADR provides in vim are
-included below. This is not a comprehensive list. To get deeper knowledge,
-practice a few of these every day, and then start looking into the lists
-of plugins above to learn more.
+A list of some of the most useful commands that YADR provides in vim are included below.
+This is not a comprehensive list. To get deeper knowledge, practice a few of these every day, and then start looking into the lists of plugins above to learn more.
 
-## Navigation
+#### Navigation
 
   * `,z` - go to previous buffer (:bp)
   * `,x` - go to next buffer (:bn)
@@ -30,7 +28,7 @@ of plugins above to learn more.
   * `Ctrl-o` - Old cursor position - this is a standard mapping but very useful, so included here
   * `Ctrl-i` - opposite of Ctrl-O (again, this is standard)
 
-## Search/Code Navigation
+#### Search/Code Navigation
 
   * `,f` - instantly Find definition of class (must have exuberant ctags installed)
   * `,F` - same as `,f` but in a vertical split
@@ -52,20 +50,19 @@ of plugins above to learn more.
   * Spacebar - Sneak - type two characters to move there in a line. Kind of like vim's `f` but more accurate.
   * `:Gsearch foo` - global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall` to write all the files.
 
+#### File Navigation
 
-## File Navigation
-
-  * `,t` - CtrlP fuzzy file selector
-  * `,b` - CtrlP buffer selector - great for jumping to a file you already have open
+  * `,t` - fuzzy file selector
+  * `,b` - buffer selector - great for jumping to a file you already have open
   * `Cmd-Shift-M` - jump to method - CtrlP tag search within current buffer
   (`,M` in Linux)
   * `,jm` jump to models. Other `,j` mappings: `,jc` for controllers, `,jh` for helpers, etc. If you think of a concept and a letter, we've got you covered.
-  * `Cmd-Shift-N` - NERDTree toggle (`\N` in Linux)
+  * `Cmd-Shift-N` - NERDTree toggle (`,N` in Linux)
   * `Ctrl-\` - Show current file in NERDTree
   * `Cmd-Shift-P` - Clear CtrlP cache
   (`,P` in Linux)
 
-## Better keystrokes for common editing commands
+#### Better keystrokes for common editing commands
 
   * Ctrl-Space to autocomplete. Tab for snipmate snippets.
   * `,#` `,"` `,'` `,]` `,)` `,}` to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
@@ -73,9 +70,9 @@ of plugins above to learn more.
   * `,.` to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
   * `,ci` to change inside any set of quotes/brackets/etc
 
-## Tabs, Windows, Splits
+#### Tabs, Windows, Splits
 
-  * Use `Cmd-1` thru `Cmd-9` to switch to a specific tab number (like iTerm and Chrome) - and tabs have been set up to show numbers (`,t` or `Alt` in Linux)
+  * Use `Cmd-1` thru `Cmd-9` to switch to a specific tab number (like iTerm and Chrome) - and tabs have been set up to show numbers (`,t1` or `Alt-1` in Linux)
   * `Ctrl-h,l,j,k` - to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
   * `Q` - Intelligent Window Killer. Close window `wincmd c` if there are multiple windows to same buffer, or kill the buffer `bwipeout` if this is the last window into it.
   * `vv` - vertical split (`Ctrl-w,v`)
@@ -83,7 +80,7 @@ of plugins above to learn more.
   * `,qo` - open quickfix window (this is where output from Grep goes)
   * `,qc` - close quickfix
 
-## Utility
+#### Utility
 
   * `Ctrl-p` after pasting - Use `p` to paste and `Ctrl-p` to cycle through previous pastes. Provided by YankRing.
   * `,yr` - view the yankring - a list of your previous copy commands. also you can paste and hit `ctrl-p` for cycling through previous copy commands
@@ -103,14 +100,14 @@ of plugins above to learn more.
   * `,hp` - Html Preview (open in Safari)
   * `Cmd-Shift-A` - align things (type a character/expression to align by, works in visual mode or by itself) (`,A` in Linux)
   * `:ColorToggle` - turn on #abc123 color highlighting (useful for css)
-  * `:GV` - Git log browsers
+  * `:GV` - Git log browser
   * `,hi` - show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]` in your vimrc.after to remap the color. You can see available colors using `:hi`
   * `,gt` - Go Tidy - tidy up your html code (works on a visual selection)
   * `:Wrap` - wrap long lines (e.g. when editing markdown files)
   * `Cmd-/` - toggle comments (usually gcc from tComment) (`,/` in Linux)
   * `gcp` (comment a paragraph)
 
-## Rails & Ruby
+#### Rails & Ruby
 
   * `,vv` and `,cc` to switch between view and controller - these are maps to :Rcontroller and :Rview. Explore the :R<Tab> family of commands for more fun from rails.vim!
   * `,rs` and `,rl` to run rspec or a spec line in iTerm (check iTerm window for results)
@@ -121,7 +118,7 @@ of plugins above to learn more.
   * `,gcp` - Grep Current Partial to find references to the current view partial
   * `,orb` - outer ruby block. takes you one level up from nested blocks (great for rspec)
 
-## Vim Dev
+#### Vim Dev
 
   * `,vc` - (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
   * `,vr` - (Vim Reload) source current file as a vim file

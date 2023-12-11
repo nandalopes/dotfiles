@@ -1,7 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="Luiz Filho <lfilho@gmail.com>"
 
 ENV TERM xterm-256color
+
+# Let the container know that there is no tty
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Bootstrapping packages needed for installation
 RUN \

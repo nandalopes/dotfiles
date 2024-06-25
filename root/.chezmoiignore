@@ -16,6 +16,11 @@ vim/
 #.config/kitty/diff.conf
 {{- end }}
 
+{{ if not (lookPath "snap") }}
+# snapd
+.chezmoiscripts/**/*snap*.sh
+{{ end }}
+
 {{ if .app_sets.me }}
 .vim/vimrc
 {{- else }}

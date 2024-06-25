@@ -1,0 +1,40 @@
+{{- $pinPriority := 500 -}}
+{{- if gt .chezmoi.osRelease.versionID "21.10" -}}
+{{-   $pinPriority = 550 -}}
+{{- end -}}
+
+Package: *
+Pin: release o=LP-PPA-kdenlive-kdenlive-stable
+Pin-Priority: {{ $pinPriority }}
+
+Package: *
+Pin: release o=LP-PPA-kubuntu-ppa-backports
+Pin-Priority: {{ $pinPriority }}
+
+Package: keepassxc
+Pin: release o=LP-PPA-phoerious-keepassxc
+Pin-Priority: 550
+
+Package: obs-studio
+Pin: release o=LP-PPA-obsproject-obs-studio
+Pin-Priority: 550
+
+Package: *flatpak* xdg-desktop-portal* libostree-*
+Pin: release o=LP-PPA-alexlarsson-flatpak
+Pin-Priority: 500
+
+Package: sqlitebrowser
+Pin: release o=LP-PPA-linuxgndu-sqlitebrowser
+Pin-Priority: 500
+
+Package: git*
+Pin: release o=LP-PPA-git-core
+Pin-Priority: 500
+
+Package: appimagelauncher papirus-icon* qt5-style-kvantum* solaar* texstudio xournalpp zathura-pdf-mupdf
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 500
+
+Package: *
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 100

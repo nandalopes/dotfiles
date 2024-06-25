@@ -1,0 +1,21 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+  */ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+{{- $reqPath := joinPath .chezmoi.homeDir ".backup/install/pip/user.txt" }}
+{{- if stat $reqPath }}
+# {{ include $reqPath | sha1sum }}
+echo '# Install user pips...'
+pip3 install \
+  --isolated \
+  --user \
+  --upgrade \
+  --upgrade-strategy only-if-needed \
+  --requirement {{ $reqPath }}
+{{- end }}
+

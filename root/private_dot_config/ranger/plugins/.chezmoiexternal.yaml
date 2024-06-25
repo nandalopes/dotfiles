@@ -1,0 +1,25 @@
+---
+'devicons2':
+  url: 'https://github.com/cdump/ranger-devicons2.git'
+  type: 'git-repo'
+  refreshPeriod: '168h' # 7 days
+  clone:
+    args:
+      - '--depth=1'
+  pull:
+    args:
+      - '--rebase'
+'archives':
+  url: 'https://github.com/maximtrp/ranger-archives.git'
+  type: 'git-repo'
+  refreshPeriod: '168h' # 7 days
+  clone:
+    args:
+      - '--depth=1'
+'fzf_filter':
+  url: 'https://github.com/MuXiu1997/ranger-fzf-filter.git'
+  type: 'git-repo'
+  refreshPeriod: '168h' # 7 days
+  clone:
+    args:
+      - '--depth=1'

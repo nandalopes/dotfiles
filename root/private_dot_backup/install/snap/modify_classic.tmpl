@@ -1,0 +1,13 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+chezmoi
+  {{- if or
+    .app_sets.me
+    .app_sets.writer
+  }}
+code
+nvim
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

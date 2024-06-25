@@ -46,25 +46,7 @@ RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update \
   && apt-get install -qqy \
-    fontconfig \
-    ruby-full \
-    tmux \
-    vim \
-    zsh \
-  && apt-get clean
-
-# Install optional dependencies
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update \
-  && apt-get install -qqy \
-    build-essential \
-    direnv \
-    myrepos \
-    ripgrep \
-    silversearcher-ag \
-    universal-ctags \
+    nano \
   && apt-get clean
 
 # disable docker-clean

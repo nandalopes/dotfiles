@@ -23,7 +23,7 @@ if [[ -f "$ASDF_DIR/lib/asdf.sh" ]]; then
   . "$ASDF_DIR/lib/asdf.sh"
 fi
 
-asdf update
+asdf update --head
 
 # add direnv plugins
 asdf plugin add direnv

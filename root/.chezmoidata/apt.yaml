@@ -2,3 +2,68 @@
 apt_keyring:
   folder: '/etc/apt/keyrings'
   path: '/etc/apt/keyrings/%s.gpg'
+
+# all ppas can be used with devel pointer
+ppas_downgrade:
+  ubuntu:
+    - name: focal
+      versionID: '20.04'
+      list:
+        # ppas
+        []
+    - name: groovy
+      versionID: '20.10'
+      list:
+        # ppas
+        - zathura-mupdf
+    - name: jammy
+      versionID: '22.04'
+      list:
+        # https://dgpu-docs.intel.com/driver/client/overview.html
+        - intel-graphics
+        # https://packagecloud.io/app/ookla/speedtest-cli/search?dist=ubuntu/jammy
+        - speedtest
+        # ppas
+    - name: kinetic
+      versionID: '22.10'
+      list:
+        # ppas
+        []
+    - name: lunar
+      versionID: '23.04'
+      list:
+        # ppas
+        []
+    - name: mantic
+      versionID: '23.10'
+      list:
+        # ppas
+        - kdenlive
+        - obs-studio
+    - name: noble
+      versionID: '24.04'
+      list:
+        # https://download.docker.com/linux/ubuntu/dists/
+        - docker
+        # https://packages.gitlab.com/app/runner/gitlab-runner/search?dist=ubuntu/noble
+        - gitlab-runner
+        # https://download.virtualbox.org/virtualbox/debian/dists/
+        - virtualbox
+        # https://weechat.org/ubuntu/dists/
+        - weechat
+        # ppas
+        - git-core
+        - inkscape.dev
+        - keepassxc
+        - kubuntu
+        - papirus
+        - solaar-unifying
+        - sqlitebrowser
+        - texstudio
+        - xournalpp
+  debian:
+    - name: bookworm
+      versionID: '12'
+      list:
+        # https://download.docker.com/linux/debian/dists/
+        - docker

@@ -1,0 +1,4 @@
+lib/cacert.pem
+lib/python.*
+lib/lib.*
+{{- /* remove new line */ -}}

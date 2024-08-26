@@ -1,0 +1,32 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+
+{{ $flatpakRemoteAdd := "sudo flatpak remote-add --if-not-exists" -}}
+
+{{- /*
+  System apps
+  */}}
+echo '# Flatpak remotes...'
+{{ $flatpakRemoteAdd }} --system flathub \
+  --title="Flathub (System)" \
+  https://flathub.org/repo/flathub.flatpakrepo
+
+echo '# Flatpak Gtk themes...'
+sudo flatpak --installation=default override --filesystem=~/.local/share/themes
+
+{{ $flatpakList := joinPath .chezmoi.homeDir ".backup/install/flatpak" "default" -}}
+{{- if stat $flatpakList }}
+# System flatpaks: {{ include $flatpakList | sha1sum }}
+echo '# Flatpaks systemwide...'
+xargs -ta {{ $flatpakList }} sudo flatpak --assumeyes --installation=default \
+          install flathub
+{{- end }}

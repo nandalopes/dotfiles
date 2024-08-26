@@ -1,0 +1,8 @@
+{{- /*
+  vim:ft=gotmpl:
+  */ -}}
+{{- if lookPath "curl" -}}
+{{-   output `curl` `-kfsSIL` `-o` `/dev/null` `-w` `%{url_effective}` . | trim -}}
+{{- else -}}
+{{-   . -}}
+{{- end -}}

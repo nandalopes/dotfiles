@@ -1,0 +1,11 @@
+{{- if lookPath "register-python-argcomplete3" -}}
+{{-   $argComplete := "" -}}
+{{-   $shell := regexFind `(ba|z)sh` .chezmoi.sourceFile -}}
+{{-   if lookPath "register-python-argcomplete3" -}}
+{{-     $argComplete = "register-python-argcomplete3" -}}
+{{-     $shell = "bash" -}}
+{{-   else if lookPath "register-python-argcomplete" -}}
+{{-     $argComplete = "register-python-argcomplete" -}}
+{{-   end -}}
+{{-   output $argComplete "--shell" $shell "pipx" | trim -}}
+{{- end -}}

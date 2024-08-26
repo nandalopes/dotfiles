@@ -29,6 +29,11 @@ vim/
 {{ if .app_sets.me }}
 .vim/vimrc
 {{- else }}
+.local/share/fonts/f
+.local/share/fonts/f/*
+.local/share/fonts/m
+.local/share/fonts/m/*
+.config/ranger/
 # Don't switch Caps with Esc
 .xprofile
 .config/kxkbrc
@@ -40,7 +45,7 @@ vim/
 .zsh.before
 .zsh.prompts
 .zsh.after
-.zprezto
+.zprezto/
 .zpreztorc
 .zshrc
 .zlogin
@@ -48,12 +53,18 @@ vim/
 .zprofile
 .zlogout
 # Don't run specific scripts
-.chezmoiscripts/install_asdf.sh
 .chezmoiscripts/pre_migrate_yadr.sh
 .chezmoiscripts/post_install_yadr.sh
+# asdf files
+.chezmoiscripts/install_asdf-vm.sh
+.config/asdf-direnv
+.config/direnv
 # fzf files
-.config/fzf
+.config/fzf/
 .chezmoiscripts/install_fzf.sh
+# kitty files
+.backup/look_and_feel/kitty/
+.config/kitty/
 # vim singlefile
 .vimrc
 .vim
@@ -80,7 +91,7 @@ iTerm2/
 .config/kitty/
 .backup/look_and_feel/kitty/
 .config/zathura/
-.zprezto
+.zprezto/
 .zpreztorc
 .zprezto-contrib/
 .zshenv

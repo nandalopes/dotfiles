@@ -64,7 +64,7 @@ RUN \
 # Install vim plugins
 # RUN vim -es -u ~/.vimrc -i NONE -c 'PlugClean!' -c 'PlugInstall! --sync' -c 'qall'
 
-SHELL [ "/bin/zsh", "--command" ]
+SHELL [ "/bin/bash", "--command" ]
 
-# Run a zsh session
-CMD [ "/bin/zsh" ]
+# Run a bash session
+CMD [ "/bin/bash" ]

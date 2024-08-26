@@ -1,0 +1,6 @@
+---
+'dracula.py':
+  url: 'https://github.com/dracula/ranger/raw/master/dracula.py'
+  type: 'file'
+  executable: true
+  refreshPeriod: '168h' # 7 days

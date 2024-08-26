@@ -1,0 +1,8 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+  {{- if .app_sets.me }}
+--include-apps ansible ansible-lint
+buku Flask_BabelEx
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}

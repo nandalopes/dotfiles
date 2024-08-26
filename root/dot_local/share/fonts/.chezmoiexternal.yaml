@@ -4,7 +4,7 @@
 
 ---
 
-{{- range (list "InconsolataLGC" "Meslo") }}
+{{- range (list "InconsolataLGC" "FiraCode" "Meslo") }}
 '{{- joinPath (substr 0 1 . | lower) . -}}':
   url: {{ printf "%s.tar.xz" . | gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" | quote }}
   type: 'archive'

@@ -1,0 +1,35 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+  */ -}}
+
+{{- $pythonV := false -}}
+{{- if lookPath "python3" -}}
+{{-
+  $pythonV = output "python3" "-V" | regexFind "[0-9][0-9.]*" |
+          semverCompare ">= 3.12"
+-}}
+{{- end -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+
+{{- $reqPath := joinPath .chezmoi.homeDir ".backup/install/pip/system.txt" }}
+{{- if stat $reqPath }}
+# {{ include $reqPath | sha1sum }}
+echo '# Install system pips...'
+sudo pip3 install \
+  --isolated \
+  --prefix /usr/local \
+  --upgrade \
+{{- if $pythonV }}
+  --break-system-packages \
+{{- end }}
+  --upgrade-strategy only-if-needed \
+  --requirement {{ $reqPath }}
+{{- end }}
+

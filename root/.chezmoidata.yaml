@@ -3,3 +3,13 @@ external:
   fonts:
     url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download"
     version: "v3.0.1"
+
+
+gnu_stow:
+  cmd: 'stow --verbose --dir=%s'
+  global:
+    path: '/usr/local/stow'
+    sudo: 'sudo '
+  local:
+    path: '$HOME/.local/stow'
+    sudo: ''

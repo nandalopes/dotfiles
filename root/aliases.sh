@@ -84,6 +84,7 @@ alias rlv='asdf list-all ruby | rg "^\d"'
 
 # Git Aliases
 alias gs='git status'
+alias gsb='git status --short --branch'
 alias gstsh='git stash'
 alias gst='git stash'
 alias gsp='git stash pop'

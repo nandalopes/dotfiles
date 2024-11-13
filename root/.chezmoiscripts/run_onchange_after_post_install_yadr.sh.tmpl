@@ -13,7 +13,9 @@
 # -e: exit on error
 set -e
 
+  {{-   if ne .chezmoi.os "android" }}
 # {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+  {{-   end }}
 
   {{- if lookPath "zsh" }}
 

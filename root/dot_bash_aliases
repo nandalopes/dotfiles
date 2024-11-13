@@ -1,0 +1,15 @@
+# Some useful aliases.
+alias h='history'
+alias j='jobs -l'
+
+alias lc='lt -c'
+alias lh='ls -alt | head'
+alias lt='ll -tr'
+alias lu='lt -u'
+
+# bash profile editing
+alias be='vim ~/.bashrc'
+
+# Git Aliases
+alias g='git'
+alias gp='git push'

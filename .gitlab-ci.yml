@@ -79,7 +79,7 @@ install-script:
         sudo
   script:
     - ./install.sh
-    - $MY_CHEZMOI_BIN data
+    - $MY_CHEZMOI_BIN data --format yaml
     - $MY_CHEZMOI_BIN ignored
     - $MY_CHEZMOI_BIN managed -i all
     - (

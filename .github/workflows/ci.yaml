@@ -27,7 +27,7 @@ jobs:
       CODESPACES: true
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: install
       run: ./install.sh
@@ -35,9 +35,13 @@ jobs:
     - name: chezmoi data
       run: './root/bin/chezmoi data --format yaml'
 
+    - name: chezmoi ignored
+      run: './root/bin/chezmoi ignored'
+
     - name: chezmoi managed
       run: './root/bin/chezmoi managed -i all'
 
     - name: installed font files
-      run: 'ls -lha ~/.local/share/fonts/**/*/'
+      run: '[ ! -d "${HOME}/.local/share/fonts" ] ||
+        ls -lha ~/.local/share/fonts/**/*/'
 

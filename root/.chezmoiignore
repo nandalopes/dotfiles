@@ -11,6 +11,9 @@ zsh/
 # Vimfiles
 vim/
 
+# Others
+.local/share/fonts/**/.uuid
+
 {{- if (eq .param.color "solarized" "dracula" | not) }}
 # Kitty
 #.config/kitty/diff.conf

@@ -3,11 +3,9 @@
 [.asdf]
 skip = third_party_skipper $MR_ACTION
 checkout =
-  git clone -- \
+  git clone --shallow-since=2024-01-01 -- \
       'https://github.com/asdf-vm/asdf.git' '.asdf'
-update =
-  ${MR_REPO}/bin/asdf update
-  git_last_tag
+post_update = git_last_tag 'v[0-9.]+'
 
 
 [.fzf]

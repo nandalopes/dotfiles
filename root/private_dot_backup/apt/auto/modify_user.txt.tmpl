@@ -1,11 +1,7 @@
   {{- $initialStatus := "/var/log/installer/initial-status.gz" -}}
   {{- if stat $initialStatus -}}
 
-  {{-   if eq .chezmoi.os "android" -}}
 #!/bin/sh
-  {{-   else -}}
-#!/usr/bin/env bash
-  {{-   end }}
 
 echo "# {{ .chezmoi.osRelease.prettyName }}"
 

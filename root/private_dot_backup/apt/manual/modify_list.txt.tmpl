@@ -1,0 +1,9 @@
+  {{-   if eq .chezmoi.os "android" -}}
+#!/bin/sh
+  {{-   else -}}
+#!/usr/bin/env bash
+  {{-   end }}
+
+echo "# {{ .chezmoi.osRelease.prettyName }}"
+
+apt-mark showmanual | LC_COLLATE=C.UTF-8 sort

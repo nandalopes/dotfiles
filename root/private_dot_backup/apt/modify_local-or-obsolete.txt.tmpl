@@ -1,0 +1,10 @@
+  {{-   if eq .chezmoi.os "android" -}}
+#!/bin/sh
+  {{-   else -}}
+#!/usr/bin/env bash
+  {{-   end }}
+
+echo "# {{ .chezmoi.osRelease.prettyName }}"
+
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+  apt list --all-versions '?obsolete' 2> /dev/null | awk 'NR != 1 && length {print $0}'

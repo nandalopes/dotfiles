@@ -1,6 +1,0 @@
----
-'dracula.conf':
-  url: 'https://github.com/dracula/kitty/raw/master/diff.conf'
-  type: 'file'
-  executable: false
-  refreshPeriod: '168h' # 7 days

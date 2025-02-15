@@ -4,7 +4,7 @@
 
   {{- if eq .chezmoi.os "linux" "android" "darwin" -}}
 
-#!/bin/bash
+#!/bin/sh
 
 asdf plugin add alias 'https://github.com/nandalopes/asdf-alias.git'
 asdf plugin add direnv 'https://github.com/nandalopes/asdf-direnv.git'

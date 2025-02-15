@@ -1,0 +1,16 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+    */ -}}
+
+  {{- if eq .chezmoi.os "linux" "android" "darwin" -}}
+
+#!/usr/bin/env bash
+
+asdf plugin add alias 'https://github.com/nandalopes/asdf-alias.git'
+asdf plugin add direnv 'https://github.com/nandalopes/asdf-direnv.git'
+asdf plugin add nodejs 'https://github.com/nandalopes/asdf-nodejs.git'
+asdf plugin add ruby
+
+exit 0
+
+  {{- end }}

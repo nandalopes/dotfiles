@@ -1,0 +1,12 @@
+{{- /*
+  vim:ft=yaml.gotmpl:
+    */ -}}
+
+---
+# ASDF <https://asdf-vm.com>
+'asdf':
+  url: {{ gitHubLatestReleaseAssetURL "asdf-vm/asdf" "asdf-*-linux-amd64.tar.gz" | quote }}
+  type: 'archive-file'
+  executable: true
+  refreshPeriod: '168h' # 7 days
+  path: 'asdf'

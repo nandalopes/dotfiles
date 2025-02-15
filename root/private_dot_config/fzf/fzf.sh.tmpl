@@ -60,11 +60,11 @@ vmi() {
   local lang=${1}
 
   if [[ ! $lang ]]; then
-    lang=$(asdf plugin-list | fzf --height=~5)
+    lang=$(asdf plugin list | fzf --height=~5)
   fi
 
   if [[ $lang ]]; then
-    local versions=$(asdf list-all $lang | fzf --height=~30% --no-sort --tac --multi)
+    local versions=$(asdf list all $lang | fzf --height=~30% --no-sort --tac --multi)
     if [[ ${#versions[@]} -gt 0 ]]; then
       echo $versions[@] | xargs -rtn1 asdf install $lang
     fi
@@ -79,7 +79,7 @@ vmc() {
   local lang=${1}
 
   if [[ ! $lang ]]; then
-    lang=$(asdf plugin-list | fzf --height=~5)
+    lang=$(asdf plugin list | fzf --height=~5)
   fi
 
   if [[ $lang ]]; then

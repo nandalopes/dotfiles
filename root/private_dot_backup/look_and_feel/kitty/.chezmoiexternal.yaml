@@ -1,11 +1,16 @@
 ---
-'Dracula.conf':
+'diff/dracula.conf':
+  url: 'https://github.com/dracula/kitty/raw/master/diff.conf'
+  type: 'file'
+  executable: false
+  refreshPeriod: '168h' # 7 days
+'themes/Dracula.conf':
   url: 'https://github.com/dracula/kitty/raw/master/dracula.conf'
   type: 'file'
   executable: false
   refreshPeriod: '168h' # 7 days
   {{- range (omit .color "dracula" | values) }}
-' {{- .kitty.file -}} .conf':
+'themes/ {{- .kitty.file -}} .conf':
   url: 'https://github.com/kovidgoyal/kitty-themes/raw/master/themes/ {{- .kitty.file -}} .conf'
   type: 'file'
   executable: false

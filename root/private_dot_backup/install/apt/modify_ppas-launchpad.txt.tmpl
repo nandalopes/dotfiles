@@ -1,0 +1,33 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+ppa:phoerious/keepassxc
+ppa:libreoffice/libreoffice-still
+
+  {{- if and .app_sets.desktop .app_sets.space }}
+ppa:papirus/papirus
+  {{- end }}
+
+  {{- if .app_sets.writer }}
+ppa:sunderme/texstudio
+  {{- end }}
+
+  {{- if and .app_sets.teacher .app_sets.space }}
+ppa:inkscape.dev/stable
+ppa:obsproject/obs-studio
+
+    {{- if lt .chezmoi.osRelease.versionID "22.04" }}
+ppa:kdenlive/kdenlive-stable
+{{- /*
+  ppa:kubuntu-ppa/backports
+*/ -}}
+    {{- end }}
+  {{- end }}
+
+  {{- if .app_sets.me }}
+ppa:git-core/ppa
+ppa:linuxgndu/sqlitebrowser
+ppa:solaar-unifying/stable
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

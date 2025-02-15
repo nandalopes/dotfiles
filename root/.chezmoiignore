@@ -19,6 +19,41 @@ vim/
 #.config/kitty/diff.conf
 {{- end }}
 
+{{ if .app_sets.me }}
+.vim/vimrc
+{{- else }}
+# Don't switch Caps with Esc
+.xprofile
+.config/kxkbrc
+# Don't change XDG folders
+.config/gtk-*
+.config/user-dirs.*
+# Don't install zsh files
+.p10k.zsh
+.zsh.before
+.zsh.prompts
+.zsh.after
+.zprezto
+.zpreztorc
+.zshrc
+.zlogin
+.zshenv
+.zprofile
+.zlogout
+# Don't run specific scripts
+.chezmoiscripts/install_asdf.sh
+.chezmoiscripts/pre_migrate_yadr.sh
+.chezmoiscripts/post_install_yadr.sh
+# fzf files
+.config/fzf
+.chezmoiscripts/install_fzf.sh
+# vim singlefile
+.vimrc
+.vim
+!.vim/vimrc
+{{- end }}
+
+
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}
 # no darwin files
 Library/
@@ -44,17 +79,4 @@ iTerm2/
 .zshenv
 .zlogin
 .zprofile
-{{- end }}
-
-{{- if .app_sets.me }}
-.vim/vimrc
-{{- else }}
-# vim singlefile
-.vimrc
-.vim
-!.vim/vimrc
-.vim/vimrc
-# fzf files
-.config/fzf
-.chezmoiscripts/install_fzf.sh
 {{- end }}

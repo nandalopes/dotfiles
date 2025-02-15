@@ -4,8 +4,12 @@
 
 ---
 # ASDF <https://asdf-vm.com>
+{{- $arch := "amd64" }}
+{{- if ne .chezmoi.arch $arch }}
+{{-   $arch = "arm64" }}
+{{- end }}
 'asdf':
-  url: {{ gitHubLatestReleaseAssetURL "asdf-vm/asdf" "asdf-*-linux-amd64.tar.gz" | quote }}
+  url: {{ printf `asdf-*-linux-%s.tar.gz` $arch | gitHubLatestReleaseAssetURL "asdf-vm/asdf" | quote }}
   type: 'archive-file'
   executable: true
   refreshPeriod: '168h' # 7 days

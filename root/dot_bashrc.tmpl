@@ -125,6 +125,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+### append shell dependant files
+{{ template "shell/fzf" . }}
+
 # enable gitstatus prompt
 if [ -f "${XDG_CONFIG_HOME:-~/.config}/gitstatus/gitstatus.prompt.sh" ]; then
   . "${XDG_CONFIG_HOME:-~/.config}"/gitstatus/gitstatus.prompt.sh

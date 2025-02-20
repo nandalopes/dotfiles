@@ -1,8 +1,9 @@
+{{- $shell := regexFind `(ba|z)sh` .chezmoi.sourceFile -}}
 ### FZF fuzzy finder
 # fzf/install --xdg --all --no-update-rc \
 #   --no-fish
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && \
-  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf. {{- $shell }} ] && \
+  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf. {{- $shell }}
 
 # custom fzf helpers
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.sh ] && \

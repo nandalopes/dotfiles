@@ -75,6 +75,10 @@ Programs:
 .vimrc
 .vim
 !.vim/vimrc
+
+# fzf files
+.config/fzf
+.chezmoiscripts/install_fzf.sh
 {{- end }}
 
 {{- /* END PROGRAMS AND ETC...  */}}

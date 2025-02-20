@@ -1,0 +1,25 @@
+# Add 'sprig' type.
+--type-add
+sprig:*.tmpl
+
+# Chezmoi files
+--type-add
+chezmoi:.chezmoi*
+
+# myrepos files
+--type-add
+myrepos:*mrconfig*
+
+--type-add
+myrepos:*mrtrust*
+
+--type-add
+myrepos:[0-9][0-9]-*
+
+# git repo files
+--type-add
+mygitrepo:.git/{*/*,COMMIT*,*HEAD,MERGE*,index,*refs,shallow}
+
+# Using glob patterns to include/exclude files or folders
+# --glob=!.git/*
+

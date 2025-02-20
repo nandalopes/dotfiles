@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 LABEL maintainer="Nanda Lopes <nandalopes@gmail.com>"
 

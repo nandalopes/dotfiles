@@ -15,7 +15,7 @@ POWERLEVEL9K_CONFIG_FILE=~/.p10k.zsh
 POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
 
 POWERLEVEL9K_TRANSIENT_PROMPT=same-dir # Options: off, always, same-dir
-# POWERLEVEL9K_INSTANT_PROMPT=quiet    # Options: off, quiet, verbose
+POWERLEVEL9K_INSTANT_PROMPT=quiet      # Options: off, quiet, verbose
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
   dir                     # current directory
@@ -32,6 +32,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
   direnv                  # direnv status (https://direnv.net/)
   asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
   context                 # user@hostname
+  ranger                  # ranger shell (https://github.com/ranger/ranger)
   vim_shell               # vim shell indicator (:sh)
   chezmoi_shell           # chezmoi shell (https://www.chezmoi.io/)
   time                    # current time
@@ -49,7 +50,7 @@ POWERLEVEL9K_VCS_BRANCH_ICON=''
 # POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
 
 if [[ -z "${TERMUX_VERSION}" ]]; then
-  POWERLEVEL9K_TIME_FORMAT='%D{%Y-%m-%d %H:%M:%S}' # Shows date and time
+  POWERLEVEL9K_TIME_FORMAT='%D{%d.%m %H:%M:%S}' # Shows date and time
 fi
 
 # Uncomment to enable sparse mode (newline before prompt)
@@ -63,7 +64,7 @@ fi
 POWERLEVEL9K_ASDF_SHOW_SYSTEM=false
 
 # Uncomment to show versions that are the same as global
-# POWERLEVEL9K_ASDF_PROMPT_ALWAYS_SHOW=true
+POWERLEVEL9K_ASDF_PROMPT_ALWAYS_SHOW=true
 
 # Uncomment to show only relevant tools on prompt
 POWERLEVEL9K_ASDF_SHOW_ON_UPGLOB=true

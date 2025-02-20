@@ -1,0 +1,49 @@
+{{- /*
+  vim:ft=gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+
+{{ $ppaList := joinPath .chezmoi.homeDir ".backup/install/apt/ppas-launchpad.txt" }}
+{{- block "hash-ppa-list" $ppaList }}
+{{-   if stat . }}
+# < {{- base . -}} >: {{ include . | sha1sum }}
+{{-   end }}
+{{- end }}
+{{- $ppaList = joinPath .chezmoi.homeDir ".backup/install/apt/pref/launchpad.pref" }}
+{{- template "hash-ppa-list" $ppaList }}
+{{- $ppaList = joinPath .chezmoi.sourceDir ".chezmoiscripts/10_scripts/run_onchange_after_apt_sources_ppa.sh.tmpl" }}
+{{- template "hash-ppa-list" $ppaList }}
+
+
+{{ template "apt/down-to-version" . }}
+
+
+echo '# Discipline third party repos'
+sudo install -m 0644 -o root -g root -v -C \
+  --target-directory=/etc/apt/preferences.d \
+  {{ joinPath .chezmoi.homeDir ".backup/install/apt/pref/*" }}
+
+
+echo '# Fix source files permissions'
+sudo chmod --changes 0644 \
+  /etc/apt/preferences.d/* \
+  /etc/apt/sources.list.d/* \
+  {{ .apt_keyring.folder -}}/*
+
+
+  {{- if .param.interactive }}
+if [[ -z "${DEBIAN_FRONTEND:-}" ]]; then
+  echo '# Edit ppas by hand'
+  find /etc/apt/sources.list.d -\( -name '*-ubuntu-*.list' -or -name '*-ubuntu-*.sources' -\) \
+    -exec sudoedit '{}' \+
+fi
+  {{- end }}
+
+
+{{ template "apt/downgrade-list-hash" . }}
+
+exit 0

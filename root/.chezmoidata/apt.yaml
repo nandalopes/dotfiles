@@ -2,3 +2,59 @@
 apt_keyring:
   folder: '/etc/apt/keyrings'
   path: '/etc/apt/keyrings/%s.gpg'
+
+# all ppas can be used with devel pointer
+ppas_downgrade:
+  ubuntu:
+    - name: jammy
+      versionID: '22.04'
+      list:
+        # https://packagecloud.io/app/ookla/speedtest-cli/search?dist=ubuntu/jammy
+        - speedtest
+        # ppas
+    - name: noble
+      versionID: '24.04'
+      list:
+        # https://dgpu-docs.intel.com/driver/client/overview.html
+        # https://dgpu-docs.intel.com/driver/installation.html#installing-gpu-drivers
+        - intel-graphics
+        # ppas
+        - flatpak
+        - kdenlive
+        - libreoffice-still
+        - obs-studio
+        - solaar-unifying
+        - sqlitebrowser
+    - name: oracular
+      versionID: '24.10'
+      list:
+        # https://packages.gitlab.com/app/runner/gitlab-runner/search?dist=ubuntu/noble
+        - gitlab-runner
+        # https://download.virtualbox.org/virtualbox/debian/dists/
+        - virtualbox
+        # ppas
+        - inkscape.dev
+        - keepassxc
+        - kubuntu
+        - libreoffice-ubuntu-ppa
+        - papirus
+        - texstudio
+    - name: plucky
+      versionID: '25.04'
+      list:
+        # https://download.docker.com/linux/ubuntu/dists/
+        - docker
+        # https://weechat.org/ubuntu/dists/
+        - weechat
+        # ppas
+        - git-core
+        - kobuk-team
+        - xournalpp
+  debian:
+    - name: bookworm
+      versionID: '12'
+      list:
+        # https://download.docker.com/linux/debian/dists/
+        - docker
+        # https://weechat.org/debian/dists/
+        - weechat

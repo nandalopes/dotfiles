@@ -1,0 +1,13 @@
+echo '# Fix ppas releases...'
+{{- $osRelease := .chezmoi.osRelease.versionID -}}
+{{- $osCurrentName := .chezmoi.osRelease.versionCodename -}}
+{{- $osCodename := "" -}}
+{{- range (get .ppas_downgrade .chezmoi.osRelease.id) }}
+  {{- if lt .versionID $osRelease }}
+    {{- $osCodename = .name -}}
+    {{- range .list }}
+sudo sed -i 's/ {{- $osCurrentName -}} / {{- $osCodename -}} /g' \
+  /etc/apt/sources.list.d/*{{- . -}}*
+    {{- end }}
+  {{- end }}
+{{- end }}

@@ -16,13 +16,13 @@ disable_ligatures cursor
 
 #: Cursor customization {{{
 
-# cursor_shape block
+cursor_shape underline
 
-# cursor_underline_thickness 4.0
+cursor_underline_thickness 4.0
 
-# cursor_blink_interval -1
+cursor_blink_interval -1
 
-# cursor_stop_blinking_after 3.0
+cursor_stop_blinking_after 5.0
 
 #: }}}
 
@@ -30,7 +30,7 @@ disable_ligatures cursor
 
 # scrollback_lines 2000
 
-# scrollback_pager_history_size 5
+scrollback_pager_history_size 5
 
 #: }}}
 
@@ -38,9 +38,9 @@ disable_ligatures cursor
 
 # enable_audio_bell yes
 
-# window_alert_on_bell yes
+window_alert_on_bell yes
 
-# bell_on_tab yes
+bell_on_tab "🔔 "
 
 #: }}}
 
@@ -50,7 +50,7 @@ disable_ligatures cursor
 # initial_window_width  96c
 # initial_window_height 24c
 
-# enabled_layouts grid,tall,fat,stack,splits,horizontal,vertical
+enabled_layouts grid,tall,fat,stack,splits,horizontal,vertical
 
 # confirm_os_window_close -1
 
@@ -60,9 +60,9 @@ disable_ligatures cursor
 
 tab_bar_style powerline
 
-# tab_powerline_style angled
+tab_powerline_style round
 
-# tab_title_template "{index}. {title}"
+tab_title_template "{index}. {title}"
 
 #: }}}
 
@@ -92,7 +92,7 @@ dynamic_background_opacity yes
 
 allow_remote_control yes
 
-# shell_integration no-cursor
+shell_integration no-cursor
 
 # term xterm-kitty
 

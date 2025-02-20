@@ -37,6 +37,7 @@ iTerm2/
 {{- else }}
 .config/kitty/
 .backup/look_and_feel/kitty/
+.config/zathura/
 .zprezto
 .zpreztorc
 .zprezto-contrib/

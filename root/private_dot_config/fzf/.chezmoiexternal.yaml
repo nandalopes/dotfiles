@@ -1,0 +1,11 @@
+---
+'fzf-git.sh':
+  url: 'https://github.com/junegunn/fzf-git.sh/raw/main/fzf-git.sh'
+  type: 'file'
+  executable: false
+  refreshPeriod: '168h' # 7 days
+'README-GIT.md':
+  url: 'https://github.com/junegunn/fzf-git.sh/raw/main/README.md'
+  type: 'file'
+  executable: false
+  refreshPeriod: '168h' # 7 days

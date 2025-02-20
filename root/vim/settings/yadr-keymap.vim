@@ -111,6 +111,7 @@ nnoremap <silent> ss <C-w>s
 
 "" Tabs
 nnoremap <Tab> gt
+nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Opens an edit command with the path of the currently edited file filled in

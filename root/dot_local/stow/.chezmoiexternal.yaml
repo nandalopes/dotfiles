@@ -1,0 +1,32 @@
+---
+# difftastic
+'difft/bin/difft':
+  url: "https://github.com/Wilfred/difftastic/releases/latest/download/difft-x86_64-unknown-linux-gnu.tar.gz"
+  type: 'archive-file'
+  executable: true
+  refreshPeriod: '168h' # 7 days
+  path: 'difft'
+# git-autofixup
+'git-autofixup/bin/git-autofixup':
+  url: "https://github.com/torbiak/git-autofixup/releases/latest/download/git-autofixup"
+  type: 'file'
+  executable: true
+  refreshPeriod: '168h' # 7 days
+  {{- range list "docker" "git" }}
+    {{- $repo := printf "jesseduffield/lazy%s" . }}
+    {{- $program := printf "lazy%s_*inux_x86_64.tar.gz" . }}
+# lazy {{- . }}
+'lazy {{- . -}} /bin/lazy {{- . }}':
+  url: {{ gitHubLatestReleaseAssetURL $repo $program | quote }}
+  type: 'archive-file'
+  executable: true
+  refreshPeriod: '168h' # 7 days
+  path: {{ printf "lazy%s" . }}
+  {{- end }}
+# sass compiler
+'dart-sass/bin':
+  url: {{ gitHubLatestReleaseAssetURL "sass/dart-sass" "dart-sass-*-linux-x64.tar.gz" | quote }}
+  type: 'archive'
+  stripComponents: 1
+  exact: true
+  refreshPeriod: '168h' # 7 days

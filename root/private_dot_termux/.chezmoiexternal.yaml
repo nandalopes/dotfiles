@@ -1,0 +1,5 @@
+'colors.properties':
+  url: 'https://github.com/dracula/termux/raw/master/colors.properties'
+  type: 'file'
+  executable: false
+  refreshPeriod: '168h' # 7 days

@@ -70,6 +70,16 @@ Programs:
 .config/fzf
 .chezmoiscripts/install_fzf.sh
 
+# Don't switch Caps with Esc
+.xprofile
+.config/kxkbrc
+
+# Don't change XDG folders
+.config/user-dirs.*
+
+# Don't manage gtk settings
+.config/gtk-*
+
 # zsh files
 .p10k.zsh
 .zsh.before

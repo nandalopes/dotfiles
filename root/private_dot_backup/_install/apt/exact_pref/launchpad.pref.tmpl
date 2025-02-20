@@ -1,0 +1,73 @@
+{{- $pinPriority := 500 -}}
+{{- if gt .chezmoi.osRelease.versionID "21.10" -}}
+{{-   $pinPriority = 510 -}}
+{{- end -}}
+{{- $ppaInstalled := list
+      "materia-kde:any"
+      "papirus-icon*:any"
+      "/kvantum/:amd64"
+      "/solaar/"
+      "sqlitebrowser:amd64"
+      "texstudio"
+      "xournalpp"
+-}}
+{{- $libreofficeInstalled := list
+      "/libreoffice/"
+      "/ure/"
+      "fonts*"
+      "gir*"
+      "libofficebean*"
+      "libuno*"
+      "/python?-access2base/"
+      "/python?-scriptforge/"
+      "/python?-uno/"
+      "uno-libs-private"
+-}}
+{{- $ppaPriority := list
+      "keepassxc"
+      "obs-studio"
+-}}
+
+#Package: *
+#Pin: release o=LP-PPA-kdenlive-kdenlive-stable
+#Pin-Priority: {{ $pinPriority }}
+
+#Package: *
+#Pin: release o=LP-PPA-kubuntu-ppa-backports
+#Pin-Priority: {{ $pinPriority }}
+
+Package: inkscape:amd64
+Pin: release o=LP-PPA-inkscape.dev-stable
+Pin-Priority: {{ $pinPriority }}
+
+Package: keepassxc:amd64
+Pin: release o=LP-PPA-phoerious-keepassxc
+Pin-Priority: {{ $pinPriority }}
+
+Package: /obs/:any
+Pin: release o=LP-PPA-obsproject-obs-studio
+Pin-Priority: {{ $pinPriority }}
+
+Package: /git/:amd64
+Pin: release o=LP-PPA-git-core
+Pin-Priority: 500
+
+Package: *
+Pin: release o=LP-PPA-flatpak-stable
+Pin-Priority: 500
+
+Package: *
+Pin: release o=LP-PPA-kobuk-team-intel-graphics
+Pin-Priority: 500
+
+Package: {{ sortAlpha $libreofficeInstalled | join " " }}
+Pin: release o=LP-PPA-libreoffice-libreoffice-still
+Pin-Priority: 500
+
+Package: {{ sortAlpha $ppaInstalled | join " " }}
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 500
+
+Package: *
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 100

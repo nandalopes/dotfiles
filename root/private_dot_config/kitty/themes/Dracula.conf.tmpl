@@ -1,0 +1,15 @@
+{{- $kittyDracula := joinPath .chezmoi.homeDir ".backup/look_and_feel/kitty/themes/Dracula.conf" -}}
+{{- if stat $kittyDracula -}}
+# vim:ft=kitty
+# Chezmoi.io
+
+## name: Dracula
+## author: Keegan Carruthers-Smith
+## license: MIT
+## upstream: https://github.com/dracula/kitty/raw/master/dracula.conf
+
+{{ include $kittyDracula }}
+
+# green active tab background
+active_tab_background   #69ff94
+{{- end }}

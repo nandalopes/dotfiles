@@ -1,0 +1,23 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+
+# Generic PPAS
+{{ $ppaList := joinPath .chezmoi.homeDir ".backup/install/apt/ppas-launchpad.txt" }}
+{{- if stat $ppaList }}
+# Launchpad list hash: {{ include $ppaList | sha1sum }}
+xargs -a {{ $ppaList }} -t -n1 sudo add-apt-repository --yes --no-update \
+      --remove
+xargs -a {{ $ppaList }} -t -n1 sudo add-apt-repository --yes --no-update
+{{- end }}
+
+
+exit 0

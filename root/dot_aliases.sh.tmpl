@@ -1,0 +1,249 @@
+{{- $root := or (eq .chezmoi.os "android") (eq .chezmoi.username "root") -}}
+{{- $globalSudo := "sudo " -}}
+{{- if $root -}}
+{{-   $globalSudo = "" -}}
+{{- end -}}
+{{- $nproc := output "nproc" | trim -}}
+# shellcheck shell=bash external-sources=false
+# Aliases in this file are bash and zsh compatible
+
+#
+# Add and reload aliases
+#
+
+# Function which adds an alias to the current shell and to the ~/.aliases.sh file.
+add_alias ()
+{
+  local name=$1 value="$2"
+  echo alias "$name"=\'"$value"\' >> ~/.aliases.sh
+  eval alias "$name"=\'"$value"\'
+  alias "$name"
+}
+
+# new_alias = na <http://blog.welrbraga.eti.br/?p=3103>
+# <https://unix.stackexchange.com/a/370772/8949>
+# shellcheck disable=SC1090
+alias na="md5sum ~/.aliases.sh >| \
+  \${TMPDIR:-/tmp}/md5.aliases ; \
+  editor ~/.aliases.sh ; \
+  md5sum -c \${TMPDIR:-/tmp}/md5.aliases >/dev/null 2>&1 || \
+  source ~/.aliases.sh"
+
+# Global alias reload
+# shellcheck disable=SC1090
+reload_user_alias ()
+{
+  killall -HUP -u "$USER" "${SHELL#*/bin/}"
+  source ~/.aliases.sh
+}
+
+
+#
+# Edit shell history
+#
+
+# (h)istory (d)elete (m)atchs
+# Remove lines matching term from history
+hdm ()
+{
+  # Deleta as linhas
+  eval LC_ALL=C sed -ri "'\;$1;d' $HISTFILE"
+  eval LC_ALL=C sed -ri "'/hdm/d' $HISTFILE"
+  # Le novamente historico
+  fc -R
+}
+
+# (h)istory (d)elete (l)ast
+# Remove last command used
+hdl ()
+{
+  # Deleta a ultima linha
+  eval LC_ALL=C sed -i "'/hdl/d' $HISTFILE"
+  eval LC_ALL=C sed -i "'\$d' $HISTFILE"
+  # Le novamente historico
+  fc -R
+}
+
+
+#
+# ALIASES
+#
+
+# Some useful aliases.
+alias la='ls -A'
+alias lla='ll -A'
+alias lga='ll -b --group-directories-first'
+alias 2DN='2>/dev/null'
+  {{- if lookPath "bat" }}
+alias cat='bat --plain'
+  {{- end }}
+
+# See system colors
+# Terminal 16 colors
+# shellcheck disable=SC2296,SC2298
+show_16colors ()
+{
+  for i in {0..3} {8..11} {4..7} {12..15}; do
+    print -Pn "%K{$i}  k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%4)):#3}:+$'\n'}
+  done
+}
+
+# Terminal grays
+# shellcheck disable=SC2296,SC2298
+show_grays ()
+{
+  for i in {232..255}; do
+    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
+  done
+}
+
+# Terminal 256 colors
+# shellcheck disable=SC2296,SC2298
+show_256colors ()
+{
+  show_16colors
+  for i in {16..231}; do
+    print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}
+  done
+  show_grays
+}
+
+
+#
+# Package management
+#
+
+# Upgrade system
+alias  upg_all='upg_apt ; upg_snap ; upg_flat'
+alias  upg_apt='{{ $globalSudo }}apt-get upgrade --update --yes'
+alias upg_snap='{{ $globalSudo }}snap refresh'
+alias upg_flat='flatpak update --assumeyes --noninteractive'
+
+# Cleanup system
+alias    clear_apt="{{ $globalSudo }}apt-mark minimize-manual --yes ; \
+  {{ $globalSudo }}apt-get autoremove --purge --yes ; \
+  {{ $globalSudo }}apt-get autoclean --yes"
+alias cl_apt_cache='{{ $globalSudo }}apt-get autoclean --yes ; {{ $globalSudo }}apt-get clean'
+alias cl_apt_lists='{{ $globalSudo }}rm -v /var/lib/apt/lists/*'
+alias   clear_pkgs="clear_apt ; clear_flat"
+alias   clear_flat="flat_system remove --unused --assumeyes --noninteractive; \
+  flat_user remove --unused --assumeyes --noninteractive"
+# shellcheck disable=SC2142
+alias  clear_snaps="LANG=C snap list --all | \
+awk '/disabled/{print \$1"'" --revision "'"\$3}' | \
+xargs -trn3 {{ $globalSudo }}snap remove; \
+{{ $globalSudo }}rm -v /var/lib/snapd/cache/* || true"
+
+# Flatpak
+alias   flat_user='flatpak --user'
+alias flat_system='{{ $globalSudo }}flatpak --installation=default'
+alias flat_repair='flat_user repair ; flat_system repair'
+
+
+# GNU Stow
+alias   stow_user=' {{- template "stow/local" "" -}} '
+alias stow_system=' {{- template "stow/global" "" -}} '
+
+
+# Kitty Terminal
+  {{- range $app, $installer := dict
+    "stable"  " "
+    "nightly" " installer=nightly "
+  }}
+{{- $dest := expandenv $.gnu_stow.local.path }}
+upg_kitty_ {{- $app -}} ()
+{
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | \
+    sh /dev/stdin {{- $installer -}} launch=n dest= {{- $dest }}
+  {{- $dir := printf "kitty.%s" $app | joinPath $dest }}
+  if [ -d ' {{- $dir -}} ' ]
+  then
+    {{- $kittyVersion := printf "kitty.%s" $app }}
+    {{ template "stow/local" (printf "-D %s" $kittyVersion) }}
+    \rm -vfr {{ $dir }}
+  fi
+  \mv -vf {{ $dest -}}/kitty.app {{ $dir }}
+  tee {{ $dir -}}/.stow-local-ignore << EOP >/dev/null
+{{ template "stow/ignore-kitty" }}
+EOP
+  {{ template "stow/local" (printf "--restow %s" $kittyVersion) }}
+}
+  {{- end }}
+
+# enable kitty image preview on programs
+if [[ "$TERM" =~ "kitty" ]]; then
+  alias ranger='ranger --cmd="set preview_images_method kitty"'
+  alias neofetch='neofetch --kitty'
+  # alias ssh='kitty +kitten ssh'
+fi
+
+
+# vim-plug
+  {{- range $vi, $cfg := dict
+    "vim"  "~/.vimrc"
+    "nvim" "~/.config/nvim/init.vim"
+  }}
+# {{ $vi }} update and install
+alias upg_{{ $vi }}_plug="{{ $vi }} -es -u {{ $cfg }} -i NONE \
+  +PlugUpgrade +PlugClean! +PlugUpdate! +qall"
+alias ins_{{ $vi }}_plug="{{ $vi }} -es -u {{ $cfg }} -i NONE \
+  +PlugClean! +PlugInstall! +qall"
+  {{- end }}
+
+# Latex on (neo)vim
+alias  vimtex='vim --servername VIM'
+alias nvimtex='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
+
+# Ruby
+alias rbcfg1='bundle config --local path "vendor/bundle"'
+alias rbcfg2='bundle config set --local path "vendor/bundle"'
+alias rbins='bundle install'
+
+# Editar configurações
+alias cfg_alias='vim ~/.aliases.sh'
+alias   cfg_vim='vim -p ~/.vimrc.*'
+
+# ASDF
+update_nodejs_lts()
+{
+  local lts ver
+  lts="${1:-lts}"
+  ver="$(ASDF_NODEJS_LEGACY_FILE_DYNAMIC_STRATEGY='latest_available' asdf cmd nodejs resolve "$lts")"
+  # install lts
+  asdf install nodejs "$ver"
+  # write aliases
+  #asdf cmd alias nodejs "${ver%%\.*}" --auto
+  #asdf where nodejs "$lts" || asdf cmd alias nodejs "$lts" "${ver%%\.*}"
+}
+  {{- range (list "stable" "nightly") }}
+update_nvim_ {{- . }} ()
+{
+  if asdf list all neovim {{ . }} >/dev/null 2>&1; then
+    asdf uninstall neovim {{ . }}
+    asdf install neovim {{ . }}
+  fi
+}
+  {{- end }}{{/* end update-neovim range */}}
+alias update_rust_stable="ASDF_RUST_VERSION=stable \
+  asdf exec rustup update stable"
+
+# Docker
+docker_stop_all()
+{
+  docker ps --all | awk 'NR != 1 {print $1}' | xargs -r docker rm
+}
+
+docker_clean()
+{
+  docker ps --all | awk 'NR != 1 {print $1}' | xargs --no-run-if-empty docker rm
+  docker images   | awk 'NR != 1 {print $3}' | xargs --no-run-if-empty docker rmi
+}
+
+# Tmux
+alias fix_tmux_layout='tmux select-layout'
+
+# vim:fileencoding=utf-8:ft=sh:
+
+{{- /*
+# vim:fileencoding=utf-8:ft=sh.gotmpl:
+*/}}

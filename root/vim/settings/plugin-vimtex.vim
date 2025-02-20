@@ -10,3 +10,8 @@ let g:vimtex_log_ignore = [
   \ 'Token not allowed in a PDF string',
   \ ]
 let g:vimtex_quickfix_mode = 0
+
+" PDF Viewer:
+" http://manpages.ubuntu.com/manpages/focal/man5/zathurarc.5.html
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_zathura_options = '--unique file:@pdf\#src:@line@tex'

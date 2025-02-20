@@ -1,0 +1,4 @@
+---
+apt_keyring:
+  folder: '/etc/apt/keyrings'
+  path: '/etc/apt/keyrings/%s.gpg'

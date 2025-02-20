@@ -14,7 +14,7 @@ This is a **GNU/Linux** focused fork of @[skwp/dotfiles](https://github.com/skwp
 
 Select Language: **English**, [Portuguese](README-pt.md)
 
-#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/mine/root/bin/yadr/install.sh \`"
+#### sh -c "\`curl -fsSL https://github.com/nandalopes/dotfiles/raw/friends/root/bin/yadr/install.sh \`"
 {: .no_toc }
 
 **Managed with [chezmoi](https://chezmoi.io/).**
@@ -82,7 +82,7 @@ git remote add yadr https://github.com/nandalopes/dotfiles.git
 git fetch yadr
 
 # Merge repos:
-git merge --allow-unrelated-histories yadr/mine
+git merge --allow-unrelated-histories yadr/friends
 
 # Verify if there is duplicated source files
 chezmoi verify

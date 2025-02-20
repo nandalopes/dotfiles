@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# setxkbmap -option caps:escape_shifted_capslock
+setxkbmap -option {{ join "," .keyboard.opts }}

@@ -26,6 +26,9 @@ zsh/
 .vimrc
 .vim
 !.vim/vimrc
+# fzf files
+.config/fzf
+.chezmoiscripts/install_fzf.sh
 {{- end }}
 
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}

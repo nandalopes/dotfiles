@@ -1,0 +1,171 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+{{/*
+**************
+** DEFAULTS **
+**************
+*/ -}}
+
+  {{- if .app_sets.fixes }}
+apt-file
+debhelper
+deborphan
+dconf-cli
+etckeeper
+git-lfs
+hardinfo
+htop
+ipv6calc
+lynx
+meld
+mtr-tiny
+neofetch
+nmap
+openssh-server
+subnetcalc
+tar-doc
+traceroute
+universal-ctags
+vrms
+w3m
+w3m-img
+  {{- end }}
+
+  {{- if .app_sets.me }}
+apt-file
+dconf-cli
+git-lfs
+hardinfo
+htop
+meld
+speedcrunch
+tar-doc
+universal-ctags
+vrms
+  {{- end }}
+
+  {{- if or
+    .app_sets.teacher
+    .app_sets.writer
+    | and .app_sets.space
+  }}
+artha
+dict
+diploma
+hunspell-pt-br
+hyphen-pt-br
+mythes-pt
+    {{- if ge .chezmoi.osRelease.versionID "24.04" -}}
+-br
+    {{- else -}}
+-pt
+    {{- end }}
+language-pack-pt
+libreoffice-help-pt-br
+libreoffice-l10n-pt-br
+translate-shell
+wbrazilian
+  {{- end }}
+
+  {{- if .app_sets.teacher }}
+convertall
+speedcrunch
+    {{- if and .app_sets.me .app_sets.space }}
+inkscape
+kdenlive
+obs-studio
+keepassxc
+    {{- end }}
+  {{- end }}
+
+  {{- if and .app_sets.writer .app_sets.space }}
+pandoc
+    {{- if lt .chezmoi.osRelease.versionID "24.04" }}
+pandoc-citeproc
+    {{- end }}
+
+texlive-lang-portuguese
+texlive-publishers
+texlive-science
+texlive
+texlive-bibtex-extra
+texlive-extra-utils
+texlive-fonts-extra
+texlive-fonts-extra-links
+texlive-formats-extra
+texlive-latex-extra
+texstudio
+xdotool
+  {{- end }}
+
+  {{- if .app_sets.movies }}
+mediainfo-gui
+  {{- end }}
+
+
+{{- /*
+  CLI programs
+*/}}
+bash-completion
+curl
+dkms
+ffmpeg
+python3-pip
+python3-venv
+python3-virtualenv
+stow
+tree
+vim
+  {{- if .app_sets.me }}
+ripgrep
+zsh
+zsh-doc
+  {{- end }}
+
+  {{- if .app_sets.desktop }}
+{{- /*
+  Desktop apps
+*/}}
+  {{- if .app_sets.space }}
+ubuntu-restricted-extras
+  {{- end }}
+
+libreoffice
+
+  {{- if or
+    .app_sets.me
+    .app_sets.teacher
+    .app_sets.writer
+  }}
+copyq
+vim-gtk3
+xclip
+xsel
+  {{- end }}
+  {{- end }}{{/* Desktop */}}
+
+
+{{- /*
+  Install apts from ppas after lists...
+*/}}
+  {{- if .app_sets.desktop }}
+flatpak
+  {{- end }}
+
+git
+
+
+{{- /*
+  MAYBE
+*/}}
+default-jre
+  {{- if and .app_sets.desktop .app_sets.space }}
+fonts-croscore
+doublecmd-{{ .param.what_gui }}
+fonts-emojione
+pdfarranger
+transmission-{{ .param.what_gui }}
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

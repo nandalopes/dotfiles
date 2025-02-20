@@ -1,0 +1,63 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+{{/*
+  Default apps
+*/ -}}
+exfatprogs
+python3-bcrypt
+python3-nacl
+#python3-pip
+
+{{- /*
+  Desktop apps
+*/}}
+vim-gtk3
+xsel
+plasma-discover-backend-flatpak
+
+
+{{- /*
+  Language support
+*/}}
+
+hunspell-pt-br
+hyphen-pt-br
+libreoffice-help-en-us
+libreoffice-help-pt-br
+libreoffice-l10n-pt-br
+libreoffice-lightproof-en
+libreoffice-lightproof-pt-br
+mythes-pt-pt
+wbrazilian
+
+
+{{- /*
+***********
+** MAYBE **
+***********
+*/}}
+
+{{- /*
+  CLI maybe
+*/}}
+pandoc-citeproc
+
+{{- /*
+  DESKTOP maybe
+*/}}
+fonts-croscore
+zathura-cb
+zathura-djvu
+zathura-ps
+
+
+{{- /*
+  DOC packages
+*/}}
+zsh-doc
+tar-doc
+vim-doc
+ffmpeg-doc
+
+{{ template "utils/sed-sort-end.sh" -}}
+

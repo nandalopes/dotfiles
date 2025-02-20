@@ -16,10 +16,7 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 {{ template "shell/user_path" "" }}
-
-# dotfiles
-{{- $yadrPath := joinPath .chezmoi.sourceDir "bin" }}
-PATH="$PATH:{{- $yadrPath -}}:{{- joinPath $yadrPath "yadr" -}}"
+{{ template "shell/yadr_path" . }}
 
 # Remove duplicate entries from PATH:
 export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')

@@ -2,7 +2,7 @@
 {{- $data := joinPath .chezmoi.workingTree "root/.chezmoidata" "color.yaml" | include | fromYaml -}}
 
 {{- $colorList := keys $data.color | sortAlpha -}}
-{{- $color := dig "param" "color" "solarized" . -}}
+{{- $color := dig "param" "color" "dracula" . -}}
 {{- $i := 0 -}}
 {{- $supportedColors := list -}}
 {{- range $c := $colorList -}}

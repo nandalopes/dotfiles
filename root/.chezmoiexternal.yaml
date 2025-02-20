@@ -30,3 +30,22 @@
   type: 'archive'
   stripComponents: 1
   refreshPeriod: '720h' # 30 days
+
+
+#
+# BASH shell
+#
+
+# Oh my Bash
+'.oh-my-bash':
+  url: 'https://github.com/ohmybash/oh-my-bash.git'
+  type: 'git-repo'
+  refreshPeriod: '168h' # 7 days
+  clone:
+    args:
+      - '--depth=1'
+      - '--recursive'
+      - '--shallow-submodules'
+  pull:
+    args:
+      - '--recurse-submodules=yes'

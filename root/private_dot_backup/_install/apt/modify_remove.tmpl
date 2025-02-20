@@ -1,0 +1,27 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+{{/*
+  Default Packages
+  */ -}}
+vlc
+vlc-bin
+gimp*
+
+  {{- if .app_sets.me }}
+    {{- if lt .chezmoi.osRelease.versionID "22.04" }}
+firefox
+    {{- end }}
+
+    {{- if lt .chezmoi.osRelease.versionID "24.04" }}
+thunderbird
+    {{- end }}
+  {{- end }}
+
+  {{- if eq .param.what_gui "qt" }}
+gnome-keyring
+gnome-keyring-pkcs11
+libpam-gnome-keyring
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

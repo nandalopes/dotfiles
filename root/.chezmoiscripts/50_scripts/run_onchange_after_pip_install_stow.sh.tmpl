@@ -1,0 +1,65 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+  */ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+{{ template "utils/print-blank-lines-and-message.sh" }}
+
+
+{{- $cmdSudo := includeTemplate "stow/sudo" }}
+{{- $pypiPath := joinPath .gnu_stow.global.path "pypi" }}
+{{- $pipPath := joinPath $pypiPath "bin/pip" }}
+{{- $reqPath := joinPath .chezmoi.homeDir ".backup/install/pip/stow.txt" }}
+
+
+{{- if stat $reqPath }}
+printBlankLinesAndMessage 3 'Remove stow pypi packages...'
+if [ -d " {{- $pypiPath -}} " ]; then
+  {{ template "stow/global" "-D pypi" }}
+fi
+
+
+printBlankLinesAndMessage 3 'Creating stow virtualenv...'
+{{ $cmdSudo }} install --verbose --directory --mode=0755 --compare \
+  {{ joinPath $pypiPath "share/applications" }}
+{{ $cmdSudo }} touch {{ joinPath $pypiPath "share/applications/mimeinfo.cache" }}
+{{ $cmdSudo }} virtualenv \
+  --clear \
+  --no-setuptools \
+  --no-wheel \
+  --no-download \
+  --system-site-packages \
+  {{ $pypiPath }}
+
+
+printBlankLinesAndMessage 3 'Configuring virtualenv...'
+{{ $cmdSudo }} {{ $pipPath }} config --site \
+  set install.upgrade true
+{{ $cmdSudo }} {{ $pipPath }} config --site \
+  set install.prefer-binary true
+{{ $cmdSudo }} {{ $pipPath }} config --site \
+  set global.upgrade-strategy only-if-needed
+{{ $cmdSudo }} tee {{ joinPath $pypiPath ".stow-local-ignore" }} <<EOP
+{{ template "stow/ignore-pip" }}
+EOP
+
+
+printBlankLinesAndMessage 3 'Install stow pips...'
+# {{ include $reqPath | sha1sum }}
+{{ $cmdSudo }} {{ $pipPath }} install \
+  --prefix {{ $pypiPath }} \
+  --upgrade \
+  --upgrade-strategy only-if-needed \
+  --requirement {{ $reqPath }}
+
+
+{{ template "stow/global" "--restow pypi" }}
+
+
+{{- end }}{{/* if stat $reqPath */}}

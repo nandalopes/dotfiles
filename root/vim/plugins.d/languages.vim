@@ -10,6 +10,9 @@ Plug 'tomtom/tlib_vim'
 " Optional:
 Plug 'honza/vim-snippets'
 
+" Latex
+Plug 'lervag/vimtex'
+
 " Markdown
 Plug 'rhysd/vim-gfm-syntax'
 Plug 'nelstrom/vim-markdown-preview'

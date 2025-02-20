@@ -1,0 +1,1 @@
+{{ template "stow/sudo" }} stow --verbose --dir=/usr/local/stow {{ . -}}

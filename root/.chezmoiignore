@@ -29,6 +29,9 @@ zsh/
 # fzf files
 .config/fzf
 .chezmoiscripts/install_fzf.sh
+# Don't switch Caps with Esc
+.xprofile
+.config/kxkbrc
 # Don't install zsh files
 .p10k.zsh
 .zsh.before

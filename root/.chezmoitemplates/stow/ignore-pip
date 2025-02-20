@@ -1,0 +1,27 @@
+/\.gitignore
+/pip\.conf
+/pyvenv\.cfg
+/include/site
+/share/applications/mimeinfo.cache
+# activate files
+/bin/activate
+/bin/activate\..*
+/bin/activate_this.py
+/bin/deactivate.nu
+# easy_install
+/bin/easy_install
+/bin/easy_install\..*
+# pip executables
+/bin/pip
+/bin/pip-?3.*
+# python executables
+/bin/python
+/bin/python3.*
+# wheel executables
+/bin/wheel
+/bin/wheel-?3.*
+# python libraries
+/lib/python3?.*
+/lib64/python3?.*
+
+{{- /* remove new line */ -}}

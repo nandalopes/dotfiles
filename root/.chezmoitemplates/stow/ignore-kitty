@@ -1,0 +1,2 @@
+lib/(?!kitty.*).*
+{{- /* remove new line */ -}}

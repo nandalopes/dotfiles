@@ -20,6 +20,7 @@ set -s default-terminal 'tmux-256color'
 
 {{ if $tmuxV -}}
 # Session option terminal-features (requires tmux>=3.2)
+set-option -su terminal-features
   {{- range .tmux_terminal_settings -}}
     {{- if hasKey . "features" }}
 set-option -sa terminal-features ',{{ .term_name }}:{{ .features }}'
@@ -29,6 +30,7 @@ set-option -sa terminal-features ',{{ .term_name }}:{{ .features }}'
 
 
 # Session option terminal-overrides
+set-option -su terminal-overrides
 #set-option -sa terminal-overrides ',xterm-256color:Tc:RGB'
   {{- range .tmux_terminal_settings -}}
     {{- if hasKey . "overrides" }}

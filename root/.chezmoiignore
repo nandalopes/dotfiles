@@ -87,6 +87,9 @@ Programs:
 # Don't change XDG folders
 .config/user-dirs.*
 
+# Don't change font settings
+.config/fontconfig/
+
 # Don't manage gtk settings
 .config/gtk-*
 

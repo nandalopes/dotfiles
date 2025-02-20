@@ -1,0 +1,34 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+{{- if lookPath "apt-get" -}}
+{{- $basicPkgs := list
+  "apt-utils"
+  "curl"
+  "git"
+  "python3-debian"
+  "stow"
+-}}
+{{- $noRecPkgs := list
+  "ansible"
+-}}
+#!/usr/bin/env bash
+
+# -e: exit on error
+# -u: exit on unset variables
+set -eu
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+{{ template "apt/debconf-tzdata" . }}
+
+DEBIAN_FRONTEND=noninteractive
+
+sudo apt-get update -qq
+
+sudo apt-get install -qy {{ join " " $basicPkgs }}
+
+sudo apt-get install -qy --no-install-recommends {{ join " " $noRecPkgs }}
+
+{{- end }}

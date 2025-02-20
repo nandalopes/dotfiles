@@ -1,0 +1,11 @@
+# set timezone
+sudo rm -vf /etc/localtime /etc/timezone
+echo "America/Bahia" | sudo tee /etc/timezone > /dev/null
+sudo ln --verbose -nsf /usr/share/zoneinfo/America/Bahia /etc/localtime.dpkg-new && \
+  sudo mv -vf /etc/localtime.dpkg-new /etc/localtime
+TIMEZONE="America/Bahia"
+
+sudo debconf-set-selections --verbose << EOSEL
+tzdata tzdata/Areas select America
+tzdata tzdata/Zones/America select Bahia
+EOSEL

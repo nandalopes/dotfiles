@@ -2,8 +2,8 @@ name: yadr
 services:
   dotfiles:
     environment:
-      IMAGE_NAME: &imageTag "yadr"
-    container_name: yadr
+      IMAGE_NAME: &imageTag "yadr:mine"
+    container_name: yadr-mine
     build:
       context: .
       args:

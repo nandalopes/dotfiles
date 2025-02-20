@@ -1,0 +1,29 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+{{ $flatpakRemoteAdd := "flatpak remote-add --if-not-exists" -}}
+
+{{- /*
+  User apps
+  */}}
+echo '# Flatpak remotes...'
+{{ $flatpakRemoteAdd }} --user flathub \
+  --title="Flathub (User)" \
+  https://flathub.org/repo/flathub.flatpakrepo
+
+echo '# Flatpak Gtk themes...'
+flatpak --user override --filesystem=~/.local/share/themes
+
+{{ $flatpakList := joinPath .chezmoi.homeDir ".backup/install/flatpak" "user" -}}
+{{- if stat $flatpakList }}
+# User flatpaks: {{ include $flatpakList | sha1sum }}
+echo '# Flatpaks user only...'
+xargs -ta {{ $flatpakList }} flatpak --assumeyes --user \
+          install flathub
+{{- end }}

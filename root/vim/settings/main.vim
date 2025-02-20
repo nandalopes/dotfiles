@@ -26,8 +26,8 @@ set hidden
 syntax on
 
 "" Copy/Paste/Cut
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
+if !has('gui_running') && has('clipboard')
+  set clipboard=unnamed,exclude:cons\|linux
 endif
 
 " ================ Turn Off Swap Files ==============

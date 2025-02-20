@@ -1,0 +1,32 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+  {{- if .app_sets.desktop }}
+mpv
+  {{- end }}
+
+  {{- if and
+    .app_sets.me
+    .app_sets.desktop
+    .app_sets.space
+  }}
+papirus-icon-theme
+  {{- end }}
+
+  {{- if or
+    .app_sets.me
+    .app_sets.teacher
+    .app_sets.writer
+  }}
+zathura
+zathura-ps
+  {{- end }}
+
+  {{- if and
+    .app_sets.writer
+    .app_sets.space
+  }}
+latexmk
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

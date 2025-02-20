@@ -1,0 +1,8 @@
+#!/bin/sh
+
+  {{-   if ne .chezmoi.os "android" }}
+echo "# {{ .chezmoi.osRelease.prettyName }}"
+  {{-   end }}
+
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+  apt-cache policy

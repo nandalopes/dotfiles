@@ -62,6 +62,7 @@
   # checkout
   co = checkout                     # checkout
   nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
+  ct = checkout --track             # checkout and track a remote branch
 
   # cherry-pick
   cp = cherry-pick -x               # grab a change from a branch
@@ -99,6 +100,7 @@
   # reset
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  discard = checkout --patch        # discard changes chunk by chunk
 
   # stash
   ss = stash                        # stash changes
@@ -114,6 +116,8 @@
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
+  tf = tag --force                  # overwrite existing tag
+  tx = tag --delete                 # delete existing tag
 
   # svn helpers
   svnr = svn rebase

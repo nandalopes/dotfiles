@@ -41,7 +41,7 @@ Use o GitHub Issues apenas para solicitações de pull ou relatórios de bug.
 
 ## Screenshot
 
-![screenshot vim](https://i.imgur.com/IhPYpNV.png)
+![screenshot vim](https://i.imgur.com/P8jwAu4.png)
 
 ## Instalação
 
@@ -234,7 +234,7 @@ Um `.gemrc` está incluído. Nunca mais digite `gem install whatever --no-ri --n
 `tmux.conf` fornece alguns padrões lógicos para tmux como uma poderosa barra de status e atalhos de teclado do vim.
 Você pode personalizar a configuração em `~/.tmux.conf.user`.
 
-![screenshot tmux](https://i.imgur.com/Rlh30kg.png)
+![screenshot tmux](https://i.imgur.com/3QFcPmo.png)
 
 ### Vimização de tudo
 

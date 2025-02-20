@@ -1,0 +1,16 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+  {{- if .app_sets.desktop }}
+vlc
+  {{- end }}
+
+  {{- if or
+    .app_sets.music
+    .app_sets.me
+    | and .app_sets.space
+  }}
+spotify
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

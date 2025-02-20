@@ -1,0 +1,29 @@
+pipx
+
+  {{- if or
+    .app_sets.desktop
+    .app_sets.me
+    .app_sets.movies
+  }}
+gallery-dl
+youtube-dl
+yt-dlp
+  {{- end }}
+
+  {{- if .app_sets.me }}
+spotify-dl
+vim-vint
+grip
+tmuxp
+shtab
+  {{- end }}
+
+  {{- if or
+    .app_sets.fixes
+    .app_sets.me
+  }}
+ranger-fm @ git+https://github.com/ranger/ranger.git@master
+trash-cli
+git-cola
+send2trash
+  {{- end }}

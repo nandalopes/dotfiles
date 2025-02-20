@@ -53,4 +53,8 @@ iTerm2/
 .vimrc
 .vim
 !.vim/vimrc
+.vim/vimrc
+# fzf files
+.config/fzf
+.chezmoiscripts/install_fzf.sh
 {{- end }}

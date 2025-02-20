@@ -49,14 +49,14 @@ alias gar='killall -HUP -u "$USER" zsh' # global alias reload
 # chezmoi aliases
 alias czI='chezmoi init' # chezmoi [I]nit
 alias czh='chezmoi cd' # chezmoi [h]ome
-alias cza='chezmoi apply --no-pager --verbose' # chezmoi [a]pply
+alias cza='chezmoi apply --no-pager' # chezmoi [a]pply
 alias czA='chezmoi add' # chezmoi [A]dd
 alias czc='chezmoi cat' # chezmoi [c]at
-alias cze='chezmoi edit --apply --no-pager --verbose' # chezmoi [e]dit
+alias cze='chezmoi edit --apply --no-pager' # chezmoi [e]dit
 alias czE='chezmoi edit-config' # chezmoi [E]dit-config
 alias czf='chezmoi forget' # chezmoi [f]orget
 alias czg='chezmoi git' # chezmoi [g]it
-alias czu='chezmoi update --no-pager --verbose' # chezmoi [u]pdate
+alias czu='chezmoi update --no-pager' # chezmoi [u]pdate
 alias czd='chezmoi diff' # chezmoi [d]iff
 alias czD='chezmoi data --format yaml' # chezmoi [D]ata
 alias czm='chezmoi merge' # chezmoi [m]erge

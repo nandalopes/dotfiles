@@ -126,6 +126,7 @@ if ! shopt -oq posix; then
 fi
 
 ### append shell dependant files
+{{ template "shell/asdf" . }}
 {{ template "shell/fzf" . }}
 
 # enable gitstatus prompt

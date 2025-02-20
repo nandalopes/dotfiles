@@ -1,0 +1,30 @@
+{{- $listFonts := concat .test_fonts .more_test_fonts -}}
+<meta charset="utf-8">
+<hr>
+
+  {{- range (uniq $listFonts) }}
+<div style="font-family: '{{ . }}';">
+  <p><em>Demonstrando <strong>fonte:</strong></em> <strong>{{ . }}</strong></p>
+
+  <pre style="font-family: inherit;">
+  'left': '⮀', 'right': '⮂' <> 'left': '', 'right': ''
+  'left': '⮁', 'right': '⮃' <> 'left': '', 'right': ''
+                  '⭤ ' '⭠ ' <> ' ' ' '
+                                 
+  </pre>
+
+  <p>The quick brown fox jumps over the lazy dog.</p>
+
+  <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+  abcdefghijklmnopqrstuvwxyz<br>
+  1234567890.:,;(*!?')<br>
+  @ = {}[] =></p>
+
+  <pre style="font-family: inherit;">
+  ╭─ /home/media/bin/look_and_feel/fonts        ▼  2021-07-17 16:15:55 ─╮
+  ╰─❯                                                                   ─╯
+  </pre>
+
+</div>
+<hr>
+  {{- end }}

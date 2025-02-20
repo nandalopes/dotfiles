@@ -117,6 +117,11 @@ if [ -f {{ joinPath .chezmoi.sourceDir "aliases.sh" }} ]; then
   . {{ joinPath .chezmoi.sourceDir "aliases.sh" }}
 fi
 
+# my general aliases
+if [ -f ~/.aliases.sh ]; then
+  . ~/.aliases.sh
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).

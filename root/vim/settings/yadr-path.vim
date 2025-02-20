@@ -4,8 +4,12 @@
 "
 " Use login Shell instead of interactive shell to avoid
 " vimdiff suspended at startup
-if has('gui_running')
+if has('gui_running') && exists('$SHELL')
+  set shell=$SHELL\ -i
+elseif has('gui_running')
   set shell=bash\ -i
+elseif exists('$SHELL')
+  set shell=$SHELL\ -l
 else
   set shell=bash\ -l
 endif

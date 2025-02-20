@@ -1,0 +1,34 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+
+{{- $snapList := joinPath .chezmoi.homeDir ".backup/install/snap/normal" }}
+{{- if stat $snapList }}
+# {{ include $snapList | sha1sum }}
+echo '# Install normal snaps'
+xargs -n1 -t -a {{ $snapList }} sudo snap install
+{{- end }}
+
+
+{{- $snapList = joinPath .chezmoi.homeDir ".backup/install/snap/classic" }}
+{{- if stat $snapList }}
+# {{ include $snapList | sha1sum }}
+echo '# Install classic snaps'
+xargs -n1 -t -a {{ $snapList }} sudo snap install --classic
+{{- end }}
+
+
+{{- $snapList = joinPath .chezmoi.homeDir ".backup/install/snap/optional" }}
+{{- if stat $snapList }}
+# {{ include $snapList | sha1sum }}
+echo '# List optional snaps...'
+xargs -n1 -t -a {{ $snapList }} echo 'sudo snap install'
+{{- end }}

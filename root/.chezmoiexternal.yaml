@@ -49,3 +49,13 @@
   pull:
     args:
       - '--recurse-submodules=yes'
+
+
+#
+# VIM singlefile
+#
+'.vim/vimrc':
+  url: 'https://github.com/nandalopes/vim-for-server/raw/main/vimrc'
+  type: file
+  executable: false
+  refreshPeriod: '168h' # 7 days

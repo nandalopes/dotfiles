@@ -19,6 +19,15 @@ zsh/
 #.config/kitty/diff.conf
 {{- end }}
 
+{{- if .app_sets.me }}
+.vim/vimrc
+{{- else }}
+# vim singlefile
+.vimrc
+.vim
+!.vim/vimrc
+{{- end }}
+
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}
 # no darwin files
 Library/

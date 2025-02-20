@@ -1,0 +1,10 @@
+[alias]
+  assume-unchanged = !git update-index --assume-unchanged
+  no-assume-unchanged = !git update-index --no-assume-unchanged
+  ignored = !git ls-files -v | grep '^[[:lower:]]' | cut -f2 -d' '
+
+# vim:ft=gitconfig
+
+{{- /*
+  vim:ft=gitconfig.gotmpl:
+*/}}

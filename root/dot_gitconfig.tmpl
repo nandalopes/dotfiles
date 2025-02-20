@@ -161,7 +161,7 @@
   stash = false
 [include]
   path = .gitconfig.user
-    {{- range $file := list "diff-merge-tools" "gui-config" }}
+    {{- range $file := list "diff-merge-tools" "gui-config" "aliases" }}
   path = {{ $.chezmoi.homeDir -}}
     /.config/git/
     {{-   $file }}

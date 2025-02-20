@@ -1,0 +1,20 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+  */ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+{{- $reqPath := joinPath .chezmoi.homeDir ".backup/install/pipx/inject.txt" }}
+{{- if stat $reqPath }}
+
+# {{ include $reqPath | sha1sum }}
+echo '# Install pipx programs...'
+xargs -d$'\n' -I{} -t -a {{ $reqPath }} bash -c \
+"pipx inject \
+--system-site-packages {}"
+
+{{- end }}
+

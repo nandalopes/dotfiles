@@ -39,6 +39,21 @@ zsh/
 # fzf files
 .config/fzf
 .chezmoiscripts/install_fzf.sh
+# asdf files
+.chezmoiscripts/install_asdf.sh
+.chezmoiscripts/plugins_asdf-vm.sh
+.config/asdf-direnv
+.config/direnv
+# kitty files
+.backup/look_and_feel/kitty/
+.config/kitty/
+# nerd fonts
+.local/share/fonts/f
+.local/share/fonts/f/*
+.local/share/fonts/m
+.local/share/fonts/m/*
+# ranger-fm config
+.config/ranger/
 # Don't switch Caps with Esc
 .xprofile
 .config/kxkbrc

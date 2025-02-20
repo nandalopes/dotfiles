@@ -57,4 +57,14 @@ Programs:
 # Kitty
 #.config/kitty/diff.conf
 {{- end }}
+
+{{- if .app_sets.me }}
+.vim/vimrc
+{{- else }}
+# vim singlefile
+.vimrc
+.vim
+!.vim/vimrc
+{{- end }}
+
 {{- /* END PROGRAMS AND ETC...  */}}

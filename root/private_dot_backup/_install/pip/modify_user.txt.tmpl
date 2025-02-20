@@ -1,0 +1,16 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+  {{- if .app_sets.me }}
+pygments
+  {{- end }}
+
+  {{- if or
+    .app_sets.me
+    .app_sets.writer
+  }}
+neovim-remote
+pynvim
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

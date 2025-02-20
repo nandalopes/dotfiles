@@ -1,0 +1,24 @@
+---
+test_fonts:
+  - 'cursive'
+  - 'monospace'
+  - 'Comic Sans MS'
+
+
+more_test_fonts:
+  - serif
+  - sans
+  - "sans-serif"
+  - monospace
+  - cursive
+  - Arial
+  - Helvetica
+  - Verdana
+  - Times
+  - Times New Roman
+  - Courier New
+  - Comic Sans MS
+  - OperatorMono NF
+  - OperatorMono NF Book
+  - OperatorMono NF Medium
+  - OperatorMono NF Light

@@ -1,0 +1,18 @@
+---
+keyboard:
+  model: pc105
+  opts:
+    - terminate:ctrl_alt_bksp
+    - caps:escape_shifted_capslock
+    - nbsp:level3n
+    - lv5:rwin_switch_lock
+
+
+gnu_stow:
+  cmd: 'stow --verbose --dir=%s'
+  global:
+    path: '/usr/local/stow'
+    sudo: 'sudo '
+  local:
+    path: '$HOME/.local/stow'
+    sudo: ''

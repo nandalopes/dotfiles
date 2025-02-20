@@ -1,0 +1,7 @@
+{{- if stat "/usr/local/stow" -}}
+{{-   $uid := output "stat" "-c" "%U" "/usr/local/stow" | trimAll "\n " -}}
+{{-   $gid := output "stat" "-c" "%G" "/usr/local/stow" | trimAll "\n " -}}
+{{-   printf "sudo -u %s -g %s" $uid $gid -}}
+{{- else -}}
+  sudo
+{{- end -}}

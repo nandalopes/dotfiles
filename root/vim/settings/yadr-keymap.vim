@@ -109,6 +109,16 @@ map <silent> <leader>gz <C-w>o
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
 
+"" Tabs
+nnoremap <Tab> gt
+nnoremap <silent> <S-t> :tabnew<CR>
+
+"" Opens an edit command with the path of the currently edited file filled in
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+"" Opens a tab edit command with the path of the currently edited file filled
+noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
 " create <%= foo %> erb tags using Ctrl-k in edit mode
 imap <silent> <C-K> <%=   %><Esc>3hi
 
@@ -152,6 +162,13 @@ map <leader>hi :echo 'hi<' . synIDattr(synID(line('.'),col('.'),1),'name') . '> 
 " :cp)
 nnoremap <silent> <C-x> :cn<CR>
 nnoremap <silent> <C-z> :cp<CR>
+
+" Automatically jump to a file at the correct line number
+" i.e. if your cursor is over /some/path.rb:50 then using 'gf' on it will take
+" you to that line
+" use ,gf to go to file in a vertical split
+nnoremap <silent> <leader>gf   :vertical botright wincmd F<CR>
+
 
 "" Tag jumping
 " hit ,f to find the definition of the current class

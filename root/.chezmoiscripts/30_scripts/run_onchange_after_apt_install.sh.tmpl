@@ -1,0 +1,81 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+#!/usr/bin/env bash
+
+# -e: exit on error
+set -e
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+{{ template "utils/print-blank-lines-and-message.sh" }}
+
+
+printBlankLinesAndMessage 3 'run debconf set selections'
+{{ template "apt/debconf-frontend" . }}
+
+sudo debconf-set-selections --verbose << EOSEL
+keyboard-configuration keyboard-configuration/layout select Portuguese (Brazil)
+keyboard-configuration keyboard-configuration/variant select Portuguese (Brazil)
+
+ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula boolean true
+EOSEL
+
+
+printBlankLinesAndMessage 3 'update package list'
+sudo apt-get update -qq
+
+
+printBlankLinesAndMessage 3 'packages to install'
+{{- $aptList := joinPath .chezmoi.homeDir ".backup/install/apt" "install" }}
+{{- $aptDict := dict "list" $aptList "cmd" "sudo apt-get install -qqy --ignore-missing" "interactive" .param.interactive }}
+{{- block "aptCmd" $aptDict }}
+{{-   if stat .list }}
+# < {{- base .list -}} > {{ include .list | sha1sum }}
+  {{- if .interactive }}
+  if [[ -n "$FIRST_INSTALL" ]]; then
+xargs -a {{ .list }} -t -n 20 {{ replace "-qqy" "-qqs" .cmd }}
+xargs -a {{ .list }} -p -t -n 20 {{ .cmd }}
+  else
+  {{- end }}
+xargs -a {{ .list }} -t -n 20 {{ .cmd }}
+  {{- if .interactive }}
+  fi
+  {{- end }}
+{{-   end }}
+{{- end }}
+
+
+printBlankLinesAndMessage 3 'packages to install without recommends'
+{{- $aptList = joinPath .chezmoi.homeDir ".backup/install/apt" "no-recommends" }}
+{{- $_ := set $aptDict "list" $aptList }}
+{{- $_ := set $aptDict "cmd" "sudo apt-get install -qqy --ignore-missing --no-install-recommends" }}
+{{- template "aptCmd" $aptDict }}
+
+
+printBlankLinesAndMessage 3 'packages to remove'
+{{- $aptList = joinPath .chezmoi.homeDir ".backup/install/apt" "remove" }}
+{{- $_ := set $aptDict "list" $aptList }}
+{{- $_ := set $aptDict "cmd" "sudo apt-get remove -qqy --allow-change-held-packages" }}
+{{- template "aptCmd" $aptDict }}
+
+
+printBlankLinesAndMessage 3 'packages to mark auto'
+{{- $aptList = joinPath .chezmoi.homeDir ".backup/install/apt" "mark-auto" }}
+{{- $_ := set $aptDict "list" $aptList }}
+{{- $_ := set $aptDict "cmd" "sudo apt-mark auto" }}
+{{- template "aptCmd" $aptDict }}
+
+
+printBlankLinesAndMessage 3 'Minimize manual'
+  {{- if .param.interactive }}
+  if [[ -n "$FIRST_INSTALL" ]]; then
+sudo apt-mark minimize-manual
+  else
+  {{- end }}
+sudo apt-mark --yes minimize-manual
+  {{- if .param.interactive }}
+  fi
+  {{- end }}
+

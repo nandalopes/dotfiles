@@ -23,6 +23,10 @@
 {{- /* Initializes variables with a default value */ -}}
 {{- $name  := "Your Name" -}}
 {{- $email := "your@email.com" -}}
+{{- $whatGUI := "gtk" -}}
+{{- if (expandenv "$XDG_CURRENT_DESKTOP" | regexMatch `(LXQt|KDE)`) -}}
+{{-   $whatGUI = "qt" -}}
+{{- end -}}
 
 {{- /* From https://www.chezmoi.io/user-guide/machines/general/ */ -}}
 {{- $chassisType := "desktop" -}}
@@ -71,6 +75,7 @@ data:
 }}
     interactive: {{ $interactive }}
     monitor: {{ quote $chassisType }}
+    what_gui: {{ quote $whatGUI }}
   app_sets:
     desktop: {{ $interactive }}
     fixes: false

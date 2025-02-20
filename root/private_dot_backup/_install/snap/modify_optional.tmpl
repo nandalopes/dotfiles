@@ -1,0 +1,10 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+  {{- if .app_sets.me }}
+pomotroid
+cyph
+desktop-habitica
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

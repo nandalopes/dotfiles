@@ -1,0 +1,87 @@
+{{- template "utils/sed-sort-begin.sh" }}
+
+{{/*
+  Gimp install
+*/ -}}
+  {{- if .app_sets.desktop }}
+org.gimp.GIMP
+org.gimp.GIMP.Manual
+  {{-   if .app_sets.space }}
+org.gimp.GIMP.Plugin.Resynthesizer//2-40
+org.gimp.GIMP.Plugin.FocusBlur//2-40
+org.gimp.GIMP.Plugin.GMic//2-40
+org.gimp.GIMP.Plugin.Lensfun//2-40
+org.gimp.GIMP.Plugin.LiquidRescale//2-40
+org.gimp.GIMP.Plugin.Fourier//2-40
+org.gimp.GIMP.Plugin.BIMP//2-40
+  {{-   end }}
+  {{- end }}
+
+
+{{- /*
+  Maintanance
+*/}}
+  {{- if .app_sets.desktop }}
+com.github.tchx84.Flatseal
+it.mijorus.gearlever
+  {{- end }}
+
+
+{{- /*
+  4 Fun
+*/}}
+  {{- if .app_sets.space }}
+  {{-   if .app_sets.desktop }}
+org.telegram.desktop
+  {{-   end }}
+
+  {{-   if .app_sets.movies }}
+com.stremio.Stremio
+  {{-   end }}
+
+  {{-   if .app_sets.me }}
+info.febvre.Komikku
+  {{-   end }}
+  {{- end }}{{/* space */}}
+
+
+  {{- if and .app_sets.fixes .app_sets.space }}
+{{- /*
+  Work
+*/}}
+# org.filezillaproject.Filezilla
+  {{- end }}
+
+  {{- if or
+    .app_sets.gamer
+    .app_sets.teacher
+    | and .app_sets.space
+  }}
+com.discordapp.Discord
+  {{- end }}
+
+  {{- if and .app_sets.teacher .app_sets.space }}
+net.scribus.Scribus
+  {{- end }}
+
+
+{{- /*
+  Dictionary
+*/}}
+  {{- if or
+    .app_sets.writer
+    .app_sets.teacher
+  }}
+org.goldendict.GoldenDict
+  {{- end }}
+
+
+{{- /*
+  Bibtex
+*/}}
+  {{- if and .app_sets.writer .app_sets.space }}
+org.jabref.jabref
+  {{- end }}
+
+{{ template "utils/sed-sort-end.sh" -}}
+

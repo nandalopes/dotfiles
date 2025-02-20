@@ -71,6 +71,20 @@ data:
 }}
     interactive: {{ $interactive }}
     monitor: {{ quote $chassisType }}
+  app_sets:
+    desktop: {{ $interactive }}
+    fixes: false
+    gamer: false
+    movies: false
+    music: false
+    space: false
+    teacher: false
+    writer: false
+    me: false
+
+
+scriptEnv:
+  FIRST_INSTALL: "1"
 
 
 # status:

@@ -34,6 +34,8 @@ zsh/
 .config/kxkbrc
 # Don't change XDG folders
 .config/user-dirs.*
+# Don't manage gtk settings
+.config/gtk-*
 # Don't install zsh files
 .p10k.zsh
 .zsh.before

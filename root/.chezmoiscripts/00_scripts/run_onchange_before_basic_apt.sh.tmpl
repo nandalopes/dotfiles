@@ -1,0 +1,22 @@
+{{- /*
+  vim:ft=bash.gotmpl:
+*/ -}}
+
+{{- if lookPath "apt-get" -}}
+#!/usr/bin/env bash
+
+# -e: exit on error
+# -u: exit on unset variables
+set -eu
+
+# {{ .chezmoi.osRelease.name }} - {{ .chezmoi.osRelease.versionCodename }}
+
+{{ template "apt/debconf-tzdata" . }}
+
+DEBIAN_FRONTEND=noninteractive
+
+sudo apt-get update -qq
+
+sudo apt-get install -qy apt-utils curl git stow
+
+{{- end }}

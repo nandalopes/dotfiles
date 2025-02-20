@@ -1,0 +1,20 @@
+/CACHEDIR.TAG
+/\.gitignore
+/pip\.conf
+/pyvenv\.cfg
+/include/site
+/share/applications/mimeinfo.cache
+# activate files
+/bin/(de)?activate(\..+|_this.py)?$
+# easy_install
+/bin/easy_install(\..+|_this.py)?$
+# pip executables
+/bin/pip(-.+|\d.*)?$
+# python executables
+/bin/python(-.+|\d.*)?$
+# wheel executables
+/bin/wheel(-.+|\d.*)?$
+# python libraries
+/lib(64)?/python(-[^/]+|\d[^/]*)
+
+{{- /* remove new line */ -}}

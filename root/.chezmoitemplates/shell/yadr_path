@@ -1,0 +1,3 @@
+# dotfiles
+{{- $yadrPath := joinPath .chezmoi.sourceDir "bin" }}
+PATH="$PATH:{{- $yadrPath -}}:{{- joinPath $yadrPath "yadr" -}}"

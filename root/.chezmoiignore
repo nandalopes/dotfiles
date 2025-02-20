@@ -45,3 +45,12 @@ iTerm2/
 .zlogin
 .zprofile
 {{- end }}
+
+{{- if .app_sets.me }}
+.vim/vimrc
+{{- else }}
+# vim singlefile
+.vimrc
+.vim
+!.vim/vimrc
+{{- end }}

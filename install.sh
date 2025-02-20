@@ -30,14 +30,14 @@ if [ -z "${ACT:+false}${CODESPACES:+false}${DEBIAN_FRONTEND:+false}" ]; then
   read -p 'Apply modifications? (y/n) ' r
   case "${r}" in
     y|Y|s|S)
-      set -- apply --verbose "--source=${script_dir}"
+      set -- apply --verbose "--source=${script_dir}" -x scripts
       ;;
     *)
       set -- diff
       ;;
   esac
 else
-  set -- init --apply --verbose --source="${script_dir}"
+  set -- init --apply --verbose --source="${script_dir}" -x scripts
 fi
 
 echo "Running 'chezmoi $*'" >&2

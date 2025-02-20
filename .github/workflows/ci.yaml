@@ -33,7 +33,7 @@ jobs:
       run: ./install.sh
 
     - name: chezmoi data
-      run: './root/bin/chezmoi data --format yaml'
+      run: './root/bin/chezmoi data'
 
     - name: chezmoi ignored
       run: './root/bin/chezmoi ignored'

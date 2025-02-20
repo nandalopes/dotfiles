@@ -134,7 +134,7 @@
   keepBackup = false
   writeToTemp = true
 
-  {{- range (list "" "g" "m") }}
+  {{- range (list "" "g" "m" "n") }}
 [mergetool " {{- . -}} vimdiff"]
   cmd = " {{- . -}} vim -c 'Gvdiffsplit!' $MERGED"     # use fugitive.vim for 3-way merge
   {{- end }}

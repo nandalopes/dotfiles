@@ -67,9 +67,9 @@ bind P choose-tree -ZG
 {{ template "tmux/tmux-navigator.conf" }}
 
 
-# Use vi keybindings for tmux commandline input.
-# Note that to get command mode you need to hit ESC twice...
-set -g status-keys vi
+# emacs key bindings in tmux command prompt (prefix + :) are better than
+# vi keys, even for vim users
+set -g status-keys emacs
 
 # easily toggle synchronization (mnemonic: e is for echo)
 # sends input to all panes in a given window.

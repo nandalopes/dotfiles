@@ -6,27 +6,32 @@ color:
       file: 'Solarized_Dark'
       pygments: 'solarized-dark'
     tmux: &tmuxDefault 'solarized'
+    zathura: &zathuraDefault 'solarized-dark'
   gruvbox:
     kitty:
       name: 'Gruvbox Dark'
       file: 'gruvbox-dark'
       pygments: 'gruvbox-dark'
     tmux: 'gruvbox'
+    zathura: 'gruvbox-dark'
   dracula:
     kitty:
       name: 'Dracula'
       file: 'Dracula'
       pygments: 'dracula'
     tmux: 'dracula'
+    zathura: 'dracula'
   solarized_light:
     kitty:
       name: 'Solarized Light'
       file: 'Solarized_Light'
       pygments: 'solarized-light'
     tmux: *tmuxDefault
+    zathura: 'solarized-light'
   gruvbox_light:
     kitty:
       name: 'Gruvbox Light'
       file: 'gruvbox-light'
       pygments: 'gruvbox-light'
     tmux: 'gruvbox'
+    zathura: 'gruvbox-light'

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo '
+  ╭━╮ ╭╮       ╭╮   ╭╮
+  ┃┃╰╮┃┃       ┃┃   ┃┃
+  ┃╭╮╰╯┣━━┳━╮╭━╯┣━━╮┃┃  ╭━━┳━━┳━━┳━━╮
+  ┃┃╰╮┃┃╭╮┃╭╮┫╭╮┃╭╮┃┃┃ ╭┫╭╮┃╭╮┃┃━┫━━┫
+  ┃┃ ┃┃┃╭╮┃┃┃┃╰╯┃╭╮┃┃╰━╯┃╰╯┃╰╯┃┃━╋━━┃
+  ╰╯ ╰━┻╯╰┻╯╰┻━━┻╯╰╯╰━━━┻━━┫╭━┻━━┻━━╯
+                           ┃┃
+                           ╰╯
+    ╭╮  ╭╮╭━╮╭╮
+    ┃┃ ╭╯╰┫╭╯┃┃
+  ╭━╯┣━┻╮╭╯╰┳┫┃╭━━┳━━╮
+  ┃╭╮┃╭╮┃┣╮╭╋┫┃┃┃━┫━━┫
+  ┃╰╯┃╰╯┃╰┫┃┃┃╰┫┃━╋━━┃
+  ╰━━┻━━┻━┻╯╰┻━┻━━┻━━╯
+'
+
+echo 'dotfiles has been {{ if has "init" .chezmoi.args -}}
+    installed
+  {{- else if has "apply" .chezmoi.args -}}
+    applied
+  {{- else if has "update" .chezmoi.args -}}
+    updated
+  {{- else if has "diff" .chezmoi.args -}}
+    compared
+  {{- else -}}
+    viewed
+  {{- end -}}
+.'
+
+exit 0

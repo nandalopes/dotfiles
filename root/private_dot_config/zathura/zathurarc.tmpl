@@ -15,6 +15,16 @@ map p print
 map w recolor
 
 #
+# Theme
+#
+{{
+  include (
+    printf ".chezmoitemplates/zathura/color-%s.conf"
+      (index .color .param.color "zathura")
+  )
+-}}
+
+#
 # Startup options
 #
 set adjust-open width

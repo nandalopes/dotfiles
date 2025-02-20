@@ -24,6 +24,11 @@ zsh/
 .chezmoiscripts/**/*snap*.sh
 {{- end }}
 
+{{- if not (lookPath "flatpak") }}
+# flatpak
+.chezmoiscripts/**/*flatpak*.sh
+{{- end }}
+
 {{- if .app_sets.me }}
 .vim/vimrc
 {{- else }}

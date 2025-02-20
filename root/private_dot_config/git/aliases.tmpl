@@ -2,6 +2,8 @@
   assume-unchanged = !git update-index --assume-unchanged
   no-assume-unchanged = !git update-index --no-assume-unchanged
   ignored = !git ls-files -v | grep '^[[:lower:]]' | cut -f2 -d' '
+  oldest-ancestor = !bash -c 'diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-main}") <(git rev-list --first-parent "${2:-HEAD}") | head -1' -
+  reflog-body = !git reflog --format='%C(blue)%gd%C(reset) %C(yellow)%h%C(green)%d%C(reset) %C(blue)%s %C(magenta)[%an] %n%b' --show-linear-break=.
 
 # vim:ft=gitconfig
 

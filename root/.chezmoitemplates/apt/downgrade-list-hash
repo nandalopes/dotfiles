@@ -1,0 +1,9 @@
+{{- $downgradeList := "" -}}
+{{- range (get .ppas_downgrade .chezmoi.osRelease.id) -}}
+  {{- if lt .versionID $.chezmoi.osRelease.versionID -}}
+    {{- $downgradeList = cat $downgradeList (printf "[%s]" .name) (join " " .list) -}}
+  {{- end -}}
+{{- end -}}
+{{- $downgradeList = trim $downgradeList -}}
+# Version list: {{ $downgradeList }}
+# Downgrade hash: {{ sha1sum $downgradeList }}

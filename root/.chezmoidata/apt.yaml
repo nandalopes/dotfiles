@@ -2,3 +2,71 @@
 apt_keyring:
   folder: '/etc/apt/keyrings'
   path: '/etc/apt/keyrings/%s.gpg'
+
+# all ppas can be used with devel pointer
+ppas_downgrade:
+  ubuntu:
+    - name: jammy
+      versionID: '22.04'
+      list:
+        # https://packagecloud.io/app/ookla/speedtest-cli/search?filter=deb&dist=ubuntu
+        - speedtest-cli
+        # ppas
+    - name: noble
+      versionID: '24.04'
+      list:
+        # ppas
+        - flatpak
+        - sqlitebrowser
+    - name: oracular
+      versionID: '24.10'
+      list:
+        # https://packages.gitlab.com/app/runner/gitlab-runner/search?filter=deb&dist=ubuntu
+        - gitlab-runner
+        # ppas
+    - name: plucky
+      versionID: '25.04'
+      list:
+        # https://packagecloud.io/app/github/git-lfs/search?filter=deb&dist=ubuntu&arch=amd64
+        - github-git-lfs
+        # ppas
+    - name: questing
+      versionID: '25.10'
+      list:
+        # ppas
+        - libreoffice-still
+    - name: resolute
+      versionID: '26.04'
+      list:
+        # https://download.docker.com/linux/ubuntu/dists/
+        - docker
+        # https://dgpu-docs.intel.com/driver/client/overview.html
+        # https://dgpu-docs.intel.com/driver/installation.html#installing-gpu-drivers
+        - intel-graphics
+        # https://download.virtualbox.org/virtualbox/debian/dists/
+        - virtualbox
+        # https://weechat.org/ubuntu/dists/
+        - weechat
+        # https://dl.winehq.org/wine-builds/ubuntu/dists/
+        - wine
+        # ppas
+        - git-core
+        - inkscape_dev
+        - keepassxc
+        - kobuk-team
+        - kubuntu
+        - obs-studio
+        - papirus
+        - solaar-unifying
+        - texstudio
+        - xournalpp
+  debian:
+    - name: trixie
+      versionID: '13'
+      list:
+        # https://download.docker.com/linux/debian/dists/
+        - docker
+        # https://download.virtualbox.org/virtualbox/debian/dists/
+        - virtualbox
+        # https://weechat.org/debian/dists/
+        - weechat

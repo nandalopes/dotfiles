@@ -1,0 +1,14 @@
+---
+# git-autofixup
+'git-autofixup/bin/git-autofixup':
+  url: "https://github.com/torbiak/git-autofixup/releases/latest/download/git-autofixup"
+  type: 'file'
+  executable: true
+  refreshPeriod: '168h' # 7 days
+# sass compiler
+'dart-sass/bin':
+  url: {{ gitHubLatestReleaseAssetURL "sass/dart-sass" "dart-sass-*-linux-x64.tar.gz" | quote }}
+  type: 'archive'
+  stripComponents: 1
+  exact: true
+  refreshPeriod: '168h' # 7 days

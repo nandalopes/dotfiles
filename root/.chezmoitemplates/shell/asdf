@@ -1,0 +1,25 @@
+{{- $shell := regexFind `(ba|z)sh` .chezmoi.sourceFile -}}
+{{- $asdf_bin := joinPath .chezmoi.homeDir ".local/bin" "asdf" -}}
+
+### ASDF Config
+if [ -f " {{- $asdf_bin -}}" ]; then
+  ASDF_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
+  ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
+  ASDF_SKIP_RESHIM=1
+  ASDF_DIRENV_IGNORE_MISSING_PLUGINS=1
+  ASDF_DIRENV_NO_TOUCH_RC_FILE=1
+  ASDF_GOLANG_MOD_VERSION_ENABLED=true
+
+  export \
+    ASDF_DIR ASDF_DATA_DIR ASDF_SKIP_RESHIM \
+    ASDF_DIRENV_IGNORE_MISSING_PLUGINS \
+    ASDF_DIRENV_NO_TOUCH_RC_FILE \
+    ASDF_GOLANG_MOD_VERSION_ENABLED
+fi
+
+
+##### Direnv
+# direnv hook {{ $shell }}
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/{{ $shell }}rc" ]; then
+  source "${XDG_CONFIG_HOME:-$HOME/.config}"/asdf-direnv/{{ $shell }}rc
+fi

@@ -1,0 +1,8 @@
+---
+keyboard:
+  model: pc105
+  opts:
+    - terminate:ctrl_alt_bksp
+    - caps:escape_shifted_capslock
+    - nbsp:level3n
+    - lv5:rwin_switch_lock

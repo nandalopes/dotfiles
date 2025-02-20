@@ -1,0 +1,9 @@
+---
+gnu_stow:
+  cmd: 'stow --verbose --dir=%s'
+  global:
+    path: '/usr/local/stow'
+    sudo: 'sudo '
+  local:
+    path: '$HOME/.local/stow'
+    sudo: ''

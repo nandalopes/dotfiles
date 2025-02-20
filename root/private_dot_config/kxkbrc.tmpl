@@ -1,0 +1,23 @@
+[$Version]
+update_info=kxkb_variants.upd:split-variants,kxkb.upd:remove-empty-lists,kxkb.upd:add-back-resetoptions
+
+[Layout]
+  {{- if eq .param.monitor "laptop" }}
+DisplayNames=,
+LayoutList=br,us
+  {{- else if eq .param.monitor "desktop" }}
+LayoutList=br
+  {{- end }}
+LayoutLoopCount=-1
+Model={{ .keyboard.model }}
+Options={{ join "," .keyboard.opts }}
+ResetOldOptions=true
+ShowFlag=false
+ShowLabel=true
+ShowLayoutIndicator=true
+ShowSingle=false
+SwitchMode=Global
+Use=true
+  {{- if eq .param.monitor "laptop" }}
+VariantList=,
+  {{- end }}

@@ -87,6 +87,9 @@ Programs:
 .xprofile
 .config/kxkbrc
 
+# Don't change XDG folders
+.config/user-dirs.*
+
 # specific scripts
 .chezmoiscripts/install_asdf.sh
 .chezmoiscripts/pre_migrate_yadr.sh

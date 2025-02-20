@@ -1,0 +1,48 @@
+{{- $pinPriority := 500 -}}
+{{- if gt .chezmoi.osRelease.versionID "21.10" -}}
+{{-   $pinPriority = 550 -}}
+{{- end -}}
+{{- $ppaInstalled := list
+      "papirus-icon*"
+      "qt5-style-kvantum*"
+      "solaar*"
+      "sqlitebrowser"
+      "texstudio"
+      "xournalpp"
+-}}
+{{- $ppaPriority := list
+      "keepassxc"
+      "obs-studio"
+-}}
+
+Package: *
+Pin: release o=LP-PPA-kdenlive-kdenlive-stable
+Pin-Priority: {{ $pinPriority }}
+
+#Package: *
+#Pin: release o=LP-PPA-kubuntu-ppa-backports
+#Pin-Priority: {{ $pinPriority }}
+
+Package: inkscape*
+Pin: release LP-PPA-inkscape.dev-stable
+Pin-Priority: {{ $pinPriority }}
+
+Package: keepassxc
+Pin: release o=LP-PPA-phoerious-keepassxc
+Pin-Priority: {{ $pinPriority }}
+
+Package: obs-studio
+Pin: release o=LP-PPA-obsproject-obs-studio
+Pin-Priority: {{ $pinPriority }}
+
+Package: git*
+Pin: release o=LP-PPA-git-core
+Pin-Priority: 500
+
+Package: {{ sortAlpha $ppaInstalled | join " " }}
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 500
+
+Package: *
+Pin: origin ppa.launchpad*.net
+Pin-Priority: 100

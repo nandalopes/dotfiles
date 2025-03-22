@@ -6,7 +6,7 @@
 # ASDF <https://asdf-vm.com>
 {{- $arch := "amd64" }}
 {{- if ne .chezmoi.arch $arch }}
-{{-   $arch = "arm64" }}
+{{-   $arch = .chezmoi.arch }}
 {{- end }}
 'asdf':
   url: {{ printf `asdf-*-linux-%s.tar.gz` $arch | gitHubLatestReleaseAssetURL "asdf-vm/asdf" | quote }}

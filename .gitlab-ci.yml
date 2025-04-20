@@ -32,6 +32,9 @@ variables:
     description: "Run apt and chezmoi non interactive"
   MY_CHEZMOI_BIN: "./root/bin/chezmoi"
   MY_CHEZMOI_ROOT: "root/"
+  CHEZMOI_GITHUB_ACCESS_TOKEN:
+    value: "$gh_chezmoi"
+    description: "Raise Github Rate Limit"
 
 install-script:
   stage: test

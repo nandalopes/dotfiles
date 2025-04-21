@@ -2,13 +2,23 @@
   vim:ft=sh.gotmpl:
     */ -}}
 
-  {{- if eq .chezmoi.os "linux" "android" "darwin" -}}
+{{- if eq .chezmoi.os "linux" "android" "darwin" -}}
+  {{- $asdf := lookPath "asdf" -}}
+  {{- if stat $asdf | not -}}
+  {{-   $path := joinPath .chezmoi.homeDir ".local/bin" | list -}}
+  {{-   $path = env "PATH" | splitList ":" | concat $path -}}
+  {{-   $asdf = findExecutable "asdf" $path -}}
+  {{- end -}}
+
+  {{- if stat $asdf -}}
 
 #!/bin/sh
 
-asdf plugin add alias 'https://github.com/nandalopes/asdf-alias.git'
-asdf plugin add direnv 'https://github.com/nandalopes/asdf-direnv.git'
-asdf plugin add nodejs
-asdf plugin add ruby
+{{ $asdf }} plugin add alias 'https://github.com/nandalopes/asdf-alias.git'
+{{ $asdf }} plugin add direnv 'https://github.com/nandalopes/asdf-direnv.git'
+{{ $asdf }} plugin add nodejs
+{{ $asdf }} plugin add ruby
 
-  {{- end }}
+  {{- end -}}
+
+{{- end }}

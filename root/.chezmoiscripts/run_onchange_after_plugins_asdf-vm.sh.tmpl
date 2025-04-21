@@ -18,6 +18,12 @@
 {{ $asdf }} plugin add direnv 'https://github.com/nandalopes/asdf-direnv.git'
 {{ $asdf }} plugin add nodejs
 {{ $asdf }} plugin add ruby
+{{ $asdf }} plugin add rust
+
+# add more plugins
+for pl in golang zig; do
+  {{ $asdf }} plugin add $pl
+done
 
   {{- end -}}
 

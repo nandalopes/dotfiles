@@ -47,6 +47,7 @@ export FZF_CTRL_T_COMMAND=
 \\) \
 -print 2> /dev/null | cut -b3-"
   {{- end }}
+export FZF_CTRL_T_OPTS='--preview "cat {} | head -$FZF_PREVIEW_LINES" --bind "?:toggle-preview"'
 
 
 # ------------------------------------------------------------------------

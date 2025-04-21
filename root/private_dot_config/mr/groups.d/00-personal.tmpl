@@ -35,11 +35,12 @@ checkout =
 update = gplmod --ff-only
 
 
-{{
-  if (joinPath .chezmoi.homeDir ".zprezto"
-    "modules/prompt/external/powerlevel10k/gitstatus" | stat)
+{{ $gitstatus := joinPath .chezmoi.homeDir ".zprezto"
+    "modules/prompt/external/powerlevel10k/gitstatus" -}}
+{{-
+  if stat $gitstatus
   -}}
-[.zprezto/modules/prompt/external/powerlevel10k/gitstatus]
+[ {{- trimPrefix .chezmoi.homeDir $gitstatus | trimPrefix "/" -}} ]
 order = 9
 checkout = :
 update = :

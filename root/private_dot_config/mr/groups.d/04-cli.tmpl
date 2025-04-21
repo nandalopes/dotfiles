@@ -1,13 +1,5 @@
 # vim:fileencoding=utf-8:ft=conf
 
-[.asdf]
-skip = third_party_skipper $MR_ACTION
-checkout =
-  git clone --shallow-since=2024-01-01 -- \
-      'https://github.com/asdf-vm/asdf.git' '.asdf'
-post_update = git_last_tag 'v[0-9.]+'
-
-
 [.fzf]
 skip = third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/junegunn/fzf.git' '.fzf'

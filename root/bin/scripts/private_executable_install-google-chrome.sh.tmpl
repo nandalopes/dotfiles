@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+DEBIAN_FRONTEND=noninteractive
+
+  {{-   if gt .chezmoi.osRelease.versionID "20.04" }}
+curl --remote-name https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb --output-dir /tmp
+  {{-   else }}
+( cd /tmp ; curl -fsSL --remote-name https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb )
+  {{-   end }}
+
+sudo apt install -qqy \
+  /tmp/google-chrome-stable_current_amd64.deb
+

@@ -39,6 +39,10 @@ Package: git*
 Pin: release o=LP-PPA-git-core
 Pin-Priority: 500
 
+Package: *libreoffice* fonts* libofficebean* libuno* python?-uno uno-libs-private *ure*
+Pin: release o=LP-PPA-libreoffice-libreoffice-still
+Pin-Priority: 500
+
 Package: {{ sortAlpha $ppaInstalled | join " " }}
 Pin: origin ppa.launchpad*.net
 Pin-Priority: 500

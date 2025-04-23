@@ -1,0 +1,24 @@
+  {{- $initialStatus := "/var/log/installer/initial-status.gz" -}}
+  {{- if stat $initialStatus -}}
+
+#!/usr/bin/env bash
+
+echo "# {{ .chezmoi.osRelease.prettyName }}"
+
+{{- $fail := false }}
+{{- range list "manual" "auto" -}}
+{{-   if (printf ".backup/apt/%s/list.txt" . | joinPath $.chezmoi.homeDir | stat | not) -}}
+{{-     $fail = true -}}
+{{-   end -}}
+{{- end }}
+
+{{- if not $fail }}
+LC_COLLATE=C.UTF-8
+
+comm -13 \
+<(comm ~/.backup/apt/manual/list.txt ~/.backup/apt/auto/list.txt | \
+sed 's/^[[:space:]]*//' | sort -u) \
+<(gzip -dc {{ $initialStatus }} | sed -n 's/^Package: //p' | sort -u)
+{{- end }}
+
+  {{- end }}

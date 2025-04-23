@@ -1,0 +1,16 @@
+  {{- $initialStatus := "/var/log/installer/initial-status.gz" -}}
+  {{- if stat $initialStatus -}}
+
+#!/bin/bash
+
+  {{-   if ne .chezmoi.os "android" }}
+echo "# {{ .chezmoi.osRelease.prettyName }}"
+  {{-   end }}
+
+LC_COLLATE=C.UTF-8
+
+comm -23 \
+<(apt-mark showauto | sort -u) \
+<(gzip -dc {{ $initialStatus }} | sed -n 's/^Package: //p' | sort -u)
+
+  {{- end }}

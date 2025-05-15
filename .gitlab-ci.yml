@@ -31,7 +31,7 @@ variables:
     value: "noninteractive"
     description: "Run apt and chezmoi non interactive"
   MY_CHEZMOI_BIN: "./root/bin/chezmoi"
-  MY_CHEZMOI_ROOT: "root/"
+  MY_CHEZMOI_ROOT: "root"
   CHEZMOI_GITHUB_ACCESS_TOKEN:
     value: "$gh_chezmoi"
     description: "Raise Github Rate Limit"
@@ -41,9 +41,9 @@ install-script:
   parallel:
     matrix:
       - UBUNTU_TAG:
-        - ":20.04"
-        - ":22.04"
         - ":24.04"
+        - ":22.04"
+        - ":20.04"
   image: "ubuntu$UBUNTU_TAG"
   variables:
     LANGUAGE: en_US.UTF-8
@@ -54,7 +54,7 @@ install-script:
       when: never
       changes:
         paths:
-          - "$MY_CHEZMOI_ROOT**/*encrypted_*"
+          - "$MY_CHEZMOI_ROOT/**/*encrypted_*"
     - *defaultRules
     - if: $CI_PIPELINE_SOURCE == "push"
       changes:
@@ -63,8 +63,8 @@ install-script:
           - .chezmoiversion
           - .gitlab-ci.yml
           - install.sh
-          - "$MY_CHEZMOI_ROOT**/.*"
-          - "$MY_CHEZMOI_ROOT**/*"
+          - "$MY_CHEZMOI_ROOT/**/.*"
+          - "$MY_CHEZMOI_ROOT/**/*"
   before_script:
     - apt-get update -qq
     - apt-get install -qqy

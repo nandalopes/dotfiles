@@ -17,9 +17,9 @@ jobs:
     strategy:
       matrix:
         ubuntu-os:
-          - 20
-          - 22
           - 24
+          - 22
+          - 20
 
     runs-on: ubuntu-${{ matrix.ubuntu-os }}
 

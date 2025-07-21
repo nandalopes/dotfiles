@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo '# pipx list'
+2>/dev/null \
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+pipx list --include-injected
+
+exit 0

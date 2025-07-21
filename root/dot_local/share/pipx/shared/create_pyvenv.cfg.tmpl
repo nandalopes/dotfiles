@@ -1,0 +1,4 @@
+home = /usr/bin
+include-system-site-packages = false
+version = {{ output "python3" "--version" | trimPrefix "Python " }}
+executable = {{ lookPath "python3" }}

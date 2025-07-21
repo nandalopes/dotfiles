@@ -1,0 +1,17 @@
+# set PATH so it includes user's bin if it exists
+#if ! [[ :$PATH: =~ :$HOME/bin: ]] ; then
+#  if [ -d "$HOME/bin" ] ; then
+#    PATH="$HOME/bin:$PATH"
+#  fi
+#fi
+
+# set PATH so it includes user's private bin if it exists
+if ! [[ :$PATH: =~ :$HOME/.local/bin: ]] ; then
+  if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+  fi
+fi
+
+{{ if . -}}
+{{ . }}PATH
+{{- end }}

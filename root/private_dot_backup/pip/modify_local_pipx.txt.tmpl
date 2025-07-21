@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo '# pipx list'
+  {{- if lookPath "pipx" }}
+2>/dev/null \
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+pipx list --include-injected
+  {{- end }}
+
+exit 0

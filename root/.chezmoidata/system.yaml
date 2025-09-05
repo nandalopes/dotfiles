@@ -1,6 +1,10 @@
 ---
 keyboard:
   model: pc105
+  kxkb_opts:
+    - kxkb.upd:add-back-resetoptions
+    - kxkb.upd:remove-empty-lists
+    - kxkb_variants.upd:split-variants
   opts:
     - terminate:ctrl_alt_bksp
     - caps:escape_shifted_capslock

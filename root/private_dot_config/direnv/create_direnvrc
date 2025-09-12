@@ -1,4 +1,4 @@
-# File: ~/.config/direnv/direnvrc
+## File: ~/.config/direnv/direnvrc
 
-# Uncomment the following line to make direnv silent by default.
-# export DIRENV_LOG_FORMAT=''
+## Uncomment the following line to make direnv silent by default.
+# export DIRENV_LOG_FORMAT=""

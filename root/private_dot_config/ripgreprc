@@ -1,0 +1,14 @@
+# ZSH files
+--type-add
+zsh:.zpreztorc
+
+--type-add
+zsh:zpreztorc
+
+# Docker Compose
+--type-add
+dockercompose:compose.*.yml
+
+--type-add
+dockercompose:compose.yml
+

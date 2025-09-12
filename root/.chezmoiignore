@@ -92,6 +92,9 @@ Programs:
 .zshenv
 .zprofile
 .zlogout
+# Don't run specific scripts
+.chezmoiscripts/pre_migrate_yadr.sh
+.chezmoiscripts/post_install_yadr.sh
 {{- end }}
 
 {{- /* END PROGRAMS AND ETC...  */}}

@@ -41,6 +41,10 @@ zsh/
 .zshenv
 .zprofile
 .zlogout
+# Don't run specific scripts
+.chezmoiscripts/install_asdf.sh
+.chezmoiscripts/pre_migrate_yadr.sh
+.chezmoiscripts/post_install_yadr.sh
 {{- end }}
 
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}

@@ -29,6 +29,18 @@ zsh/
 # fzf files
 .config/fzf
 .chezmoiscripts/install_fzf.sh
+# Don't install zsh files
+.p10k.zsh
+.zsh.before
+.zsh.prompts
+.zsh.after
+.zprezto
+.zpreztorc
+.zshrc
+.zlogin
+.zshenv
+.zprofile
+.zlogout
 {{- end }}
 
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}

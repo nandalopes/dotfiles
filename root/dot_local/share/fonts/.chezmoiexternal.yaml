@@ -6,7 +6,7 @@
 
 {{- range (list "InconsolataLGC" "Meslo") }}
 '{{- joinPath (substr 0 1 . | lower) . -}}':
-  url: {{ printf "%s.tar.xz" . | gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" | quote }}
+  url: {{ printf "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/%s.tar.xz" . | quote }}
   type: 'archive'
   executable: true
   refreshPeriod: '720h' # 30 days

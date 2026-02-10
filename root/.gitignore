@@ -3,22 +3,22 @@ bin/chezmoi
 custom/zsh
 
 # (Neo)Vim plugins
-/vim/plugged
-/vim/autoload/plug.vim
-/vim/autoload/plug.vim.old
+/*vim/plugged
+/*vim/autoload/plug.vim
+/*vim/autoload/plug.vim.old
 
 # (Neo)Vim plugins/bundles
-# /vim/plugins.d/**/*.vim
-/vim/local_bundles.vim
+# /*vim/plugins.d/**/*.vim
+/*vim/local_bundles.vim
 
 # (Neo)Vim settings
-/vim/settings/*.vim
-/vim/settings/before/*.vim
-/vim/settings/after/*.vim
-/vim/settings/plugin-vimwiki.vim
+/*vim/settings/*.vim
+/*vim/settings/before/*.vim
+/*vim/settings/after/*.vim
+/*vim/settings/plugin-vimwiki.vim
 
 # (Neo)Vim dicts
-/vim/spell
+/*vim/spell
 
 # Other (Neo)Vim files
 *~
@@ -28,13 +28,13 @@ custom/zsh
 .VimballRecord
 .vundles.local
 .vundles.local.bak
-/vim/tmp
-/vim/after/.vimrc.after
+/*vim/tmp
+/*vim/after/.vimrc.after
 
 # Other (Neo)Vim directories
-/vim/backups/
-/vim/view/
-/vim/sessions/
+/*vim/backups/
+/*vim/view/
+/*vim/sessions/
 
 # General files
 bin/subl

@@ -4,18 +4,6 @@
 "buku[server] @ git+https://github.com/jarun/buku.git@master"
 archivebox
 
-{{- $pythonV := false -}}
-{{- if lookPath "python3" -}}
-{{-
-  $pythonV = output "python3" "-V" | regexFind "[0-9][0-9.]*" |
-          semverCompare ">= 3.12"
--}}
-{{- end }}
-{{ if $pythonV -}}
-"thefuck @ git+https://github.com/nvbn/thefuck.git@master"
-{{ else -}}
-thefuck
-{{ end -}}
 opentype-feature-freezer
 
 --include-deps ansible

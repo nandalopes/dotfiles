@@ -5,6 +5,13 @@ zsh:.zpreztorc
 --type-add
 zsh:zpreztorc
 
+# ASDF
+--type-add
+asdf:.tool-versions
+
+--type-add
+asdf:.asdfrc
+
 # Docker Compose
 --type-add
 dockercompose:compose.*.yml

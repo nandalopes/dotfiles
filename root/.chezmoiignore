@@ -9,7 +9,7 @@ chrome/
 zsh/
 
 # Vimfiles
-vim/
+*vim/
 
 # Others
 .local/share/fonts/**/.uuid

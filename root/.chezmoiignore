@@ -38,6 +38,7 @@ iTerm2/
 .config/kitty/
 .backup/look_and_feel/kitty/
 .config/zathura/
+.local/bin/asdf
 .zprezto
 .zpreztorc
 .zprezto-contrib/

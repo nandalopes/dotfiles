@@ -18,6 +18,8 @@
       - '--depth=1'
       - '--recursive'
       - '--shallow-submodules'
+      - '--config'
+      - 'core.sharedRepository=0640'
   pull:
     args:
       - '--recurse-submodules=yes'

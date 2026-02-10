@@ -1,0 +1,18 @@
+# -*- mode: sh -*-
+
+# This gets loaded via "chain = yes" from ~/.mrconfig
+
+[ALIAS]
+up = update
+
+[DEFAULT]
+include =
+  if [ -e {{ .chezmoi.homeDir -}}/.config/mr/library_loaders ]; then
+    . {{ .chezmoi.homeDir -}}/.config/mr/library_loaders
+    load_libraries {{ .chezmoi.homeDir -}}/.config/mr/sh.d/*
+    include_lib_dirs {{ .chezmoi.homeDir -}}/.config/mr/lib.d
+    include_lib_dirs {{ .chezmoi.homeDir -}}/.config/mr/groups.d
+  fi
+
+# N.B. anything placed here (i.e. after the above include) will not have
+# any impact in any repositories pulled in by the include.

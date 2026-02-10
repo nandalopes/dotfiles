@@ -1,0 +1,8 @@
+# before settings
+!/settings/before/main.vim
+!/settings/before/builtin-basic.vim
+!/settings/before/plugins.vim
+# after settings
+!/settings/after/main.vim
+!/settings/after/colorscheme.vim
+!/settings/after/highlight.vim

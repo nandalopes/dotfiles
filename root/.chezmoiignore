@@ -11,6 +11,9 @@ zsh/
 ## Vimfiles
 vim/
 
+## Neovim
+neovim/
+
 ## Others
 .local/share/fonts/**/.uuid
 

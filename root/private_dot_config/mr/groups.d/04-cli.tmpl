@@ -12,6 +12,8 @@ clean =
   else
     git clean --dry-run "$@" -dx -e 'bin/fzf'
   fi
+make =
+  present_exe "go" && make install
 install =
   "${MR_REPO}/install" --xdg --all --no-update-rc \
     --no-fish

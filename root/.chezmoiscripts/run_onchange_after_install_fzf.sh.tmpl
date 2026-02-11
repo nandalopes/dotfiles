@@ -13,7 +13,7 @@
   {{-   end }}
 
 if [ ! -d " {{- $fzf -}} " ]; then
-  git clone --depth 1 -- \
+  git clone --shallow-exclude='v0.60.0' -- \
       'https://github.com/junegunn/fzf.git' " {{- $fzf -}} "
 fi
 

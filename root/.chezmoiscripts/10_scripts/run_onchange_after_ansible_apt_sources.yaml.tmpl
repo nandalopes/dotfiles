@@ -1,0 +1,13 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+#!/usr/bin/env -S ansible-playbook -i ~/.backup/ansible/inventory.yaml
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+
+---
+- name: 'PLAY: Add extra apt sources'
+[{- includeTemplate "ansible/default-local-play" | trim | nindent 2 }]
+[{- includeTemplate "ansible/default-params" | trim | nindent 2 }]
+  tasks:
+[{- $tasksList := joinPath .chezmoi.destDir ".backup/ansible" "10_tasks" "10_apt_sources*" | glob | sortAlpha }]
+[{- range $tasksList }]
+[{-   include . | trim | nindent 4 }]
+[{- end }]

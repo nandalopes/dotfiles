@@ -1,0 +1,10 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+#!/usr/bin/env -S ansible-playbook -i ~/.backup/ansible/inventory.yaml
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+
+---
+- name: 'PLAY: Install Zoom'
+[{- includeTemplate "ansible/default-local-play" | trim | nindent 2 }]
+[{- includeTemplate "ansible/default-params" | trim | nindent 2 }]
+  tasks:
+[{- joinPath .chezmoi.destDir ".backup/ansible" "50_tasks" "54_zoom_install.yaml" | include | trim | nindent 4 }]

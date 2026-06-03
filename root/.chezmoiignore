@@ -73,6 +73,11 @@ Programs:
 .chezmoiscripts/**/*snap*
 {{- end }}
 
+{{- if not (lookPath "flatpak") }}
+# flatpak
+.chezmoiscripts/**/*flatpak*
+{{- end }}
+
 {{- if .app_sets.me }}
 .vim/vimrc
 {{- else }}

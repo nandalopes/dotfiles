@@ -1,0 +1,146 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# https://support.mozilla.org/en-US/kb/install-firefox-linux
+- name: Sources Mozilla
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Mozilla Packages
+    uris: https://packages.mozilla.org/apt
+    suites: mozilla
+    components: main
+    signed_by: https://packages.mozilla.org/apt/repo-signing-key.gpg
+# https://packagecloud.io/github/git-lfs/install#manual-deb
+- name: Github Git LFS
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Github Git LFS
+    uris: https://packagecloud.io/github/git-lfs/ [{- .chezmoi.osRelease.id -}] /
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: main
+    signed_by: https://packagecloud.io/github/git-lfs/gpgkey
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
+- name: Sources Github CLI
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Github CLI
+    uris: https://cli.github.com/packages
+    suites: stable
+    components: main
+    signed_by: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+# https://packages.gitlab.com/ui/browse/runner/gitlab-runner/ubuntu/dists/
+- name: Sources Gitlab Runner
+  ansible.builtin.deb822_repository:
+    enabled: false
+    mode: '0644'
+    name: gitlab-runner
+    uris: https://packages.gitlab.com/runner/gitlab-runner/ [{- .chezmoi.osRelease.id -}] /
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: main
+    signed_by: https://packages.gitlab.com/runner/gitlab-runner/gpgkey
+# https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
+- name: Sources VSCode
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: VSCode
+    uris: https://packages.microsoft.com/repos/code
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: https://packages.microsoft.com/keys/microsoft.asc
+# https://adoptium.net/installation/linux
+- name: Sources Adoptium Eclipse Java
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Adoptium Java
+    uris: https://packages.adoptium.net/artifactory/deb
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: main
+    signed_by: https://packages.adoptium.net/artifactory/api/gpg/key/public
+# https://packagecloud.io/ookla/speedtest-cli/install#manual-deb
+- name: Sources Speedtest
+  ansible.builtin.deb822_repository:
+    enabled: false
+    mode: '0644'
+    name: Ookla Speedtest CLI
+    uris: https://packagecloud.io/ookla/speedtest-cli/ [{- .chezmoi.osRelease.id -}] /
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: main
+    signed_by: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+  ignore_errors: true
+# https://apt.syncthing.net/
+- name: Sources Syncthing
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Syncthing
+    uris: https://apt.syncthing.net
+    suites: syncthing
+    components: stable
+    signed_by: https://syncthing.net/release-key.gpg
+# https://software.opensuse.org/download.html?project=home%3Aobs_mhogomchungu&package=sirikali#manualUbuntu
+- name: Sources Sirikali
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Sirikali
+[{- $sirikali_distro := "" }]
+[{- if eq .chezmoi.osRelease.id "ubuntu" }]
+[{-   $sirikali_distro = "xUbuntu" }]
+[{- else if eq .chezmoi.osRelease.id "debian" }]
+[{-   $sirikali_distro = "Debian" }]
+[{- end }]
+
+[{- $sirikali_repo := "" }]
+[{- if eq .chezmoi.osRelease.id "ubuntu" }]
+[{-   $sirikali_repo = list "26.04" .chezmoi.osRelease.versionID | sortAlpha | first }]
+[{- else if eq .chezmoi.osRelease.id "debian" }]
+[{-   $sirikali_repo = list "13" .chezmoi.osRelease.versionID | sortAlpha | first }]
+[{- end }]
+    uris: http://download.opensuse.org/repositories/home:/obs_mhogomchungu/
+      [{- $sirikali_distro -}]
+      _
+      [{- $sirikali_repo }]
+    suites: /
+    signed_by: https://download.opensuse.org/repositories/home:obs_mhogomchungu/
+      [{- $sirikali_distro -}]
+      _
+      [{- $sirikali_repo -}]
+      /Release.key
+[{- if .app_sets.me -}]
+[{- /* PPAS Maybe */}]
+- name: Sources Signal-Desktop
+  ansible.builtin.deb822_repository:
+    enabled: false
+    mode: '0644'
+    name: Signal
+    uris: https://updates.signal.org/desktop/apt
+    suites: xenial
+    components: main
+    signed_by: https://updates.signal.org/desktop/apt/keys.asc
+- name: Sources Element-Desktop
+  ansible.builtin.deb822_repository:
+    enabled: false
+    mode: '0644'
+    name: Element
+    uris: https://packages.element.io/debian
+    suites: default
+    components: main
+    signed_by: https://packages.element.io/debian/element-io-archive-keyring.gpg
+- name: Sources WeeChat
+  ansible.builtin.deb822_repository:
+    enabled: false
+    mode: '0644'
+    name: WeeChat
+    uris: https://weechat.org/ [{- .chezmoi.osRelease.id }]
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: main
+    architectures: amd64
+    signed_by: https://weechat.org/dev/info/debian_repository_signing_key/
+[{- end }]
+[{ template "apt/downgrade-list-hash" . -}]

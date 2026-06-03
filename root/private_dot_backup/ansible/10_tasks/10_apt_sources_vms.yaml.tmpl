@@ -1,0 +1,24 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+- name: Sources Docker
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: Docker
+    uris: https://download.docker.com/linux/ [{- .chezmoi.osRelease.id }]
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: stable
+    signed_by: https://download.docker.com/linux/ [{- .chezmoi.osRelease.id -}] /gpg
+
+[{- if .app_sets.me }]
+- name: Sources VirtualBox
+  ansible.builtin.deb822_repository:
+    enabled: true
+    mode: '0644'
+    name: VirtualBox
+    uris: https://download.virtualbox.org/virtualbox/debian
+    suites: [{ .chezmoi.osRelease.versionCodename }]
+    components: contrib
+    signed_by: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+[{- end }]
+[{ template "apt/downgrade-list-hash" . -}]

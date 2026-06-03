@@ -1,0 +1,25 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+[{- $ppaList := joinPath .chezmoi.destDir ".backup/_install/apt/ppas-launchpad.txt" -}]
+[{- if stat $ppaList -}]
+- name: Create ppa if not exists
+  ansible.builtin.command:
+    creates: "{{ '/etc/apt/sources.list.d/*%s*' % ( item | regex_search('([^/]*)/(.*)', '\\1', '\\2') | join('*') ) | replace('.', '_') }}"
+    cmd: >
+      add-apt-repository
+      --yes
+      --no-update
+      --ppa
+      "{{ item }}"
+  loop:
+[{ include $ppaList | trim | comment `    - ` }]
+- name: Fix ppa sources file permissions
+  ansible.builtin.file:
+    mode: '0644'
+    state: file
+    path: "{{ item }}"
+  with_fileglob: '/etc/apt/sources.list.d/*-
+    [{- .chezmoi.osRelease.id -}]-*-
+    [{- .chezmoi.osRelease.versionCodename -}].sources'
+[{ template "apt/downgrade-list-hash" . -}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+[{- end }]

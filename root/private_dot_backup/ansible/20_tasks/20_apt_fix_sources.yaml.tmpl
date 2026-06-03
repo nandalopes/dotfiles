@@ -1,0 +1,89 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $ppaList := joinPath .chezmoi.destDir ".backup/_install/apt/ppas-launchpad.txt" }]
+[{- block "hash-ppa-list" $ppaList }]
+[{-   if stat . }]
+# < [{- base . -}] >: [{ include . | sha1sum }]
+[{-   end }]
+[{- end }]
+
+[{- $tasksList := joinPath .chezmoi.destDir ".backup/ansible" "10_tasks" "10_apt_sources*" | glob | sortAlpha }]
+[{- range $tasksList }]
+[{-   template "hash-ppa-list" . }]
+[{- end }]
+
+[{- $globPattern := joinPath .chezmoi.destDir ".backup/_install/apt/pref/*" }]
+[{- range glob $globPattern }]
+[{-   template "hash-ppa-list" . }]
+[{- end }]
+
+[{- $osRelease := .chezmoi.osRelease.versionID }]
+[{- $osCurrentName := .chezmoi.osRelease.versionCodename }]
+[{- $osCodename := "" }]
+[{- $ppaDict := dict }]
+[{- range (get .ppas_downgrade .chezmoi.osRelease.id) }]
+  [{- if lt .versionID $osRelease }]
+    [{- $ppaDict = dict .name .list | merge $ppaDict }]
+  [{- end }]
+[{- end }]
+- name: Discipline third party repos
+  ansible.builtin.copy:
+    src: '[{- trimSuffix "*" $globPattern -}]'
+    dest: '/etc/apt/preferences.d/'
+    mode: '0644'
+    directory_mode: '0755'
+
+[{- range $codename, $fileList := $ppaDict }]
+  [{- range $file := $fileList }]
+- name: 'BLOCK: Fix `[{ $file }]` Suites'
+  block:
+    - name: Find `[{ $file }]` file
+      ansible.builtin.find:
+        paths: '/etc/apt/sources.list.d'
+        patterns: "[{ printf `*%s*` $file }]"
+        file_type: 'file'
+      register: found_files
+    - name: Replace '[{ $osCurrentName }]' with '[{ $codename }]' in `[{ $file }]`
+      ansible.builtin.lineinfile:
+        mode: '0644'
+        state: present
+        path: "{{ found_files.files[0].path }}"
+        regexp: "Suites: .*"
+        line: "Suites: [{ $codename }]"
+      when: 'found_files.matched > 0'
+  [{- end }]
+[{- end }]
+
+[{- if and (eq .chezmoi.osRelease.id "ubuntu") (ge .chezmoi.osRelease.versionID "26.04") }]
+[{-   $fixArch := list
+        "git-core"
+        "inkscape"
+        "keepassxc"
+        "obs-studio"
+        "papirus"
+        "texstudio"
+}]
+  [{- range $file := $fixArch }]
+- name: 'BLOCK: Fix `[{ $file }]` Architectures'
+  block:
+    - name: Find `[{ $file }]` file
+      ansible.builtin.find:
+        paths: '/etc/apt/sources.list.d'
+        patterns: "[{ printf `*%s*` $file }]"
+        file_type: 'file'
+      register: found_files
+    - name: Set Architectures in `[{ $file }]`
+      ansible.builtin.lineinfile:
+        mode: '0644'
+        state: present
+        path: "{{ found_files.files[0].path }}"
+        insertbefore: "Signed-by: .*"
+        regexp: "Architectures:.*amd64.*"
+        line: "Architectures: amd64 i386"
+      when: 'found_files.matched > 0'
+  [{- end }]
+[{- end }]
+[{ template "apt/downgrade-list-hash" . -}]

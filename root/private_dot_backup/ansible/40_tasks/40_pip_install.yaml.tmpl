@@ -1,0 +1,37 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $reqPath := joinPath .chezmoi.destDir ".backup/_install/pip/system.txt" }]
+[{- if stat $reqPath }]
+# [{ include $reqPath | sha1sum }]
+- name: Install system pips
+  ansible.builtin.pip:
+    state: present
+    requirements: "[{ $reqPath }]"
+    umask: '0022'
+    extra_args: >
+      --isolated
+      --prefix /usr/local
+      --upgrade
+      --upgrade-strategy only-if-needed
+[{- includeTemplate "pip/ansible" | nindent 4 }]
+[{- end }]
+
+[{- $reqPath  = joinPath .chezmoi.destDir ".backup/_install/pip/user.txt" }]
+[{- if stat $reqPath }]
+# [{ include $reqPath | sha1sum }]
+- name: Install user pips
+  become: false
+  ansible.builtin.pip:
+    state: present
+    requirements: "[{ $reqPath }]"
+    umask: '0022'
+    extra_args: >
+      --isolated
+      --user
+      --upgrade
+      --upgrade-strategy only-if-needed
+[{- includeTemplate "pip/ansible" | nindent 4 }]
+[{- end }]

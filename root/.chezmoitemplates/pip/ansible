@@ -1,0 +1,10 @@
+{{- $pythonV := false -}}
+{{- if lookPath "python3" -}}
+{{-
+  $pythonV = output "python3" "-V" | regexFind "[0-9][0-9.]*" |
+          semverCompare ">= 3.12"
+-}}
+{{- end -}}
+{{- if $pythonV -}}
+{{ `  ` }}--break-system-packages
+{{- end -}}

@@ -1,0 +1,46 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $neovim := joinPath .chezmoi.destDir ".backup/_install/neovim/nvim-linux-x86_64.tar.gz" }]
+[{- $neovimStow := joinPath .gnu_stow.global.path "neovim" }]
+[{- if stat $neovim }]
+# [{ output "sha256sum" $neovim | trim }]
+- name: Unstow Neovim
+  ansible.builtin.command:
+    cmd: >
+      [{ template "stow/global" "-D neovim" }]
+    removes: '/usr/local/bin/nvim'
+#
+- name: Remove Neovim stow files
+  ansible.builtin.file:
+    state: absent
+    path: '[{ $neovimStow }]'
+#
+- name: Create Neovim stow dir
+  ansible.builtin.file:
+    state: directory
+    path: '[{ $neovimStow }]'
+    mode: '0755'
+    owner: root
+    group: staff
+#
+- name: Extracting Neovim
+  ansible.builtin.unarchive:
+    src: "[{ $neovim }]"
+    dest: [{ $neovimStow }]
+    remote_src: true
+    owner: root
+    group: staff
+    mode: 'ug=rwX,o=rX'
+    extra_opts:
+      - '--strip-components=1'
+#
+- name: Stow Neovim
+  ansible.builtin.command:
+    cmd: >
+      [{ template "stow/global" "neovim" }]
+    creates: '/usr/local/bin/nvim'
+
+[{- end }]

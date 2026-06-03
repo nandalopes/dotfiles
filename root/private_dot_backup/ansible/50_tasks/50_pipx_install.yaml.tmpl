@@ -1,0 +1,63 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $reqPath := joinPath .chezmoi.destDir ".backup/_install/pipx/install.txt" }]
+[{- if stat $reqPath }]
+# [{ include $reqPath | sha1sum }]
+- name: Install pipx programs
+  become: false
+  community.general.pipx:
+    state: present
+    executable: "[{ joinPath .gnu_stow.global.path "pypi" "bin/pipx" }]"
+    system_site_packages: "{{ prog.system_site_packages | default(false) }}"
+    name: "{{ prog.name }}"
+    install_deps: "{{ prog.install_deps | default(false) }}"
+    source: "{{ prog.source | default('') }}"
+  loop_control:
+    loop_var: 'prog'
+  loop:
+    - name: ansible
+      install_deps: true
+      system_site_packages: false
+  [{- if .app_sets.me }]
+    - name: archivebox
+      system_site_packages: true
+    - name: "buku[server]"
+      source: "git+https://github.com/jarun/buku.git@master"
+      system_site_packages: true
+    - name: opentype-feature-freezer
+      system_site_packages: true
+    - name: asciinema
+      system_site_packages: true
+    - name: gay
+      system_site_packages: true
+  [{- end }]
+[{- end }]
+
+[{- $reqPath  = joinPath .chezmoi.destDir ".backup/_install/pipx/inject.txt" }]
+[{- if stat $reqPath }]
+# [{ include $reqPath | sha1sum }]
+- name: Inject pipx programs
+  become: false
+  community.general.pipx:
+    state: inject
+    executable: "[{ joinPath .gnu_stow.global.path "pypi" "bin/pipx" }]"
+    system_site_packages: "{{ prog.system_site_packages | default(false) }}"
+    name: "{{ inject.name }}"
+    install_apps: "{{ inject.install_apps | default(false) }}"
+    inject_packages: "{{ inject.inject_packages }}"
+  loop_control:
+    loop_var: 'inject'
+  loop:
+    - name: ansible
+      system_site_packages: false
+      install_apps: true
+      inject_packages:
+        - ansible-lint
+    - name: buku
+      system_site_packages: true
+      inject_packages:
+        - Flask_BabelEx
+[{- end }]

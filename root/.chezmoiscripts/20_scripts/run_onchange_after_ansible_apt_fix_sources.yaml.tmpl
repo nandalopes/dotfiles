@@ -1,0 +1,10 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+#!/usr/bin/env -S ansible-playbook -i ~/.backup/ansible/inventory.yaml
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+
+---
+- name: 'PLAY: Fix apt sources'
+[{- includeTemplate "ansible/default-local-play" | trim | nindent 2 }]
+[{- includeTemplate "ansible/default-params" | trim | nindent 2 }]
+  tasks:
+[{- joinPath .chezmoi.destDir ".backup/ansible" "20_tasks" "20_apt_fix_sources.yaml" | include | trim | nindent 4 }]

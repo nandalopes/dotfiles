@@ -1,0 +1,55 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+- name: 'BLOCK: System flatpak setup'
+  block:
+    - name: System remote
+      community.general.flatpak_remote:
+        state: present
+        flatpakrepo_url: "https://flathub.org/repo/flathub.flatpakrepo"
+        name: flathub
+        method: system
+    - name: Override system access to themes
+      ansible.builtin.command:
+        cmd: >
+          flatpak
+          --system
+          override
+          --filesystem='xdg-data/themes:ro'
+[{- $flatpakList := joinPath .chezmoi.destDir ".backup/_install/flatpak" "default" }]
+[{- if stat $flatpakList }]
+    # System flatpaks: [{ include $flatpakList | sha1sum }]
+    - name: System flatpaks
+      community.general.flatpak:
+        state: present
+        remote: flathub
+        method: system
+        name:
+[{ include $flatpakList | trim | comment `          - ` -}]
+[{- end }]
+- name: 'BLOCK: User flatpak setup'
+  block:
+    - name: User remote
+      community.general.flatpak_remote:
+        state: present
+        flatpakrepo_url: "https://flathub.org/repo/flathub.flatpakrepo"
+        name: flathub
+        method: user
+    - name: Override user access to themes
+      become: false
+      ansible.builtin.command:
+        cmd: >
+          flatpak
+          --user
+          override
+          --filesystem='xdg-data/themes:ro'
+[{- $flatpakList  = joinPath .chezmoi.destDir ".backup/_install/flatpak" "user" }]
+[{- if stat $flatpakList }]
+    # User flatpaks: [{ include $flatpakList | sha1sum }]
+    - name: User flatpaks
+      community.general.flatpak:
+        state: present
+        remote: flathub
+        method: user
+        name:
+[{ include $flatpakList | trim | comment `          - ` -}]
+[{- end }]

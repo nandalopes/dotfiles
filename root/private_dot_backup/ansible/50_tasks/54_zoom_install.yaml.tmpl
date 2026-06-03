@@ -1,0 +1,14 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+  [{- if or .app_sets.me .app_sets.space .app_sets.teacher .app_sets.writer }]
+[{- $zoomUrl := getRedirectedURL `https://zoom.us/client/latest/zoom_amd64.deb` }]
+
+- name: Install Zoom
+  ansible.builtin.apt:
+    allow_change_held_packages: true
+    install_recommends: false
+    deb: '[{ $zoomUrl }]'
+  [{- end }]

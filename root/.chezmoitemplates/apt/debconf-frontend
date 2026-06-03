@@ -1,0 +1,7 @@
+  {{- if not .param.interactive }}
+export DEBIAN_FRONTEND=noninteractive
+
+sudo debconf-set-selections --verbose << EOSEL
+debconf debconf/frontend select noninteractive
+EOSEL
+  {{- end }}

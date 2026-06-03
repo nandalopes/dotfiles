@@ -1,0 +1,91 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+- name: Update package list
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+[{-  if not .param.interactive }]
+#
+- name: Debconf frontend
+  ansible.builtin.debconf:
+    name: debconf
+    question: debconf/frontend
+    vtype: select
+    value: noninteractive
+[{- end }]
+#
+- name: Debconf ms core fonts installer
+  ansible.builtin.debconf:
+    name: ttf-mscorefonts-installer
+    question: msttcorefonts/accepted-mscorefonts-eula
+    vtype: boolean
+    value: true
+
+[{- if ge .chezmoi.osRelease.versionID "26.04" }]
+#
+- name: Set hardinfo2 group prior apt install
+  ansible.builtin.group:
+    state: present
+    name: hardinfo2
+    gid: 816
+    system: true
+[{- end }]
+
+[{- $aptList := joinPath .chezmoi.destDir `.backup/_install/apt` `install` }]
+[{- if stat $aptList }]
+#
+- name: Packages to install
+  ignore_errors: true
+  ansible.builtin.apt:
+    state: present
+    install_recommends: true
+    name:
+[{ include $aptList | trim | comment `      - ` -}]
+[{- end }]
+
+[{- $aptList = joinPath .chezmoi.destDir `.backup/_install/apt` `no-recommends` }]
+[{- if stat $aptList }]
+#
+- name: Packages to install without recommends
+  ignore_errors: true
+  ansible.builtin.apt:
+    state: present
+    install_recommends: false
+    name:
+[{ include $aptList | trim | comment `      - ` -}]
+[{- end }]
+
+[{- $aptList = joinPath .chezmoi.destDir `.backup/_install/apt` `remove` }]
+[{- if stat $aptList }]
+#
+- name: Packages to remove
+  ignore_errors: true
+  ansible.builtin.apt:
+    state: absent
+    name:
+[{ include $aptList | trim | comment `      - ` -}]
+[{- end }]
+
+[{- $aptList = joinPath .chezmoi.destDir `.backup/_install/apt` `mark-auto` }]
+[{- if stat $aptList }]
+#
+- name: Packages to mark auto
+  ignore_errors: true
+  ansible.builtin.command:
+    cmd: >
+      apt-mark
+      auto
+[{ include $aptList | trim | indent 6 -}]
+[{- end }]
+#
+- name: Minimize manual installed packages
+  ansible.builtin.command:
+    cmd: >
+      apt-mark
+      --yes
+      minimize-manual
+#
+- name: Auto-remove packages
+  ansible.builtin.apt:
+    autoremove: true
+[{ template "apt/downgrade-list-hash" . -}]

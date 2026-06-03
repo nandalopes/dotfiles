@@ -1,0 +1,30 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+[{- $snapList := joinPath .chezmoi.destDir ".backup/_install/snap/normal" }]
+[{- if stat $snapList }]
+# [{ include $snapList | sha1sum }]
+- name: Install normal snaps
+  community.general.snap:
+    name:
+[{ include $snapList | trim | comment `      - ` }]
+    classic: false
+[{- end }]
+
+[{- $snapList = joinPath .chezmoi.destDir ".backup/_install/snap/classic" }]
+[{- if stat $snapList }]
+# [{ include $snapList | sha1sum }]
+- name: Install classic snaps
+  community.general.snap:
+    name:
+[{ include $snapList | trim | comment `      - ` }]
+    classic: true
+[{- end }]
+
+[{- $snapList = joinPath .chezmoi.destDir ".backup/_install/snap/optional" }]
+[{- if stat $snapList }]
+- name: Install optional snaps
+  ansible.builtin.debug:
+    msg: |
+      Optional snaps:
+        [{- include $snapList | trim | nindent 8 -}]
+        [{- end }]

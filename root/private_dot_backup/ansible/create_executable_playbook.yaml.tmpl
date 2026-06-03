@@ -11,3 +11,10 @@
     - name: Include vars
       ansible.builtin.include_vars:
         dir: vars
+    - name: Setup PC
+      ansible.builtin.include_tasks:
+        file: "{{ task_file }}"
+      loop_control:
+        loop_var: task_file
+      loop:
+        # - 00_tasks/00_apt_basic.yaml

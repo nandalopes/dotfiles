@@ -1,0 +1,63 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $freeplane := joinPath .chezmoi.destDir ".backup/_install/freeplane/freeplane.zip" }]
+[{- if stat $freeplane }]
+# [{ output "sha256sum" $freeplane | trim}]
+- name: Remove old Freeplane files
+  ansible.builtin.file:
+    state: absent
+    path: '/opt/freeplane'
+#
+- name: Create Freeplane temp dir
+  ansible.builtin.file:
+    state: directory
+    path: '/tmp/freeplane'
+    mode: '0755'
+#
+- name: Extracting Freeplane
+  ansible.builtin.unarchive:
+    src: "[{ $freeplane }]"
+    dest: /tmp/freeplane
+    remote_src: true
+    mode: 'ug=rwX,o=rX'
+    owner: root
+    group: staff
+    # extra_opts:
+#
+- name: 'BLOCK: Copy Freeplane to /opt'
+  block:
+    - name: Find freeplane folder
+      ansible.builtin.find:
+        paths: '/tmp/freeplane'
+        patterns: "freeplane-*"
+        file_type: 'directory'
+      register: found_files
+    - name: Copy freeplane to /opt
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ found_files.files[0].path }}/"
+        dest: /opt/freeplane
+        directory_mode: '0775'
+        mode: 'ug=rwX,o=rX'
+      when: 'found_files.matched > 0'
+#
+- name: Create Freeplane desktop entry
+  ansible.builtin.copy:
+    dest: /usr/local/share/applications/Freeplane.desktop
+    mode: '0644'
+    content: |
+      [Desktop Entry]
+      Version=1.1
+      Type=Application
+      Exec=/opt/freeplane/freeplane.sh %F
+      Icon=/opt/freeplane/freeplane.svg
+      MimeType=application/x-freeplane;text/x-freeplane;text/x-troff-mm;
+      Name=Freeplane
+      GenericName=Mind Map Editor
+      Categories=Office;Publishing;
+      Keywords=freeplane;freemind;mind;maps;mind maps;
+
+[{- end }]

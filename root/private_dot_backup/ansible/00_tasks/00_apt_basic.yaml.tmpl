@@ -1,0 +1,62 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+
+[{ $basicPkgs := list
+  "apt-utils"
+  "curl"
+  "git"
+  "python3-debian"
+  "stow"
+  "zsh"
+-}]
+---
+- name: Ensure system timezone
+  block:
+    - name: Link timezone
+      ansible.builtin.file:
+        src: "/usr/share/zoneinfo/{{ system_timezone }}"
+        dest: /etc/localtime
+        state: link
+        force: true
+    - name: Write /etc/timezone
+      ansible.builtin.copy:
+        # state: present
+        dest: /etc/timezone
+        content: "{{ system_timezone }}"
+        mode: '0644'
+- name: Set debconf selections
+  ansible.builtin.debconf:
+    name: "{{ item.name }}"
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  loop:
+  [{- if not .param.interactive }]
+    - name: debconf
+      question: debconf/frontend
+      vtype: select
+      value: noninteractive
+  [{- end }]
+    - name: tzdata
+      question: tzdata/Areas
+      value: America
+      vtype: select
+    - name: tzdata
+      question: tzdata/Zones/America
+      value: Bahia
+      vtype: select
+    - name: keyboard-configuration
+      question: keyboard-configuration/layout
+      vtype: select
+      value: Portuguese (Brazil)
+    - name: keyboard-configuration
+      question: keyboard-configuration/variant
+      vtype: select
+      value: Portuguese (Brazil)
+- name: Install [{ len $basicPkgs }] packages
+  ansible.builtin.apt:
+    state: present
+    name:
+    [{- range $basicPkgs }]
+      - [{ . }]
+    [{- end }]

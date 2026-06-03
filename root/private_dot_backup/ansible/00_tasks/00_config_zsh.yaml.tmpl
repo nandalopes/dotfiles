@@ -1,0 +1,33 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+- name: Ensure /etc/zsh directory exists
+  ansible.builtin.file:
+    state: directory
+    path: /etc/zsh
+    mode: '0755'
+    owner: root
+    group: root
+- name: Load /etc/profile.d/* in zprofile
+  ansible.builtin.copy:
+    dest: /etc/zsh/zprofile
+    mode: '0644'
+    owner: root
+    group: root
+    content: |
+      # /etc/zsh/zprofile: system-wide .zprofile file for zsh(1).
+      #
+      # This file is sourced only for login shells (i.e. shells
+      # invoked with "-" as the first character of argv[0], and
+      # shells invoked with the -l flag.)
+      #
+      # Global Order: zshenv, zprofile, zshrc, zlogin
+      #
+      if [ -d /etc/profile.d ]; then
+        for i in /etc/profile.d/*.sh; do
+          if [ -r $i ]; then
+            # . $i
+            emulate sh -c 'source '$i
+          fi
+        done
+        unset i
+      fi

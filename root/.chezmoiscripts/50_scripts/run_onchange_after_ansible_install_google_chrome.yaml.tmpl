@@ -1,0 +1,14 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+[{- /*
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+*/ -}]
+[{- if .param.known -}]
+#!/usr/bin/env -S ansible-playbook -i ~/.backup/ansible/inventory.yaml
+
+---
+- name: 'PLAY: Install Google Chrome'
+[{- includeTemplate "ansible/default-local-play" | trim | nindent 2 }]
+[{- includeTemplate "ansible/default-params" | trim | nindent 2 }]
+  tasks:
+[{- joinPath .chezmoi.destDir ".backup/ansible" "50_tasks" "57_install_google_chrome.yaml" | include | trim | nindent 4 }]
+[{- end }]

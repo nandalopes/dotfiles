@@ -1,0 +1,48 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $reqPath := joinPath .chezmoi.destDir ".backup/_install/pip/stow.txt" }]
+[{- $pypiPath := joinPath .gnu_stow.global.path "pypi" }]
+[{- $pipPath := joinPath $pypiPath "bin/pip" }]
+[{- if stat $reqPath }]
+# [{ include $reqPath | sha1sum }]
+- name: Unstow pypi
+  ansible.builtin.command:
+    cmd: >
+      [{ template "stow/global" "-D pypi" }]
+    removes: /usr/local/bin/pipx
+- name: Remove pypi files
+  ansible.builtin.file:
+    state: absent
+    path: "[{ $pypiPath }]"
+- name: Create virtualenv pypi and install
+  ansible.builtin.pip:
+    umask: '0002'
+    virtualenv: "[{ $pypiPath }]"
+    virtualenv_site_packages: true
+    state: present
+    requirements: "[{ $reqPath }]"
+    extra_args: >
+      --upgrade
+      --upgrade-strategy only-if-needed
+- name: Set pypi file permissions
+  ansible.builtin.file:
+    state: directory
+    recurse: true
+    owner: root
+    group: staff
+    mode: 'ug=rwX,o=rX'
+    path: "[{ $pypiPath }]"
+- name: Create stow-local-ignore
+  ansible.builtin.copy:
+    dest: "[{ joinPath $pypiPath ".stow-local-ignore" }]"
+    content: |
+[{ includeTemplate "stow/ignore-pip" | indent 6 }]
+    mode: '0664'
+- name: Stow pypi
+  ansible.builtin.command:
+    cmd: >
+      [{ template "stow/global" "pypi" }]
+[{- end }]

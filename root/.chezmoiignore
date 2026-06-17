@@ -1,24 +1,23 @@
-# Dotfiles
+## Dotfiles
 bin/
 aliases.sh
 
-# Chrome Custom.css
+## Chrome Custom.css
 chrome/
 
-# ZSH
+## ZSH
 zsh/
 
-# Vimfiles
+## Vimfiles
 vim/
 
-# Others
+## Others
 .local/share/fonts/**/.uuid
 
-{{- if (eq .param.color "solarized" "dracula" | not) }}
-# Kitty
-#.config/kitty/diff.conf
-{{- end }}
 
+{{- /* BEGIN OS
+(linux/darwin/android)
+*/}}
 {{- if (ne .chezmoi.os "darwin") }}{{/* Don't install MacOS files */}}
 # no darwin files
 Library/
@@ -30,11 +29,8 @@ iTerm2/
 .local/share/fonts/
 {{- end }}
 
-{{- if (ne .chezmoi.os "android") }}{{/* Don't install Android files */}}
-# no android files
-.oh-my-zsh/
-.termux/
-{{- else }}
+{{- if (eq .chezmoi.os "android") }}
+# ignore on android
 .config/kitty/
 .backup/look_and_feel/kitty/
 .zprezto
@@ -43,4 +39,20 @@ iTerm2/
 .zshenv
 .zlogin
 .zprofile
+{{- else }}
+# no android files
+.oh-my-zsh/
+.termux/
 {{- end }}
+{{- /* END OS */}}
+
+
+{{- /* BEGIN PROGRAMS AND ETC...
+Colors: solarized, dracula
+Programs:
+*/}}
+{{- if (eq .param.color "solarized" "dracula" | not) }}
+# Kitty
+#.config/kitty/diff.conf
+{{- end }}
+{{- /* END PROGRAMS AND ETC...  */}}

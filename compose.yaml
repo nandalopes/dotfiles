@@ -13,8 +13,8 @@ services:
     image: *imageTag
     volumes:
       - ./:/root/.yadr/
-      - plugged:/root/.yadr/root/vim/plugged
-      - zprezto:/root/.zprezto
+      - plugged:/root/.yadr/root/vim/plugged/
+      - zprezto:/root/.zprezto/
 volumes:
   plugged:
   zprezto:

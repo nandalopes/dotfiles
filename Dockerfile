@@ -68,7 +68,8 @@ RUN \
   && apt-get clean
 
 # disable docker-clean
-RUN mv /etc/apt/apt.conf.d/docker-clean /etc/apt/apt.conf.d/docker-clean.disabled
+RUN mv /etc/apt/apt.conf.d/docker-clean \
+  /etc/apt/apt.conf.d/docker-clean.disabled
 
 # Install dotfiles
 COPY . /root/.yadr

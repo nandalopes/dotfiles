@@ -2,6 +2,12 @@
 **/plugged/
 .github/
 docs/
+.git/
+!.git/lfs/objects/
+!.git/objects/
+!.git/refs/heads/
+!.git/refs/remotes/
+!.git/refs/tags/
 
 # files
 **/.wakatime-project
@@ -15,4 +21,7 @@ Dockerfile
 LICENSE
 README-pt.md
 README.md
-compose.yaml
+compose.y?ml
+!.git/HEAD
+!.git/config
+!.git/index

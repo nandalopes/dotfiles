@@ -135,10 +135,8 @@
 [core]
   autocrlf = false
   editor = vim
-  excludesfile = {{ .chezmoi.homeDir -}}
-    /.config/git/ignore
-  attributesFile = {{ .chezmoi.homeDir -}}
-    /.config/git/attributes
+  excludesfile = ~/.config/git/ignore
+  attributesFile = ~/.config/git/attributes
 [advice]
   statusHints = false
 [diff]
@@ -154,16 +152,14 @@
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
   enabled = true
 [commit]
-  template = {{ .chezmoi.homeDir -}}
-    /.config/git/templates/commit_message.txt
+  template = ~/.config/git/templates/commit_message.txt
 [pager]
   branch = false
   stash = false
 [include]
   path = .gitconfig.user
     {{- range $file := list "diff-merge-tools" "gui-config" "aliases" }}
-  path = {{ $.chezmoi.homeDir -}}
-    /.config/git/
+  path = ~/.config/git/
     {{-   $file }}
     {{- end }}
 

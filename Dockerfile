@@ -13,8 +13,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Bootstrapping packages needed for installation
 RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
   apt-get update \
   && apt-get install -qqy \
     locales \
@@ -30,8 +30,8 @@ RUN localedef -i en_US -f UTF-8 en_US.UTF-8 && \
 
 # Install dependencies
 RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
   apt-get update \
   && apt-get install -qqy \
     curl \
@@ -42,8 +42,8 @@ RUN \
 
 # Install YADR dependencies
 RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
   apt-get update \
   && apt-get install -qqy \
     fontconfig \
@@ -75,8 +75,8 @@ RUN mv /etc/apt/apt.conf.d/docker-clean \
 COPY . /root/.yadr
 WORKDIR /root/.yadr
 RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
   --mount=type=cache,id=cache-yadr,target=/root/.cache/chezmoi \
   ./install.sh
 

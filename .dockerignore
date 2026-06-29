@@ -13,7 +13,6 @@ docs/
 **/.wakatime-project
 .dockerignore
 .editorconfig
-.gitattributes
 .gitlab-ci.yml
 .mailmap
 CHANGELOG.md

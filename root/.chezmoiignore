@@ -145,6 +145,7 @@ Programs:
 # specific scripts
 .chezmoiscripts/pre_migrate_yadr.sh
 .chezmoiscripts/post_install_yadr.sh
+.chezmoiscripts/**/*mozilla_thunderbird*
 {{- end }}
 
 {{- /* END PROGRAMS AND ETC...  */}}

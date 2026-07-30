@@ -1,0 +1,207 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $mozprg := regexFind `(firefox|thunderbird)` .chezmoi.sourceFile -}]
+[{- $mozprgV := printf "%s-latest-ssl" $mozprg -}]
+[{- $userInstall := regexMatch `user` .chezmoi.sourceFile -}]
+
+[{- $mozLang := "" -}]
+[{- if .app_sets.me -}]
+[{-   $mozLang = "en_US" -}]
+[{- else -}]
+[{-   $mozLang = "pt_BR" -}]
+[{- end -}]
+
+[{- $mozinstalldir := joinPath .gnu_stow.global.path $mozprg -}]
+[{- if $userInstall -}]
+[{-   $mozinstalldir = joinPath .gnu_stow.local.path $mozprg | expandenv -}]
+[{- end -}]
+
+[{- $mozurl := printf "https://download.mozilla.org/?product=%s&lang=%s&os=linux64" $mozprgV $mozLang | getRedirectedURL -}]
+[{- $mozfile := regexFind ".tar.*$" $mozurl | printf "/tmp/mozilla-%s-%s%s" $mozprg $mozLang -}]
+
+[{- $user := "root" -}]
+[{- $group := "staff" -}]
+[{- if $userInstall -}]
+[{-   $user = .chezmoi.username -}]
+[{-   $group = .chezmoi.group -}]
+[{- end }]
+#
+- name: Unstow Mozilla [{ title $mozprg }]
+  ansible.builtin.command:
+    cmd: >
+      [{ if $userInstall -}]
+      [{    template "stow/local" "" -}]
+      [{ else -}]
+      [{    template "stow/global" "" -}]
+      [{ end -}]
+      [{ printf "-D %s" $mozprg }]
+    removes: '[{ regexFind `.*local` $mozinstalldir -}] /bin/ [{- $mozprg -}] '
+#
+- name: Download Mozilla [{ title $mozprg }]
+  become: false
+  ansible.builtin.get_url:
+    dest: "[{ $mozfile }]"
+    url: "[{ $mozurl }]"
+    mode: '0644'
+#
+- name: Remove [{ title $mozprg }] stow files
+  ansible.builtin.file:
+    state: absent
+    path: '[{ $mozinstalldir }]'
+#
+- name: Create [{ title $mozprg }] stow dirs
+  ansible.builtin.file:
+    state: directory
+    path: '[{ $mozinstalldir }]/{{ item }}'
+    mode: '02755'
+    owner: [{ $user }]
+    group: [{ $group }]
+  loop:
+    - lib
+    - bin
+#     - etc
+#     - share
+#
+- name: Installing [{ title $mozprg }] desktop files
+  block:
+    - name: Desktop dirs
+      ansible.builtin.file:
+        state: directory
+        path: '[{ joinPath $mozinstalldir "share" }]/{{ item }}'
+        mode: '02755'
+        owner: [{ $user }]
+        group: [{ $group }]
+      loop:
+        - applications
+      [{- if eq $mozprg "thunderbird" }]
+        - indicators/messages/applications
+      [{- end }]
+#
+    - name: [{ title $mozprg }] .desktop
+      ansible.builtin.copy:
+        dest: '[{ printf `%s.desktop` $mozprg | joinPath $mozinstalldir "share/applications" }]'
+        owner: [{ $user }]
+        group: [{ $group }]
+        mode: 'ug=rwX,o=rX'
+        content: &desktopEntry |
+          [Desktop Entry]
+          Version=1.0
+        [{- if eq $mozprg "firefox" }]
+          Name=Firefox Web Browser
+          Comment=Browse the World Wide Web
+          GenericName=Web Browser
+          Keywords=Internet;WWW;Browser;Web;Explorer;
+          Exec=/usr/local/bin/firefox %u
+          Terminal=false
+          X-MultipleArgs=false
+          Type=Application
+          Icon=firefox
+          # Icon=/usr/local/lib/firefox/browser/chrome/icons/default/default128.png
+          Categories=GNOME;GTK;Network;WebBrowser;
+          MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
+          StartupNotify=true
+          Actions=new-window;new-private-window;profile-manager-window;
+          #
+          [Desktop Action new-window]
+          Exec=/usr/local/bin/firefox --new-window
+          Name=Open a New Window
+          #
+          [Desktop Action new-private-window]
+          Exec=/usr/local/bin/firefox --private-window
+          Name=Open a New Private Window
+          #
+          [Desktop Action profile-manager-window]
+          Exec=/usr/local/bin/firefox --ProfileManager
+          Name=Open the Profile Manager
+        [{- else if eq $mozprg "thunderbird" }]
+          Name=Thunderbird Mail
+          Comment=Send and receive mail with Thunderbird
+          GenericName=Mail Client
+          Keywords=Email;E-mail;Newsgroup;Feed;RSS;
+          Exec=/usr/local/bin/thunderbird %u
+          Terminal=false
+          X-MultipleArgs=false
+          Type=Application
+          Icon=thunderbird
+          # Icon=/usr/local/lib/thunderbird/chrome/icons/default/default128.png
+          Categories=Network;Email;
+          MimeType=x-scheme-handler/mailto;application/x-xpinstall;
+          StartupNotify=true
+          Actions=Compose;Contacts;Calendar;ProfileManager;
+
+          [Desktop Action Compose]
+          Name=Compose New Message
+          Exec=/usr/local/bin/thunderbird -compose
+
+          [Desktop Action Contacts]
+          Name=Contacts
+          Exec=/usr/local/bin/thunderbird -addressbook
+
+          [Desktop Action Calendar]
+          Name=Calendar
+          Exec=/usr/local/bin/thunderbird -calendar
+
+          [Desktop Action ProfileManager]
+          Exec=/usr/local/bin/thunderbird --ProfileManager
+          Name=Open Profile Manager
+#
+    - name: [{ title $mozprg }] indicator desktop
+      ansible.builtin.copy:
+        dest: '[{ printf `%s.desktop` $mozprg | joinPath $mozinstalldir "share/indicators" }]'
+        owner: [{ $user }]
+        group: [{ $group }]
+        mode: 'ug=rwX,o=rX'
+        content: *desktopEntry
+#
+    - name: [{ title $mozprg }] indicator app
+      ansible.builtin.copy:
+        dest: '[{ joinPath $mozinstalldir "share/indicators/messages/applications" $mozprg }]'
+        owner: [{ $user }]
+        group: [{ $group }]
+        mode: 'ug=rwX,o=rX'
+        content: |
+          /usr/local/share/applications/[{- $mozprg -}].desktop
+        [{- end }]
+[{- if $userInstall }]
+#
+- name: Fix [{ title $mozprg }] path in desktop files
+  ansible.builtin.replace:
+    path: '{{ item }}'
+    regexp: '/usr/local'
+    replace: '[{- joinPath .chezmoi.destDir ".local" -}]'
+    owner: [{ $user }]
+    group: [{ $group }]
+    mode: 'ug=rwX,o=rX'
+  with_fileglob: '**/*'
+[{- end }]
+#
+- name: Installing [{ title $mozprg }]
+  ansible.builtin.unarchive:
+    src: '[{ $mozfile }]'
+    dest: '[{ joinPath $mozinstalldir `lib` }]'
+    remote_src: true
+    owner: [{ $user }]
+    group: [{ $group }]
+    mode: 'ug=rwX,o=rX'
+#
+- name: Creating `bin/[{ $mozprg }]`
+  ansible.builtin.file:
+    src: '../lib/[{ $mozprg }]/[{ $mozprg }]'
+    dest: '[{ joinPath $mozinstalldir "bin" $mozprg }]'
+    owner: [{ $user }]
+    group: [{ $group }]
+    state: link
+#
+- name: Stow [{ title $mozprg }]
+  ansible.builtin.command:
+    cmd: >
+      [{ if $userInstall -}]
+      [{    template "stow/local" "" -}]
+      [{ else -}]
+      [{    template "stow/global" "" -}]
+      [{ end -}]
+      [{ $mozprg }]
+    creates: '[{ regexFind `.*local` $mozinstalldir -}] /bin/ [{- $mozprg -}] '

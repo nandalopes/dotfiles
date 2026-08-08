@@ -99,6 +99,54 @@ vmc() {
 
 
 # ------------------------------------------------------------------------
+# BUKU bookmark manager
+
+# get bookmark ids
+_get_buku_ids() {
+  buku -p -f 5 | \
+    fzf --height=40% --tac --layout=reverse-list -m --ellipsis='' | \
+    cut -d $'\t' -f 1
+}
+
+# buku open
+fbo() {
+  # save newline separated string into an array
+  ids=( $(_get_buku_ids) )
+  [[ -z $ids ]] && return 0 # return if has no bookmark selected
+  echo ${ids[@]} | xargs -rt \
+    buku --open ${ids[@]}
+}
+
+# buku open in default text browser
+fbwww() {
+  # save newline separated string into an array
+  ids=( $(_get_buku_ids) )
+  [[ -z $ids ]] && return 0 # return if has no bookmark selected
+  buku --format 10 --print ${ids[@]} | xargs -rtn1 \
+    www-browser
+}
+
+# buku update
+fbu() {
+  # save newline separated string into an array
+  ids=( $(_get_buku_ids) )
+  [[ -z $ids ]] && return 0 # return if has no bookmark selected
+  echo ${ids[@]} | xargs -rt -I{} \
+    buku --update {} $@
+}
+
+# buku write
+fbw() {
+  # save newline separated string into an array
+  ids=( $(_get_buku_ids) )
+
+  # update websites
+  echo ${ids[@]} | xargs -rtn1 \
+    buku --write
+}
+
+
+# ------------------------------------------------------------------------
 # tmux
 
 # tmuxp profiles

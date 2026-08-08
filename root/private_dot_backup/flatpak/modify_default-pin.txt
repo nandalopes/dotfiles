@@ -1,0 +1,5 @@
+#!/bin/sh
+
+2>/dev/null flatpak pin --system --verbose
+
+exit 0

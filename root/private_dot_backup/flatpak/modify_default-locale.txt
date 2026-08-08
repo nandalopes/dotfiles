@@ -1,0 +1,7 @@
+#!/bin/sh
+
+flatpak list --system --runtime --columns=ref \
+  | cat \
+  | grep --color=never '.Locale.'
+
+exit 0

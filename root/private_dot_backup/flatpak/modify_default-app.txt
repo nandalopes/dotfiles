@@ -1,0 +1,6 @@
+#!/bin/sh
+
+flatpak list --system --app --columns=ref \
+  | cat
+
+exit 0

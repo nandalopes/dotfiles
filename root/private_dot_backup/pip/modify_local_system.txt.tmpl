@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo '# sudo pip3 freeze --path=...'
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+sudo pip3 freeze
+  {{- range (glob "/usr/local/lib/python*/*packages") }} \
+  --path={{ . }}
+  {{- end }}
+
+exit 0

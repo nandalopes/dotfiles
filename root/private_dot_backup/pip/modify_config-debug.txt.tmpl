@@ -1,0 +1,23 @@
+#!/bin/sh
+
+echo '#' pip3 config debug
+pip3 config debug 2> /dev/null
+echo
+
+{{
+  range $pipPath := list
+    (joinPath .gnu_stow.global.path "pypi")
+    (joinPath .chezmoi.destDir "bin/pips")
+}}
+
+{{- $pipPath = joinPath $pipPath "bin/pip3" -}}
+  {{- if stat $pipPath }}
+echo '#' {{ $pipPath }} config --site debug
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+{{ $pipPath }} config --site debug 2> /dev/null
+echo
+  {{- end }}
+
+{{- end }}{{/* range */}}
+
+exit 0

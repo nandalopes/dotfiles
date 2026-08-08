@@ -1,0 +1,36 @@
+#!/bin/sh
+
+  {{- if (regexMatch "(nanda$|root|ubuntu$)" .chezmoi.username) }}
+
+echo "# System not-required"
+sudo pip3 list --format=freeze --not-required
+  {{- range (glob "/usr/local/lib/python*/*packages") }} \
+  --path={{ . }}
+  {{- end }} \
+  2> /dev/null
+echo
+
+
+{{
+  range $pipPath := list
+    (joinPath .gnu_stow.global.path "pypi")
+    (joinPath .chezmoi.destDir "bin/pips")
+}}
+
+{{- $pipPath = joinPath $pipPath "bin/pip3" -}}
+  {{- if stat $pipPath }}
+echo "# {{ joinPath $pipPath "../../" }}"
+{{ $pipPath }} list --format=freeze --local --not-required 2> /dev/null
+echo
+  {{- end }}
+
+{{- end }}{{/* range */}}
+
+  {{- end }}{{/* system lists */}}
+
+
+echo "# User not-required"
+pip3 list --format=freeze --user --not-required 2> /dev/null
+echo
+
+exit 0

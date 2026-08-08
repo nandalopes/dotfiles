@@ -2,4 +2,4 @@
 !.chezmoitemplates/
 !.chezmoiscripts/
 !.chezmoi*
-!vim/settings/**/*.vim
+!*vim/settings/**/*.vim

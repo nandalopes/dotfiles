@@ -1,0 +1,13 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+#!/usr/bin/env /usr/bin/ansible-playbook
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+---
+- name: Setup computer
+  hosts: localhost
+  become: true
+  # gather_facts: false
+
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        dir: vars

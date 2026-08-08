@@ -1,0 +1,20 @@
+#!/bin/sh
+
+{{
+  range $pipPath := list
+    (joinPath .gnu_stow.global.path "pypi")
+    (joinPath .chezmoi.destDir "bin/pips")
+}}
+
+{{- $pipPath = joinPath $pipPath "bin/pip3" -}}
+  {{- if stat $pipPath }}
+echo "# ========"
+echo "# {{ joinPath $pipPath "../../" }}"
+env LANGUAGE= LC_MESSAGES=en_US.UTF-8 \
+{{ $pipPath }} freeze --local 2> /dev/null
+echo
+  {{- end }}
+
+{{- end }}{{/* range */}}
+
+exit 0

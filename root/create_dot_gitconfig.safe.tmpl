@@ -1,0 +1,4 @@
+{{- if not .param.interactive }}
+[safe]
+  directory = {{ .chezmoi.workingTree }}
+{{- end }}

@@ -1,8 +1,3 @@
 [user]
   name = {{ .name }}
   email = {{ .email }}
-
-{{- if not .param.interactive }}
-[safe]
-  directory = {{ .chezmoi.workingTree }}
-{{- end }}

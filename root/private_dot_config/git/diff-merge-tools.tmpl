@@ -1,19 +1,28 @@
 # horizontal vim merge
-  {{- range (list "" "g" "m" "n") }}
+[mergetool "hvimdiff"]
+  cmd = "vim -c 'Ghdiffsplit!' $MERGED"     # use fugitive.vim for 3-way merge
+
+  {{- range (list "g" "m") }}
 [mergetool "h {{- . -}} vimdiff"]
-  cmd = " {{- . -}} vim -c 'Ghdiffsplit!' $MERGED"     # use fugitive.vim for 3-way merge
+  cmd = " {{- . -}} vim -f -c 'Ghdiffsplit!' $MERGED"     # use fugitive.vim for 3-way merge
   {{- end }}
 
 # vertical vim diff
-  {{- range (list "" "g" "m" "n") }}
+[difftool "vimdiff"]
+  cmd = "vim -O -d $LOCAL $REMOTE"
+
+  {{- range (list "g" "m") }}
 [difftool " {{- . -}} vimdiff"]
-  cmd = " {{- . -}} vim -Od $LOCAL $REMOTE"
+  cmd = " {{- . -}} vim -f -O -d $LOCAL $REMOTE"
   {{- end }}
 
 # horizontal vim diff
-  {{- range (list "" "g" "m" "n") }}
+[difftool "hvimdiff"]
+  cmd = "vim -O -d $LOCAL $REMOTE"
+
+  {{- range (list "g" "m") }}
 [difftool "h {{- . -}} vimdiff"]
-  cmd = " {{- . -}} vim -od $LOCAL $REMOTE"
+  cmd = " {{- . -}} vim -f -O -d $LOCAL $REMOTE"
   {{- end }}
 
 # kitty diff

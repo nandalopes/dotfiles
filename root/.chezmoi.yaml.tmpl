@@ -108,7 +108,11 @@ data:
 #   recipient: "YOUR-GPG-KEY"
 #   args:
 #     - "--quiet"
-#     - "--homedir=/media/{{ .chezmoi.username }}/path/to/.gnupg"
+#     - "--homedir=
+      {{- if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") (ge .chezmoi.osRelease.versionID "26.04") -}}
+        /run
+      {{- end -}}
+      /media/{{ .chezmoi.username }}/path/to/.gnupg"
 
 
 format: yaml

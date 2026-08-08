@@ -1,6 +1,6 @@
 {{- $nproc := output "nproc" | trim -}}
-{{- $simpleSourceDir := trimPrefix .chezmoi.homeDir .chezmoi.workingTree |
-                        trimPrefix "/" -}}
+{{- $simpleSourceDir := trimPrefix .chezmoi.destDir .chezmoi.workingTree |
+                        trimPrefix .chezmoi.pathSeparator -}}
 
 [ {{- $simpleSourceDir -}} ]
 order = 3
@@ -36,12 +36,12 @@ checkout =
 update = gplmod --ff-only
 
 
-{{ $gitstatus := joinPath .chezmoi.homeDir ".zprezto"
+{{ $gitstatus := joinPath ".zprezto"
     "modules/prompt/external/powerlevel10k/gitstatus" -}}
 {{-
-  if stat $gitstatus
+  if (joinPath .chezmoi.destDir $gitstatus | stat)
   -}}
-[ {{- trimPrefix .chezmoi.homeDir $gitstatus | trimPrefix "/" -}} ]
+[ {{- $gitstatus -}} ]
 order = 9
 checkout = :
 update = :

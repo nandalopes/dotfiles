@@ -4,7 +4,7 @@
 
   {{- if eq .chezmoi.os "linux" "android" "darwin" -}}
 
-  {{-   $fzf := joinPath .chezmoi.homeDir ".fzf" -}}
+  {{-   $fzf := joinPath .chezmoi.destDir ".fzf" -}}
 
   {{-   if eq .chezmoi.os "android" -}}
 #!/bin/sh

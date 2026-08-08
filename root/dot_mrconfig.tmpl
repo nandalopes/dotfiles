@@ -7,11 +7,11 @@ up = update
 
 [DEFAULT]
 include =
-  if [ -e {{ .chezmoi.homeDir -}}/.config/mr/library_loaders ]; then
-    . {{ .chezmoi.homeDir -}}/.config/mr/library_loaders
-    load_libraries {{ .chezmoi.homeDir -}}/.config/mr/sh.d/*
-    include_lib_dirs {{ .chezmoi.homeDir -}}/.config/mr/lib.d
-    include_lib_dirs {{ .chezmoi.homeDir -}}/.config/mr/groups.d
+  if [ -e {{ .chezmoi.destDir -}}/.config/mr/library_loaders ]; then
+    . {{ .chezmoi.destDir -}}/.config/mr/library_loaders
+    load_libraries {{ .chezmoi.destDir -}}/.config/mr/sh.d/*
+    include_lib_dirs {{ .chezmoi.destDir -}}/.config/mr/lib.d
+    include_lib_dirs {{ .chezmoi.destDir -}}/.config/mr/groups.d
   fi
 
 # N.B. anything placed here (i.e. after the above include) will not have

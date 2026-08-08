@@ -2,7 +2,7 @@ pygments_style {{ index .color .param.color "kitty" "pygments" }}
 
 {{
   $kittyDiff := printf "%s/.backup/look_and_feel/kitty/diff/%s.conf"
-                .chezmoi.homeDir .param.color
+                .chezmoi.destDir .param.color
 
 -}}
 {{- if stat $kittyDiff -}}

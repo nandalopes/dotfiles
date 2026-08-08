@@ -4,7 +4,7 @@ export yadr={{ .chezmoi.sourceDir }}
 source {{ joinPath .chezmoi.sourceDir "zsh/override/theme.zsh" }}
 
 {{ if ne .chezmoi.os "android" -}}
-source {{ joinPath .chezmoi.homeDir ".zprezto/runcoms/zshrc" }}
+source {{ joinPath .chezmoi.destDir ".zprezto/runcoms/zshrc" }}
 {{- else -}}
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"

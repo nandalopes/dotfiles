@@ -5,7 +5,7 @@
 {{- if eq .chezmoi.os "linux" "android" "darwin" -}}
   {{- $asdf := lookPath "asdf" -}}
   {{- if stat $asdf | not -}}
-  {{-   $path := joinPath .chezmoi.homeDir ".local/bin" | list -}}
+  {{-   $path := joinPath .chezmoi.destDir ".local/bin" | list -}}
   {{-   $path = env "PATH" | splitList ":" | concat $path -}}
   {{-   $asdf = findExecutable "asdf" $path -}}
   {{- end -}}

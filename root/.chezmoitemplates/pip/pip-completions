@@ -1,0 +1,10 @@
+{{- $pipCmd := "pip" -}}
+{{- $shell := regexFind `(ba|z)sh` .chezmoi.sourceFile | printf "--%s" -}}
+
+{{- if regexFind `pip3` .chezmoi.sourceFile -}}
+{{-   $pipCmd = "pip3" -}}
+{{- end -}}
+
+{{- if lookPath $pipCmd -}}
+{{-   output $pipCmd "completion" $shell | trim -}}
+{{- end -}}

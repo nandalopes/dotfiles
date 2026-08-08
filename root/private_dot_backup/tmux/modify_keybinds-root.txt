@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+tmux list-keys -T root
+
+exit 0

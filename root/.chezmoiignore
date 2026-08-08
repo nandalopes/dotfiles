@@ -57,4 +57,12 @@ Programs:
 # Kitty
 #.config/kitty/diff.conf
 {{- end }}
+
+{{- if (lookPath "tmux" | not) }}
+# tmux
+.backup/tmux/
+.config/tmuxp/
+.tmux.conf
+{{- end }}
+
 {{- /* END PROGRAMS AND ETC...  */}}

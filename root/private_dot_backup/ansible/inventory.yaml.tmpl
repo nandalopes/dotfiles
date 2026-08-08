@@ -1,0 +1,13 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+[{- $ubuntuGroups := list -}]
+---
+# all:
+#   vars:
+#     ansible_python_interpreter: auto_silent
+
+ungrouped:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_host: localhost
+      ansible_python_interpreter: auto_silent

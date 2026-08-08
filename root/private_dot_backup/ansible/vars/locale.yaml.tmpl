@@ -1,0 +1,17 @@
+---
+locale_encoding: UTF-8
+locale_language:{{ ` ` -}}
+{{- if .app_sets.me -}}
+  en_US
+{{- else -}}
+  pt_BR
+{{- end }}
+locale_language_list:{{ ` ` -}}
+{{- if .app_sets.me -}}
+  'en_US:pt_BR'
+{{- else -}}
+  'pt_BR'
+{{- end }}
+locale_origin: pt_BR
+locale_time: C
+system_timezone: America/Bahia

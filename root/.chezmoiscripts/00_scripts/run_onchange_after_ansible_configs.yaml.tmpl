@@ -1,0 +1,20 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+#!/usr/bin/env -S ansible-playbook -i ~/.backup/ansible/inventory.yaml
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+
+---
+- name: 'PLAY: Custom configs'
+[{- includeTemplate "ansible/default-local-play" | trim | nindent 2 }]
+[{- includeTemplate "ansible/default-params" | trim | nindent 2 }]
+  tasks:
+    - name: Get locale vars
+      ansible.builtin.include_vars:
+        file: [{ joinPath .chezmoi.destDir ".backup/ansible" "vars/locale.yaml" }]
+
+[{- range $tasksFile := list
+      "00_config_locale.yaml"
+      "00_config_zsh.yaml"
+}]
+[{-   $tasks := joinPath $.chezmoi.destDir ".backup/ansible" "00_tasks" $tasksFile }]
+[{-   include $tasks | trim | nindent 4 }]
+[{- end }]

@@ -5,7 +5,7 @@ skip = third_party_skipper $MR_ACTION
 checkout = git clone 'https://github.com/junegunn/fzf.git' '.fzf'
 update =
   gplrt
-  git_last_tag
+  git_last_version_tag
 clean =
   if [ "${*#*-f}" != "${*}" ]; then
     git clean --force "$@" -dx -e 'bin/fzf'
@@ -15,4 +15,4 @@ clean =
 install =
   "${MR_REPO}/install" --xdg --all --no-update-rc \
     --no-fish --no-bash
-status_append = git_last_tag
+status_append = git_last_version_tag

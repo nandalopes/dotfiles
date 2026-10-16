@@ -6,9 +6,19 @@
 up = update
 
 [DEFAULT]
+lib =
+  : ${STOW_DIR:=$HOME/.local/stow}
+  : ${STOW_TARGET:=$STOW_DIR/..}
+  : STOW_NO_AUTOMATIC_ACTIONS=yes
 include =
   if [ -e {{ .chezmoi.destDir -}}/.config/mr/library_loaders ]; then
     . {{ .chezmoi.destDir -}}/.config/mr/library_loaders
+    {{- $listSystemLibs := list "graph" "remote" "stow" "upgrade" "vis" }}
+    include_files
+      {{- range $listSystemLibs -}}
+      {{ ` \` }}
+      /usr/share/mr/ {{- . }}
+      {{- end }}
     load_libraries {{ .chezmoi.destDir -}}/.config/mr/sh.d/*
     include_lib_dirs {{ .chezmoi.destDir -}}/.config/mr/lib.d
     include_lib_dirs {{ .chezmoi.destDir -}}/.config/mr/groups.d

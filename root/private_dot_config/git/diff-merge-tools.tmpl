@@ -28,7 +28,7 @@
 # kitty diff
   {{- range list "" ".gui" }}
 [difftool "kitty {{- . -}} "]
-    cmd = kitten diff $LOCAL $REMOTE
+  cmd = kitten diff $LOCAL $REMOTE
   {{- end }}
 
 # difftool config

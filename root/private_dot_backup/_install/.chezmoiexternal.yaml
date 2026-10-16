@@ -10,3 +10,8 @@
   url: 'https://www.freeplane.org/changelog'
   type: 'file'
   refreshPeriod: '360h' # 15 days
+# neovim
+'neovim/nvim-linux-x86_64.tar.gz':
+  url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+  type: 'file'
+  refreshPeriod: '360h' # 15 days

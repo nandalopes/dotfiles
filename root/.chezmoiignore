@@ -147,11 +147,13 @@ Programs:
 .chezmoiscripts/post_install_yadr.sh
 .chezmoiscripts/**/*freeplane*
 .chezmoiscripts/**/*mozilla_thunderbird*
+.chezmoiscripts/**/*neovim*
 {{- end }}
 
 {{-   if (and .app_sets.me .app_sets.space | not) }}
 .backup/_install/freeplane/changelog.txt
 .backup/_install/freeplane/freeplane.zip
+.backup/_install/neovim/nvim-linux-x86_64.tar.gz
 {{-   end }}
 
 {{- /* END PROGRAMS AND ETC...  */}}

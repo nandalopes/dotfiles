@@ -1,0 +1,16 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $vboxextpack := joinPath .chezmoi.destDir ".backup/_install/VirtualBox/Oracle_VirtualBox_Extension_Pack.vbox-extpack" }]
+[{- if and (stat $vboxextpack) (lookPath "VBoxManage") }]
+# [{ output "sha256sum" $vboxextpack | trim }]
+- name: 'Install or replace VirtualBox Extension Pack'
+  ansible.builtin.command:
+    cmd: >
+      VBoxManage extpack install
+      --replace
+      --accept-license=eb31505e56e9b4d0fbca139104da41ac6f6b98f8e78968bdf01b1f3da3c4f9ae
+      [{ $vboxextpack }]
+[{- end }]

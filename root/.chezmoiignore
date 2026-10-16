@@ -154,6 +154,8 @@ Programs:
 {{- end }}
 
 {{-   if (and .app_sets.me .app_sets.space | not) }}
+.backup/_install/VirtualBox/Oracle_VirtualBox_Extension_Pack.vbox-extpack
+.backup/_install/VirtualBox/VBoxGuestAdditions.iso
 .backup/_install/freeplane/changelog.txt
 .backup/_install/freeplane/freeplane.zip
 .backup/_install/neovim/nvim-linux-x86_64.tar.gz

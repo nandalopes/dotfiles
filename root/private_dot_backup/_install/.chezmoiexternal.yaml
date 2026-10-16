@@ -22,3 +22,17 @@
   executable: true
   stripComponents: 1
   refreshPeriod: '168h' # 7 days
+
+{{- $baseVBoxURL := "https://download.virtualbox.org/virtualbox" }}
+{{- $version := printf "%s/LATEST-STABLE.TXT" $baseVBoxURL | output "curl" "-fsSL" "--range" "0-500" | trim }}
+# VirtualBox
+'VirtualBox/Oracle_VirtualBox_Extension_Pack.vbox-extpack':
+  url: ' {{- printf "%s/%s/Oracle_VirtualBox_Extension_Pack-%s.vbox-extpack" $baseVBoxURL $version $version -}} '
+  type: 'file'
+  executable: false
+  refreshPeriod: '720h' # 30 days
+'VirtualBox/VBoxGuestAdditions.iso':
+  url: ' {{- printf "%s/%s/VBoxGuestAdditions_%s.iso" $baseVBoxURL $version $version -}} '
+  type: 'file'
+  executable: false
+  refreshPeriod: '720h' # 30 days

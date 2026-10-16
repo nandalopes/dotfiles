@@ -1,0 +1,12 @@
+---
+# Freeplane - mind mapping
+'freeplane/freeplane.zip':
+  url: 'https://sourceforge.net/projects/freeplane/files/latest/download?use_mirror=deac-fra'
+  type: 'file'
+  refreshPeriod: '360h' # 15 days
+'freeplane/changelog.txt':
+  # https://www.freeplane.org/changelog
+  # https://www.freeplane.org/info/history/history_en.txt
+  url: 'https://www.freeplane.org/changelog'
+  type: 'file'
+  refreshPeriod: '360h' # 15 days

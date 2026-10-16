@@ -145,7 +145,13 @@ Programs:
 # specific scripts
 .chezmoiscripts/pre_migrate_yadr.sh
 .chezmoiscripts/post_install_yadr.sh
+.chezmoiscripts/**/*freeplane*
 .chezmoiscripts/**/*mozilla_thunderbird*
 {{- end }}
+
+{{-   if (and .app_sets.me .app_sets.space | not) }}
+.backup/_install/freeplane/changelog.txt
+.backup/_install/freeplane/freeplane.zip
+{{-   end }}
 
 {{- /* END PROGRAMS AND ETC...  */}}

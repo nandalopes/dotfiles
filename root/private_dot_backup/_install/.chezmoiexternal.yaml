@@ -15,3 +15,10 @@
   url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
   type: 'file'
   refreshPeriod: '360h' # 15 days
+# video download helper
+'vdhcoapp':
+  url: "https://github.com/aclap-dev/vdhcoapp/releases/latest/download/vdhcoapp-linux-x86_64.tar.bz2"
+  type: 'archive'
+  executable: true
+  stripComponents: 1
+  refreshPeriod: '168h' # 7 days

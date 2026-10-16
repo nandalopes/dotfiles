@@ -135,6 +135,9 @@ Programs:
 .zprofile
 .zlogout
 
+# Video Downloader Helper
+.backup/_install/vdhcoapp/
+
 # Don't switch Caps with Esc
 .xprofile
 .config/kxkbrc

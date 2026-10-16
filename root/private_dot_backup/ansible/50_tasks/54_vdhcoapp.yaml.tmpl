@@ -1,0 +1,16 @@
+# chezmoi:template:left-delimiter=[{ right-delimiter=}]
+# vim:fileencoding=utf-8:ft=yaml.ansible:
+#
+# [{ .chezmoi.osRelease.name }] - [{ .chezmoi.osRelease.versionCodename }]
+
+[{- $vdhcoapp := joinPath .chezmoi.destDir ".backup/_install/vdhcoapp/vdhcoapp" }]
+[{- if stat $vdhcoapp }]
+# [{ output "sha256sum" $vdhcoapp | trim }]
+- name: 'Installing Video Download Helper companion app'
+  become: false
+  ansible.builtin.command:
+    argv:
+      - [{ $vdhcoapp }]
+      - install
+
+[{- end }]

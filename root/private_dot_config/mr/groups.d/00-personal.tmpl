@@ -36,6 +36,15 @@ checkout =
 update = gplmod --ff-only
 
 
+[.zprezto/modules/prompt/external/powerlevel10k]
+order = 8
+skip = lazy
+checkout = :
+update = gplmod --ff-only
+pre_update = git checkout master
+status_append = git_last_tag
+
+
 {{ $gitstatus := joinPath ".zprezto"
     "modules/prompt/external/powerlevel10k/gitstatus" -}}
 {{-

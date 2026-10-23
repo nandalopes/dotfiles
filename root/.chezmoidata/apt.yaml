@@ -9,7 +9,7 @@ ppas_downgrade:
     - name: jammy
       versionID: '22.04'
       list:
-        # https://packagecloud.io/app/ookla/speedtest-cli/search?dist=ubuntu
+        # https://packagecloud.io/app/ookla/speedtest-cli/search?dist=ubuntu&arch=amd64
         - speedtest-cli
         # ppas
     - name: noble
